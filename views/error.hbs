@@ -1,0 +1,11 @@
+<article class="prose error-view">
+  <h2>Oops — an error occurred</h2>
+  <p>{{message}}</p>
+  {{#if error.stack}}
+  <details>
+    <summary>Details</summary>
+    <pre>{{error.stack}}</pre>
+  </details>
+  {{/if}}
+  <p><a href="/">Return home</a></p>
+</article>

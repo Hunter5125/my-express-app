@@ -1,0 +1,29 @@
+<h1>Welcome, {{session.user.name}}!</h1>
+<p>You are logged in as a <strong>{{session.user.role}}</strong>.</p>
+
+{{#if (eq session.user.role 'manager')}}
+  <h2>Manager Dashboard</h2>
+  <p>As a manager, you can:</p>
+  <ul>
+    <li><a href="/users">View all users</a></li>
+    <li><a href="/users/create">Create new users</a></li>
+  </ul>
+{{/if}}
+
+{{#if (eq session.user.role 'team_leader')}}
+  <h2>Team Leader Dashboard</h2>
+  <p>As a team leader, you can:</p>
+  <ul>
+    <li><a href="/users">View all users</a></li>
+  </ul>
+{{/if}}
+
+{{#if (eq session.user.role 'employee')}}
+  <h2>Employee Dashboard</h2>
+  <p>As an employee, you can:</p>
+  <ul>
+    <li>View your profile</li>
+  </ul>
+{{/if}}
+
+<p><a href="/logout">Logout</a></p>

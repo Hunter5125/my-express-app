@@ -1,0 +1,27 @@
+<section class="hero">
+  <div class="hero-inner">
+    <h1>{{title}}</h1>
+    <p class="lead">Simple, responsive UI for DayOff — accessible, readable, and mobile-friendly.</p>
+    {{#if user}}
+      <p class="muted">Welcome back, <strong>{{user.name}}</strong></p>
+    {{else}}
+      <p><a class="btn" href="/login">Sign in</a></p>
+    {{/if}}
+  </div>
+</section>
+
+<section class="cards-grid">
+  {{#if items}}
+    {{#each items}}
+      <article class="card">
+        <h3>{{this.title}}</h3>
+        <p>{{this.summary}}</p>
+        <a class="btn-sm" href="/items/{{this.id}}">View</a>
+      </article>
+    {{/each}}
+  {{else}}
+    <div class="empty">
+      <p>No items yet. <a href="/create">Create one</a>.</p>
+    </div>
+  {{/if}}
+</section>

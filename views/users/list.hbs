@@ -1,0 +1,23 @@
+<h1>Users List</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Role</th>
+      <th>Created At</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each users}}
+    <tr>
+      <td>{{this.name}}</td>
+      <td>{{this.email}}</td>
+      <td>{{this.role}}</td>
+      <td>{{this.createdAt}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+<a href="/users/create">Create New User</a>
+<a href="/logout">Logout</a>

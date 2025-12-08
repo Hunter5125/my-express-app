@@ -1,0 +1,68 @@
+<header class="site-header" role="banner">
+  <div class="container header-inner">
+    <a class="brand" href="/">{{@root.siteName}}{{#unless @root.siteName}}DayOff{{/unless}}</a>
+
+    <button id="nav-toggle" class="nav-toggle" aria-controls="nav-list" aria-expanded="false" aria-label="Toggle navigation">
+      <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M3 6h18v2H3zM3 11h18v2H3zM3 16h18v2H3z"/></svg>
+    </button>
+
+    <nav id="nav-list" class="site-nav" role="navigation" aria-label="Primary">
+      <ul>
+        <li><a href="/">Home</a></li>
+        {{#if session.user}}
+          <li><a href="/requests">Requests</a></li>
+        {{/if}}
+      </ul>
+
+      <div class="nav-right">
+        {{#if session.user}}
+          <div class="profile" tabindex="0" aria-haspopup="true" aria-expanded="false">
+            <button class="profile-btn" id="profile-btn" aria-label="Open profile menu">
+              <span class="avatar" aria-hidden="true">{{#if session.user.avatar}}<img src="{{session.user.avatar}}" alt="{{session.user.name}}"/>{{else}}{{session.user.name.[0]}}{{/if}}</span>
+              <span class="profile-name">{{session.user.name}}</span>
+              <svg class="chev" width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 10l5 5 5-5z"/></svg>
+            </button>
+            <ul class="profile-menu" id="profile-menu" role="menu" aria-label="Profile">
+              <li role="none"><a role="menuitem" href="/profile">Profile</a></li>
+              <li role="none"><a role="menuitem" href="/settings">Settings</a></li>
+              <li role="none"><a role="menuitem" href="/logout">Logout</a></li>
+            </ul>
+          </div>
+        {{else}}
+          <a class="btn" href="/login">Login</a>
+        {{/if}}
+      </div>
+    </nav>
+  </div>
+</header>
+
+<script>
+  // small accessible toggles — safe to include inline inside partial
+  (function () {
+    const navToggle = document.getElementById('nav-toggle');
+    const navList = document.getElementById('nav-list');
+    if (navToggle && navList) {
+      navToggle.addEventListener('click', () => {
+        const open = navList.classList.toggle('open');
+        navToggle.setAttribute('aria-expanded', open);
+      });
+    }
+
+    const profileBtn = document.getElementById('profile-btn');
+    const profileMenu = document.getElementById('profile-menu');
+    if (profileBtn && profileMenu) {
+      profileBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const open = profileMenu.classList.toggle('open');
+        profileBtn.setAttribute('aria-expanded', open);
+      });
+      // close menu on outside click
+      document.addEventListener('click', () => {
+        if (profileMenu.classList.contains('open')) {
+          profileMenu.classList.remove('open');
+          profileBtn.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+  })();
+</script>
