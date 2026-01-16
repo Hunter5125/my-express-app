@@ -19,8 +19,8 @@ var mongoose = require('mongoose');
 mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
 
-// use env var or default to local MongoDB
-const mongoUri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/dayoff';
+// use env var or default to MongoDB Atlas
+const mongoUri = process.env.MONGO_URI || 'mongodb+srv://yousef321Fadlallah:OO2Rgxn4n510zwXG@cluster0.d2qjcav.mongodb.net/?appName=Cluster0';
 
 mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to MongoDB:', mongoUri))
