@@ -850,25 +850,6 @@
     display: none !important;
   }
 
-  .requests-table tbody td:nth-child(10),
-  .requests-table tbody td[data-label="Actions"] {
-    padding: 0.35rem 0.25rem !important;
-    flex-direction: row !important;
-    gap: 0.15rem !important;
-    flex-wrap: wrap !important;
-  }
-
-  .requests-table tbody td:nth-child(10) button,
-  .requests-table tbody td[data-label="Actions"] button {
-    padding: 0.15rem 0.2rem !important;
-    min-width: 18px !important;
-    min-height: 18px !important;
-    font-size: 0.85rem !important;
-    background: transparent !important;
-    border: none !important;
-    cursor: pointer !important;
-  }
-
   .table-wrapper {
     width: 100% !important;
     overflow-x: visible !important;
@@ -1250,31 +1231,8 @@
     border-bottom: none !important;
   }
 
-  /* Data labels for first table (no label attribute) */
-  .requests-table:first-of-type td::before {
-    content: "";
-    display: none;
-  }
-
-  /* Dynamically show labels based on column position for first table */
-  .requests-table:first-of-type tbody tr td:nth-child(1)::before { content: "Working Day"; }
-  .requests-table:first-of-type tbody tr td:nth-child(2)::before { content: "Date"; }
-  .requests-table:first-of-type tbody tr td:nth-child(3)::before { content: "Day to Take"; }
-  .requests-table:first-of-type tbody tr td:nth-child(4)::before { content: "Take Date"; }
-  .requests-table:first-of-type tbody tr td:nth-child(5)::before { content: "Remark"; }
-  .requests-table:first-of-type tbody tr td:nth-child(6)::before { content: "Balance"; }
-  .requests-table:first-of-type tbody tr td:nth-child(7)::before { content: "Emp No"; }
-  .requests-table:first-of-type tbody tr td:nth-child(8)::before { content: "TL Status"; }
-  .requests-table:first-of-type tbody tr td:nth-child(9)::before { content: "Mgr Status"; }
-  .requests-table:first-of-type tbody tr td:nth-child(10)::before { content: "Actions"; }
-
-  /* Data labels for second table (with data-label attribute) */
-  .requests-table:not(:first-of-type) td::before {
-    content: attr(data-label);
-  }
-
-  /* Common label styling */
-  .requests-table tbody td::before {
+  /* Data labels for all tables - use data-label attribute */
+  .requests-table td::before {
     content: attr(data-label) ": " !important;
     font-weight: 700 !important;
     color: #0066cc !important;
