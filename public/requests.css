@@ -545,6 +545,12 @@
   box-sizing: border-box;
 }
 
+/* Override margin for form-item inputs (in form-rows) */
+#request-form .form-item input,
+#request-form .form-item select {
+  margin-bottom: 0 !important;
+}
+
 #request-form input:focus,
 #request-form select:focus {
   outline: none;
