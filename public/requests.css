@@ -770,51 +770,57 @@
 
   .requests-table th,
   .requests-table td {
-    padding: 0.3rem !important;
+    padding: 0.25rem !important;
     word-wrap: break-word;
     min-width: auto !important;
-    max-width: 80px;
+    max-width: 70px;
   }
 
   .requests-table td[data-label="Remark"] {
-    max-width: 40px;
+    max-width: 35px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
   .requests-table td[data-label="Actions"] {
-    max-width: 50px;
+    max-width: 45px;
     padding: 0 !important;
   }
 
   .requests-table th {
-    font-size: 0.65rem;
-    padding: 0.25rem 0.15rem !important;
+    font-size: 0.6rem;
+    padding: 0.2rem 0.1rem !important;
   }
 
   .requests-table td {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
   }
 
-  /* Make action buttons tiny with no padding */
-  .requests-table td[data-label="Actions"] button {
+  /* Make ALL action buttons in all tables tiny with no padding */
+  .requests-table td[data-label="Actions"] button,
+  .requests-table button.view-request-btn,
+  .requests-table button.delete-request-btn,
+  .requests-table button.edit-btn,
+  .requests-table button.delete-btn,
+  .requests-table button.btn-sm {
     padding: 0 !important;
-    margin: 2px !important;
-    min-width: 20px !important;
-    min-height: 20px !important;
-    font-size: 0.9rem !important;
+    margin: 1px !important;
+    min-width: 18px !important;
+    min-height: 18px !important;
+    font-size: 0.85rem !important;
     border: none !important;
     background: transparent !important;
-    cursor: pointer;
+    cursor: pointer !important;
+    color: inherit !important;
   }
 
   .btn-sm {
     padding: 0 !important;
-    margin: 2px !important;
-    min-width: 20px !important;
-    min-height: 20px !important;
-    font-size: 0.9rem !important;
+    margin: 1px !important;
+    min-width: 18px !important;
+    min-height: 18px !important;
+    font-size: 0.85rem !important;
   }
 
   .btn-warning {
