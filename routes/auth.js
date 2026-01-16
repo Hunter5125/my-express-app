@@ -72,8 +72,8 @@ router.post('/login', async (req, res) => {
       return res.render('login', { error: 'Invalid email or password', session: req.session });
     }
     req.session.user = { _id: user._id, name: user.name, email: user.email, role: user.role, employeeNo: user.employeeNo, signature: user.signature };
-    // Redirect yousef (employee) to /requests, others to /dashboard
-    if (user.name.toLowerCase() === 'yousef' || user.email.toLowerCase() === 'yousef@example.com') {
+    // Redirect employees to /requests, others to /dashboard
+    if (user.role === 'employee') {
       res.redirect('/requests');
     } else {
       res.redirect('/dashboard');
