@@ -43,34 +43,34 @@
 <button id="add-btn" class="btn btn-primary">Add Working Day</button>
 <button id="request-btn" class="btn btn-secondary" style="margin-left: 10px;">Request DayOff</button>
 <div class="table-wrapper">
-<table class="requests-table" style="border-collapse: collapse; width: 100%;">
+<table class="requests-table working-days-table">
   <thead>
-    <tr style="border-bottom: 2px solid #ddd;">
-      <th style="border: 1px solid #ddd; padding: 8px;">Working Day</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Date</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Remark</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Actions</th>
-      <th style="border: 1px solid #ddd; padding: 8px;">Balance</th>
+    <tr>
+      <th>Working Day</th>
+      <th>Date</th>
+      <th>Remark</th>
+      <th>Actions</th>
+      <th>Balance</th>
     </tr>
   </thead>
   <tbody>
     {{#each workingDays}}
-    <tr data-id="{{this._id}}" data-day="{{this.day}}" data-date="{{formatDate this.date 'iso'}}" data-remark="{{this.remark}}" data-balance="{{this.balance}}" style="border-bottom: 1px solid #ddd;">
-      <td style="border: 1px solid #ddd; padding: 8px;" data-label="Working Day">{{this.day}}</td>
-      <td style="border: 1px solid #ddd; padding: 8px;" data-label="Date">{{formatDate this.date}}</td>
-      <td style="border: 1px solid #ddd; padding: 8px;" data-label="Remark">{{this.remark}}</td>
-      <td style="border: 1px solid #ddd; padding: 8px;" data-label="Actions">
+    <tr data-id="{{this._id}}" data-day="{{this.day}}" data-date="{{formatDate this.date 'iso'}}" data-remark="{{this.remark}}" data-balance="{{this.balance}}">
+      <td data-label="Working Day">{{this.day}}</td>
+      <td data-label="Date">{{formatDate this.date}}</td>
+      <td data-label="Remark">{{this.remark}}</td>
+      <td data-label="Actions">
         <button class="btn btn-sm btn-warning edit-btn" style="margin-right: 5px;">✏️</button>
         <button class="btn btn-sm btn-danger delete-btn">🗑️</button>
       </td>
-      <td style="border: 1px solid #ddd; padding: 8px;" data-label="Balance">{{this.balance}}</td>
+      <td data-label="Balance">{{this.balance}}</td>
     </tr>
     {{/each}}
   </tbody>
   <tfoot>
-    <tr style="border-top: 2px solid #ddd; font-weight: bold;">
-      <td style="border: 1px solid #ddd; padding: 8px;" colspan="4">Total Working Days: {{workingDays.length}}</td>
-      <td style="border: 1px solid #ddd; padding: 8px;">Balance: {{balance}}</td>
+    <tr>
+      <td colspan="4">Total Working Days: {{workingDays.length}}</td>
+      <td>Balance: {{balance}}</td>
     </tr>
   </tfoot>
 </table>
