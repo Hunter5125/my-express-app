@@ -31,6 +31,8 @@ build/
 !README.md
 !GITHUB_PUSH_INSTRUCTIONS.md
 !READY_FOR_GITHUB.md
+!DEPLOYMENT_GUIDE.md
+!DEPLOY_RENDER_QUICK.md
 
 # Temporary files
 temp_page.html
