@@ -658,12 +658,11 @@
   }
 
   #request-form .form-row .form-item label {
-    font-size: 0.65rem;
-    margin-bottom: 0.2rem;
+    font-size: 0.6rem;
+    margin-bottom: 0.15rem;
     font-weight: 600;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    word-wrap: break-word;
+    line-height: 1.2;
   }
 
   #request-form .form-row .form-item input,
