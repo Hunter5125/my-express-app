@@ -578,6 +578,21 @@
   transform: translateY(0);
 }
 
+/* Desktop form - form rows display as full-width blocks */
+#request-form .form-row {
+  display: block;
+}
+
+#request-form .form-row > div {
+  width: 100%;
+}
+
+#request-form .form-row input,
+#request-form .form-row select {
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
 @media (max-width: 479px) {
   #request-form {
     padding: 1rem;
@@ -600,16 +615,21 @@
     font-size: 0.9rem;
   }
 
-  /* Form row layout - 2 columns on mobile */
+  /* Form row layout - 2 columns on mobile only */
   #request-form .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0.75rem;
   }
 
+  #request-form .form-row > div {
+    width: 100%;
+  }
+
   #request-form .form-row input,
   #request-form .form-row select {
     margin-bottom: 0.5rem;
+    width: 100%;
   }
 
   #request-form .form-row label {
