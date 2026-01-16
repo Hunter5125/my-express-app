@@ -33,6 +33,7 @@ build/
 !READY_FOR_GITHUB.md
 !DEPLOYMENT_GUIDE.md
 !DEPLOY_RENDER_QUICK.md
+!DEPLOYMENT_COMPLETE.md
 
 # Temporary files
 temp_page.html
