@@ -1176,11 +1176,15 @@
   }
 
   /* Show header for second table (working days) */
-  .requests-table:not(:first-of-type) thead {
+  .working-days-table thead {
     display: table !important;
     width: 100% !important;
     background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%) !important;
     border-bottom: 2px solid #0052a3 !important;
+  }
+
+  .requests-table thead {
+    display: table !important;
   }
 
   .requests-table thead tr {
@@ -1200,6 +1204,7 @@
     border-right: 1px solid rgba(255, 255, 255, 0.2) !important;
     border-bottom: none !important;
     width: auto !important;
+    background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%) !important;
   }
 
   .requests-table th:last-child {
