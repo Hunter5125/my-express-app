@@ -770,25 +770,109 @@
   }
 
   .requests-table {
-    font-size: 0.7rem;
-    margin: 0.75rem 0;
-    width: 100%;
-    overflow: visible;
+    display: block !important;
+    font-size: 0.7rem !important;
+    margin: 0.5rem 0 !important;
+    width: 100% !important;
+    overflow: visible !important;
+    border: none !important;
+    border-collapse: collapse !important;
   }
 
-  .requests-table th,
-  .requests-table td {
-    padding: 0.4rem;
-    word-wrap: break-word;
+  .requests-table:first-of-type thead {
+    display: none !important;
+  }
+
+  .requests-table:not(:first-of-type) thead {
+    display: table !important;
+    width: 100% !important;
+    background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%) !important;
+    border-bottom: 2px solid #0052a3 !important;
   }
 
   .requests-table th {
-    font-size: 0.65rem;
-    padding: 0.35rem 0.3rem;
+    display: table-cell !important;
+    font-size: 0.6rem !important;
+    padding: 0.3rem 0.25rem !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.2px !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-bottom: none !important;
   }
 
-  .requests-table td {
-    font-size: 0.7rem;
+  .requests-table tbody {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  .requests-table tbody tr {
+    display: block !important;
+    margin-bottom: 0.75rem !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 6px !important;
+    overflow: hidden !important;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05) !important;
+    background: #ffffff !important;
+  }
+
+  .requests-table tbody td {
+    display: flex !important;
+    padding: 0.35rem 0.3rem !important;
+    border: none !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    font-size: 0.65rem !important;
+    align-items: flex-start !important;
+    word-break: break-word !important;
+  }
+
+  .requests-table tbody td:last-child {
+    border-bottom: none !important;
+  }
+
+  .requests-table tbody td::before {
+    font-weight: 700 !important;
+    color: #0066cc !important;
+    min-width: 70px !important;
+    font-size: 0.6rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.2px !important;
+    margin-right: 0.3rem !important;
+    flex-shrink: 0 !important;
+  }
+
+  .requests-table tbody td:nth-child(10)::before,
+  .requests-table tbody td[data-label="Actions"]::before {
+    display: none !important;
+  }
+
+  .requests-table tbody td:nth-child(10),
+  .requests-table tbody td[data-label="Actions"] {
+    padding: 0.35rem 0.25rem !important;
+    flex-direction: row !important;
+    gap: 0.15rem !important;
+    flex-wrap: wrap !important;
+  }
+
+  .requests-table tbody td:nth-child(10) button,
+  .requests-table tbody td[data-label="Actions"] button {
+    padding: 0.15rem 0.2rem !important;
+    min-width: 18px !important;
+    min-height: 18px !important;
+    font-size: 0.85rem !important;
+    background: transparent !important;
+    border: none !important;
+    cursor: pointer !important;
+  }
+
+  .table-wrapper {
+    width: 100% !important;
+    overflow-x: visible !important;
+    padding: 0 !important;
+    margin: 0 !important;
   }
 
   /* Make ALL action buttons in all tables compact */
@@ -1077,142 +1161,176 @@
 /* Mobile table vertical layout - max-width: 768px */
 @media (max-width: 768px) {
   .requests-table {
-    display: block;
-    width: 100%;
-    overflow: visible;
-    border: none;
+    display: block !important;
+    width: 100% !important;
+    overflow: visible !important;
+    border: none !important;
+    border-collapse: collapse !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   /* Hide header for first table (pending requests) - show as cards */
   .requests-table:first-of-type thead {
-    display: none;
+    display: none !important;
   }
 
   /* Show header for second table (working days) */
   .requests-table:not(:first-of-type) thead {
-    display: table;
-    width: 100%;
-    background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
-    border-bottom: 2px solid #0052a3;
+    display: table !important;
+    width: 100% !important;
+    background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%) !important;
+    border-bottom: 2px solid #0052a3 !important;
   }
 
   .requests-table thead tr {
-    display: table-row;
-    width: 100%;
+    display: table-row !important;
+    width: 100% !important;
   }
 
   .requests-table th {
-    display: table-cell;
-    padding: 0.6rem 0.5rem;
-    color: #ffffff;
-    font-weight: 700;
-    font-size: 0.7rem;
-    text-align: left;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    border-right: 1px solid rgba(255, 255, 255, 0.2);
-    width: auto;
+    display: table-cell !important;
+    padding: 0.5rem 0.4rem !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    font-size: 0.65rem !important;
+    text-align: left !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.3px !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-bottom: none !important;
+    width: auto !important;
   }
 
   .requests-table th:last-child {
-    border-right: none;
+    border-right: none !important;
   }
 
   .requests-table tbody {
-    display: block;
-    width: 100%;
+    display: block !important;
+    width: 100% !important;
   }
 
   .requests-table tr {
-    display: block;
-    margin-bottom: 1rem;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
-    background: #ffffff;
-    page-break-inside: avoid;
+    display: block !important;
+    margin-bottom: 1rem !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08) !important;
+    background: #ffffff !important;
+    page-break-inside: avoid !important;
   }
 
   .requests-table tr:hover {
-    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12) !important;
   }
 
   .requests-table td {
-    display: flex;
-    padding: 0.6rem 0.75rem;
-    text-align: left;
-    border: none;
-    border-bottom: 1px solid #f1f5f9;
-    position: relative;
-    align-items: center;
-    word-break: break-word;
-    width: 100%;
-    box-sizing: border-box;
+    display: flex !important;
+    padding: 0.5rem 0.4rem !important;
+    text-align: left !important;
+    border: none !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+    position: relative !important;
+    align-items: flex-start !important;
+    word-break: break-word !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    font-size: 0.75rem !important;
   }
 
   .requests-table td:last-child {
-    border-bottom: none;
+    border-bottom: none !important;
   }
 
-  .requests-table td::before {
+  /* Data labels for first table (no label attribute) */
+  .requests-table:first-of-type td::before {
+    content: "";
+    display: none;
+  }
+
+  /* Dynamically show labels based on column position for first table */
+  .requests-table:first-of-type tbody tr td:nth-child(1)::before { content: "Working Day"; }
+  .requests-table:first-of-type tbody tr td:nth-child(2)::before { content: "Date"; }
+  .requests-table:first-of-type tbody tr td:nth-child(3)::before { content: "Day to Take"; }
+  .requests-table:first-of-type tbody tr td:nth-child(4)::before { content: "Take Date"; }
+  .requests-table:first-of-type tbody tr td:nth-child(5)::before { content: "Remark"; }
+  .requests-table:first-of-type tbody tr td:nth-child(6)::before { content: "Balance"; }
+  .requests-table:first-of-type tbody tr td:nth-child(7)::before { content: "Emp No"; }
+  .requests-table:first-of-type tbody tr td:nth-child(8)::before { content: "TL Status"; }
+  .requests-table:first-of-type tbody tr td:nth-child(9)::before { content: "Mgr Status"; }
+  .requests-table:first-of-type tbody tr td:nth-child(10)::before { content: "Actions"; }
+
+  /* Data labels for second table (with data-label attribute) */
+  .requests-table:not(:first-of-type) td::before {
     content: attr(data-label);
-    font-weight: 700;
-    color: #0066cc;
-    min-width: 90px;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-right: 0.5rem;
-    flex-shrink: 0;
+  }
+
+  /* Common label styling */
+  .requests-table tbody td::before {
+    font-weight: 700 !important;
+    color: #0066cc !important;
+    min-width: 80px !important;
+    font-size: 0.65rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.3px !important;
+    margin-right: 0.4rem !important;
+    flex-shrink: 0 !important;
   }
 
   .requests-table td[data-label="Working Day"],
   .requests-table td[data-label="Date"],
   .requests-table td[data-label="Day"],
-  .requests-table td[data-label="Balance"] {
-    font-weight: 600;
-    color: #0f172a;
-    background: linear-gradient(135deg, rgba(0, 102, 204, 0.03), rgba(16, 185, 129, 0.03));
+  .requests-table td[data-label="Balance"],
+  .requests-table:first-of-type tbody tr td:nth-child(1),
+  .requests-table:first-of-type tbody tr td:nth-child(6) {
+    font-weight: 600 !important;
+    color: #0f172a !important;
+    background: linear-gradient(135deg, rgba(0, 102, 204, 0.03), rgba(16, 185, 129, 0.03)) !important;
   }
 
-  .requests-table td[data-label="Actions"] {
-    padding: 0.75rem 0.75rem;
-    flex-direction: row;
-    gap: 0.3rem;
-    flex-wrap: wrap;
-    background: transparent;
+  .requests-table td[data-label="Actions"],
+  .requests-table:first-of-type tbody tr td:nth-child(10) {
+    padding: 0.5rem 0.4rem !important;
+    flex-direction: row !important;
+    gap: 0.2rem !important;
+    flex-wrap: wrap !important;
+    background: transparent !important;
   }
 
-  .requests-table td[data-label="Actions"]::before {
-    display: none;
+  .requests-table td[data-label="Actions"]::before,
+  .requests-table:first-of-type tbody tr td:nth-child(10)::before {
+    display: none !important;
   }
 
-  .requests-table td[data-label="Actions"] button {
-    padding: 0.2rem 0.3rem;
-    min-width: 22px;
-    min-height: 22px;
-    font-size: 0.85rem;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-  }
-
-  .requests-table td[data-label="Employee Name"],
-  .requests-table td[data-label="Day"],
-  .requests-table td[data-label="Working Day"] {
-    font-weight: 700;
-    background: linear-gradient(135deg, rgba(0, 102, 204, 0.03), rgba(16, 185, 129, 0.03));
+  .requests-table td[data-label="Actions"] button,
+  .requests-table:first-of-type tbody tr td:nth-child(10) button {
+    padding: 0.2rem 0.25rem !important;
+    min-width: 20px !important;
+    min-height: 20px !important;
+    font-size: 0.9rem !important;
+    background: transparent !important;
+    border: none !important;
+    cursor: pointer !important;
+    margin: 1px !important;
   }
 
   .requests-table strong {
-    display: block;
-    margin-bottom: 0.25rem;
+    display: block !important;
+    margin-bottom: 0.15rem !important;
   }
 
   .requests-table small {
-    display: block;
-    margin-top: 0.25rem;
-    font-size: 0.8rem;
+    display: block !important;
+    margin-top: 0.15rem !important;
+    font-size: 0.7rem !important;
+  }
+
+  .table-wrapper {
+    width: 100% !important;
+    overflow-x: visible !important;
+    padding: 0 !important;
+    margin: 0 !important;
   }
 }
