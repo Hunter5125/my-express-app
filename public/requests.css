@@ -765,22 +765,66 @@
   .requests-table {
     font-size: 0.7rem;
     margin: 0.75rem 0;
+    width: 100% !important;
   }
 
   .requests-table th,
   .requests-table td {
-    padding: 0.4rem;
+    padding: 0.3rem !important;
     word-wrap: break-word;
-    min-width: 50px;
+    min-width: auto !important;
+    max-width: 80px;
+  }
+
+  .requests-table td[data-label="Remark"] {
+    max-width: 40px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .requests-table td[data-label="Actions"] {
+    max-width: 50px;
+    padding: 0 !important;
   }
 
   .requests-table th {
     font-size: 0.65rem;
-    padding: 0.35rem 0.3rem;
+    padding: 0.25rem 0.15rem !important;
   }
 
   .requests-table td {
     font-size: 0.7rem;
+  }
+
+  /* Make action buttons tiny with no padding */
+  .requests-table td[data-label="Actions"] button {
+    padding: 0 !important;
+    margin: 2px !important;
+    min-width: 20px !important;
+    min-height: 20px !important;
+    font-size: 0.9rem !important;
+    border: none !important;
+    background: transparent !important;
+    cursor: pointer;
+  }
+
+  .btn-sm {
+    padding: 0 !important;
+    margin: 2px !important;
+    min-width: 20px !important;
+    min-height: 20px !important;
+    font-size: 0.9rem !important;
+  }
+
+  .btn-warning {
+    background: transparent !important;
+    color: #f59e0b !important;
+  }
+
+  .btn-danger {
+    background: transparent !important;
+    color: #ef4444 !important;
   }
 
   .modal-content {
@@ -900,6 +944,12 @@
 
   .request-details {
     padding: 0.75rem;
+  }
+
+  /* Mobile table wrapper - prevent horizontal scroll */
+  .table-wrapper {
+    width: 100%;
+    overflow-x: visible !important;
   }
 
   #add-btn,
