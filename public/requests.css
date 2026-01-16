@@ -1083,8 +1083,39 @@
     border: none;
   }
 
-  .requests-table thead {
+  /* Hide header for first table (pending requests) - show as cards */
+  .requests-table:first-of-type thead {
     display: none;
+  }
+
+  /* Show header for second table (working days) */
+  .requests-table:not(:first-of-type) thead {
+    display: table;
+    width: 100%;
+    background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+    border-bottom: 2px solid #0052a3;
+  }
+
+  .requests-table thead tr {
+    display: table-row;
+    width: 100%;
+  }
+
+  .requests-table th {
+    display: table-cell;
+    padding: 0.6rem 0.5rem;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.7rem;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    width: auto;
+  }
+
+  .requests-table th:last-child {
+    border-right: none;
   }
 
   .requests-table tbody {
@@ -1128,8 +1159,8 @@
     content: attr(data-label);
     font-weight: 700;
     color: #0066cc;
-    min-width: 100px;
-    font-size: 0.75rem;
+    min-width: 90px;
+    font-size: 0.7rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     margin-right: 0.5rem;
@@ -1148,7 +1179,7 @@
   .requests-table td[data-label="Actions"] {
     padding: 0.75rem 0.75rem;
     flex-direction: row;
-    gap: 0.4rem;
+    gap: 0.3rem;
     flex-wrap: wrap;
     background: transparent;
   }
@@ -1159,9 +1190,9 @@
 
   .requests-table td[data-label="Actions"] button {
     padding: 0.2rem 0.3rem;
-    min-width: 24px;
-    min-height: 24px;
-    font-size: 0.9rem;
+    min-width: 22px;
+    min-height: 22px;
+    font-size: 0.85rem;
     background: transparent;
     border: none;
     cursor: pointer;
