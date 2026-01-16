@@ -299,6 +299,22 @@ body{
   margin-right:auto;
 }
 
+/* Mobile button sizing */
+@media (max-width: 768px) {
+  .btn,
+  .btn-sm,
+  .btn-primary,
+  .btn-secondary,
+  .btn-success,
+  .btn-danger,
+  .btn-warning {
+    padding: 0.35rem 0.65rem;
+    font-size: 0.75rem;
+    border-radius: 5px;
+    min-height: 32px;
+  }
+}
+
 @media (max-width: 479px) {
   .form {
     padding: 1rem;

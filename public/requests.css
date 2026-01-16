@@ -691,8 +691,39 @@
   .approve-btn,
   .reject-btn,
   .delete-btn {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.5rem;
+    min-height: 32px;
+  }
+
+  .btn,
+  .btn-primary,
+  .btn-secondary,
+  .btn-success,
+  .btn-danger,
+  .btn-warning,
+  .btn-sm {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.65rem;
+    min-height: 32px;
+    border-radius: 5px;
+  }
+
+  .view-request-btn,
+  .delete-request-btn {
     font-size: 0.85rem;
-    padding: 0.4rem 0.6rem;
+    padding: 0.3rem 0.5rem;
+    min-height: 32px;
+  }
+
+  .delete-selected-btn {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .button-group .btn {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.65rem;
   }
 }
 
