@@ -236,10 +236,10 @@ body{
 
 @media (max-width: 479px) {
   .btn, .btn-sm, .btn-primary, .btn-secondary, .btn-success, .btn-danger, .btn-warning {
-    padding: 0.5rem 1rem;
-    font-size: 0.85rem;
-    border-radius: 6px;
-    min-height: 40px;
+    padding: 0.35rem 0.6rem;
+    font-size: 0.7rem;
+    border-radius: 4px;
+    min-height: 28px;
     width: auto;
   }
 }
