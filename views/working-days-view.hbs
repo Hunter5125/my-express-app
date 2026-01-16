@@ -18,10 +18,10 @@
   <tbody>
     {{#each workingDays}}
     <tr style="border-bottom: 1px solid #ddd;">
-      <td style="border: 1px solid #ddd; padding: 8px;">{{this.day}}</td>
-      <td style="border: 1px solid #ddd; padding: 8px;">{{formatDate this.date}}</td>
-      <td style="border: 1px solid #ddd; padding: 8px;">{{this.remark}}</td>
-      <td style="border: 1px solid #ddd; padding: 8px;">{{this.balance}}</td>
+      <td style="border: 1px solid #ddd; padding: 8px;" data-label="Working Day">{{this.day}}</td>
+      <td style="border: 1px solid #ddd; padding: 8px;" data-label="Date">{{formatDate this.date}}</td>
+      <td style="border: 1px solid #ddd; padding: 8px;" data-label="Remark">{{this.remark}}</td>
+      <td style="border: 1px solid #ddd; padding: 8px;" data-label="Balance">{{this.balance}}</td>
     </tr>
     {{else}}
     <tr>
