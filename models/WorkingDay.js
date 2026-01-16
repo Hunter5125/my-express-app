@@ -18,6 +18,10 @@ const workingDaySchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  balance: {
+    type: Number,
+    default: 1
+  },
   used: {
     type: Boolean,
     default: false

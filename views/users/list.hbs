@@ -1,23 +1,282 @@
 <h1>Users List</h1>
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Role</th>
-      <th>Created At</th>
-    </tr>
-  </thead>
-  <tbody>
-    {{#each users}}
-    <tr>
-      <td>{{this.name}}</td>
-      <td>{{this.email}}</td>
-      <td>{{this.role}}</td>
-      <td>{{this.createdAt}}</td>
-    </tr>
-    {{/each}}
-  </tbody>
-</table>
-<a href="/users/create">Create New User</a>
+<a href="/users/create" class="btn">Create New User</a>
+
+<!-- Search & Filter Section -->
+<div class="filter-section" style="background: var(--card); padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border: 1px solid #f0f0f0;">
+  <h3 style="margin-top: 0; margin-bottom: 1rem;">Search & Filter</h3>
+  
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+    <div class="form-group" style="margin: 0;">
+      <label for="searchName">Name:</label>
+      <input type="text" id="searchName" placeholder="Filter by name..." style="width: 100%; padding: 0.6rem; border: 1px solid #ddd; border-radius: 6px;">
+    </div>
+
+    <div class="form-group" style="margin: 0;">
+      <label for="filterRole">Role:</label>
+      <select id="filterRole" style="width: 100%; padding: 0.6rem; border: 1px solid #ddd; border-radius: 6px;">
+        <option value="">All Roles</option>
+        <option value="employee">Employee</option>
+        <option value="team_leader">Team Leader</option>
+        <option value="manager">Manager</option>
+        <option value="admin">Admin</option>
+      </select>
+    </div>
+
+    <div class="form-group" style="margin: 0;">
+      <label for="filterDept">Department:</label>
+      <select id="filterDept" style="width: 100%; padding: 0.6rem; border: 1px solid #ddd; border-radius: 6px;">
+        <option value="">All Departments</option>
+        {{#each users}}
+          {{#if this.department}}
+            <option value="{{this.department.name}}">{{this.department.name}}</option>
+          {{/if}}
+        {{/each}}
+      </select>
+    </div>
+
+    <div class="form-group" style="margin: 0;">
+      <label for="filterSection">Section:</label>
+      <select id="filterSection" style="width: 100%; padding: 0.6rem; border: 1px solid #ddd; border-radius: 6px;">
+        <option value="">All Sections</option>
+        {{#each users}}
+          {{#if this.section}}
+            <option value="{{this.section.name}}">{{this.section.name}}</option>
+          {{/if}}
+        {{/each}}
+      </select>
+    </div>
+
+    <div class="form-group" style="margin: 0;">
+      <label for="filterEmpNo">Employee Number:</label>
+      <input type="text" id="filterEmpNo" placeholder="Filter by emp no..." style="width: 100%; padding: 0.6rem; border: 1px solid #ddd; border-radius: 6px;">
+    </div>
+  </div>
+
+  <button id="resetBtn" class="btn" style="background: #6b7280; margin-top: 0.5rem;">Reset Filters</button>
+</div>
+
+{{#if users}}
+<div class="table-responsive">
+  <table class="users-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Department</th>
+        <th>Section</th>
+        <th>Supervisor</th>
+        <th>Employee Number</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="usersTableBody">
+      {{#each users}}
+      <tr class="user-row" data-name="{{this.name}}" data-role="{{this.role}}" data-dept="{{#if this.department}}{{this.department.name}}{{/if}}" data-section="{{#if this.section}}{{this.section.name}}{{/if}}" data-empno="{{this.employeeNo}}">
+        <td data-label="Name"><strong>{{this.name}}</strong></td>
+        <td data-label="Email"><small>{{this.email}}</small></td>
+        <td data-label="Role"><span class="badge role-{{this.role}}">{{this.role}}</span></td>
+        <td data-label="Department">{{#if this.department}}{{this.department.name}}{{else}}—{{/if}}</td>
+        <td data-label="Section">{{#if this.section}}{{this.section.name}}{{else}}—{{/if}}</td>
+        <td data-label="Supervisor">{{#if this.supervisor}}{{this.supervisor.name}}{{else}}—{{/if}}</td>
+        <td data-label="Employee Number">{{this.employeeNo}}</td>
+        <td data-label="Actions">
+          <a href="/dashboard/working-days/{{this._id}}" class="btn btn-sm" title="View Available Working Days">👁️</a>
+          <a href="/users/{{this._id}}/edit" class="btn btn-sm">Edit</a>
+          <button class="btn btn-sm btn-danger delete-btn" data-id="{{this._id}}" data-name="{{this.name}}">Delete</button>
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <p id="noResultsMsg" class="empty" style="display: none; margin-top: 1rem;">No users match your filters.</p>
+</div>
+{{else}}
+<p class="empty">No users found.</p>
+{{/if}}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Filter elements
+  const searchNameInput = document.getElementById('searchName');
+  const filterRoleSelect = document.getElementById('filterRole');
+  const filterDeptSelect = document.getElementById('filterDept');
+  const filterSectionSelect = document.getElementById('filterSection');
+  const filterEmpNoInput = document.getElementById('filterEmpNo');
+  const resetBtn = document.getElementById('resetBtn');
+  const userRows = document.querySelectorAll('.user-row');
+  const noResultsMsg = document.getElementById('noResultsMsg');
+
+  // Remove duplicate options from selects
+  function removeDuplicates(select) {
+    const seen = new Set();
+    const options = Array.from(select.querySelectorAll('option'));
+    options.forEach((option, index) => {
+      if (index === 0) return; // Keep the "All" option
+      if (seen.has(option.value)) {
+        option.remove();
+      } else if (option.value) {
+        seen.add(option.value);
+      }
+    });
+  }
+
+  removeDuplicates(filterDeptSelect);
+  removeDuplicates(filterSectionSelect);
+
+  // Filter function
+  function applyFilters() {
+    const searchName = searchNameInput.value.toLowerCase();
+    const filterRole = filterRoleSelect.value;
+    const filterDept = filterDeptSelect.value;
+    const filterSection = filterSectionSelect.value;
+    const filterEmpNo = filterEmpNoInput.value.toLowerCase();
+
+    let visibleCount = 0;
+
+    userRows.forEach(row => {
+      const name = row.dataset.name.toLowerCase();
+      const role = row.dataset.role;
+      const dept = row.dataset.dept;
+      const section = row.dataset.section;
+      const empNo = row.dataset.empno.toLowerCase();
+
+      const matchName = name.includes(searchName);
+      const matchRole = !filterRole || role === filterRole;
+      const matchDept = !filterDept || dept === filterDept;
+      const matchSection = !filterSection || section === filterSection;
+      const matchEmpNo = empNo.includes(filterEmpNo);
+
+      const show = matchName && matchRole && matchDept && matchSection && matchEmpNo;
+      row.style.display = show ? '' : 'none';
+
+      if (show) visibleCount++;
+    });
+
+    // Show/hide "No results" message
+    noResultsMsg.style.display = visibleCount === 0 ? 'block' : 'none';
+  }
+
+  // Event listeners for filter inputs
+  searchNameInput.addEventListener('input', applyFilters);
+  filterRoleSelect.addEventListener('change', applyFilters);
+  filterDeptSelect.addEventListener('change', applyFilters);
+  filterSectionSelect.addEventListener('change', applyFilters);
+  filterEmpNoInput.addEventListener('input', applyFilters);
+
+  // Reset filters
+  resetBtn.addEventListener('click', function() {
+    searchNameInput.value = '';
+    filterRoleSelect.value = '';
+    filterDeptSelect.value = '';
+    filterSectionSelect.value = '';
+    filterEmpNoInput.value = '';
+    applyFilters();
+  });
+
+  // Delete button handlers
+  document.querySelectorAll('.delete-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const id = this.dataset.id;
+      const name = this.dataset.name;
+      if (confirm(`Are you sure you want to delete user "${name}"? This action cannot be undone.`)) {
+        fetch(`/users/${id}`, { method: 'DELETE' })
+          .then(response => {
+            if (response.ok) {
+              alert('User deleted successfully');
+              location.reload();
+            } else {
+              return response.json().then(data => {
+                throw new Error(data.message || 'Failed to delete user');
+              });
+            }
+          })
+          .catch(error => {
+            alert('Error: ' + error.message);
+          });
+      }
+    });
+  });
+});
+</script>
+
+{{#if (eq session.user.role 'manager')}}
+  {{#if requests}}
+  <h3>Pending Day Off Requests for Final Approval</h3>
+  <div class="table-wrapper">
+  <table class="requests-table" style="border-collapse: collapse; width: 100%; margin-bottom: 20px;">
+    <thead>
+      <tr style="border-bottom: 2px solid #ddd;">
+        <th style="border: 1px solid #ddd; padding: 8px;">Employee</th>
+        <th style="border: 1px solid #ddd; padding: 8px;">Team Leader</th>
+        <th style="border: 1px solid #ddd; padding: 8px;">Day</th>
+        <th style="border: 1px solid #ddd; padding: 8px;">Date</th>
+        <th style="border: 1px solid #ddd; padding: 8px;">Remark</th>
+        <th style="border: 1px solid #ddd; padding: 8px;">Team Leader approval status</th>
+        <th style="border: 1px solid #ddd; padding: 8px;">Manager approval status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each requests}}
+      <tr style="border-bottom: 1px solid #ddd;">
+        <td style="border: 1px solid #ddd; padding: 8px;">{{this.employee.name}}</td>
+        <td style="border: 1px solid #ddd; padding: 8px;">{{this.teamLeader.name}}</td>
+        <td style="border: 1px solid #ddd; padding: 8px;">{{#if this.day_to_be_taken}}{{this.day_to_be_taken}}{{else if this.day}}{{this.day}}{{/if}}</td>
+        <td style="border: 1px solid #ddd; padding: 8px;">{{#if this.date_to_be_taken}}{{formatDate this.date_to_be_taken}}{{else if this.date}}{{formatDate this.date}}{{/if}}</td>
+        <td style="border: 1px solid #ddd; padding: 8px;">{{this.remark}}</td>
+        <td style="border: 1px solid #ddd; padding: 8px;">Approved</td>
+        <td style="border: 1px solid #ddd; padding: 8px;">
+          {{#if (eq this.status 'team_leader_approved')}}
+            <button class="btn btn-sm btn-success approve-btn" data-id="{{this._id}}" style="margin-right: 5px;">✅ Approve</button>
+            <button class="btn btn-sm btn-danger reject-btn" data-id="{{this._id}}">❌ Reject</button>
+          {{else}}
+            {{this.status}}
+          {{/if}}
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  </div>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.approve-btn').forEach(btn => {
+      btn.onclick = function() {
+        const id = this.dataset.id;
+        if (confirm('Are you sure you want to approve this request?')) {
+          fetch(`/requests/${id}/approve`, { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+              alert(data.message);
+              location.reload();
+            })
+            .catch(error => {
+              alert('Error: ' + error.message);
+            });
+        }
+      };
+    });
+
+    document.querySelectorAll('.reject-btn').forEach(btn => {
+      btn.onclick = function() {
+        const id = this.dataset.id;
+        if (confirm('Are you sure you want to reject this request?')) {
+          fetch(`/requests/${id}/reject`, { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+              alert(data.message);
+              location.reload();
+            })
+            .catch(error => {
+              alert('Error: ' + error.message);
+            });
+        }
+      };
+    });
+  });
+  </script>
+  {{/if}}
+{{/if}}
+
 <a href="/logout">Logout</a>

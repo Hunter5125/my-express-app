@@ -6,8 +6,10 @@
   <title>{{title}}</title>
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="/javascripts/header.css">
+  <link rel="stylesheet" href="/requests.css">
+  <link rel="stylesheet" href="/settings-responsive.css">
 </head>
-<body>
+<body class="role-{{session.user.role}} name-{{lowercase session.user.name}}">
   {{> header}}
   <main class="container" id="content" role="main">
     {{{body}}}

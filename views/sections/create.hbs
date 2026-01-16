@@ -1,0 +1,77 @@
+<h1>Create New Section</h1>
+
+{{#if errors}}
+<div class="error-messages">
+  {{#each errors}}
+    <p class="error">{{this.msg}}</p>
+  {{/each}}
+</div>
+{{/if}}
+
+<form action="/sections/create" method="POST" class="form">
+  <div class="form-group">
+    <label for="name">Section Name:</label>
+    <input type="text" id="name" name="name" value="{{old.name}}" required>
+  </div>
+  <div class="form-group">
+    <label for="department">Department:</label>
+    <select id="department" name="department" required>
+      <option value="">Select Department</option>
+      {{#each departments}}
+        <option value="{{this._id}}" {{#eq ../old.department this._id}}selected{{/eq}}>{{this.name}}</option>
+      {{/each}}
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="supervisor">Supervisor (Team Leader): <span class="muted">(optional - can add later)</span></label>
+    <select id="supervisor" name="supervisor">
+      <option value="">-- None / Add Later --</option>
+      {{#each supervisors}}
+        <option value="{{this._id}}" {{#eq ../old.supervisor this._id}}selected{{/eq}}>{{this.name}}</option>
+      {{/each}}
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="manager">Manager: <span class="muted">(optional - can add later)</span></label>
+    <select id="manager" name="manager">
+      <option value="">-- None / Add Later --</option>
+      {{#each managers}}
+        <option value="{{this._id}}" {{#eq ../old.manager this._id}}selected{{/eq}}>{{this.name}}</option>
+      {{/each}}
+    </select>
+  </div>
+  <button type="submit" class="btn">Create Section</button>
+</form>
+
+<hr>
+
+<h2>Existing Sections</h2>
+
+{{#if sections}}
+<div class="table-responsive">
+  <table class="sections-table">
+    <thead>
+      <tr>
+        <th>Section Name</th>
+        <th>Department</th>
+        <th>Supervisor</th>
+        <th>Manager</th>
+        <th>Created Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each sections}}
+        <tr>
+          <td data-label="Section Name"><strong>{{this.name}}</strong></td>
+          <td data-label="Department">{{this.department.name}}</td>
+          <td data-label="Supervisor">{{this.supervisor.name}}<br><small>{{this.supervisor.email}}</small></td>
+          <td data-label="Manager">{{this.manager.name}}<br><small>{{this.manager.email}}</small></td>
+          <td data-label="Created Date">{{formatDate this.createdAt}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+{{else}}
+<p class="empty">No sections exist yet. Create your first section using the form above.</p>
+{{/if}}

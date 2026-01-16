@@ -1,0 +1,127 @@
+// Test script to verify that the form population works correctly
+// This will simulate what happens when a user clicks "Request DayOff"
+
+console.log('📋 Test: Form Data Population');
+
+// Simulate the table HTML with data attributes
+const tableHTML = `
+<table>
+  <tbody>
+    <tr data-id="wd1" data-day="Tuesday" data-date="2026-01-21" data-remark="vacation" data-balance="1.5">
+      <td>Tuesday</td>
+      <td>2026-01-21</td>
+      <td>vacation</td>
+      <td><button>Edit</button></td>
+      <td>1.5</td>
+    </tr>
+    <tr data-id="wd2" data-day="Friday" data-date="2026-01-01" data-remark="rest" data-balance="0.5">
+      <td>Friday</td>
+      <td>2026-01-01</td>
+      <td>rest</td>
+      <td><button>Edit</button></td>
+      <td>0.5</td>
+    </tr>
+  </tbody>
+</table>
+`;
+
+// Create a temporary div with this HTML
+const tempDiv = document.createElement('div');
+tempDiv.innerHTML = tableHTML;
+document.body.appendChild(tempDiv);
+
+console.log('✅ Created table with 2 rows of working days');
+
+// Now simulate reading the data from the table
+const rows = Array.from(document.querySelectorAll('table tbody tr'));
+console.log(`Found ${rows.length} rows`);
+
+rows.forEach((row, idx) => {
+  console.log(`Row ${idx}:`, {
+    id: row.dataset.id,
+    day: row.dataset.day,
+    date: row.dataset.date,
+    remark: row.dataset.remark,
+    balance: row.dataset.balance
+  });
+});
+
+// Simulate calculateDaysToTake function (simplified)
+function calculateDaysToTake(daysRequested) {
+  const selectedDays = [];
+  let daysRemaining = daysRequested;
+  
+  for (let i = 0; i < rows.length && daysRemaining > 0; i++) {
+    const row = rows[i];
+    const dayBalance = parseFloat(row.dataset.balance);
+    const dayId = row.dataset.id;
+    const dayName = row.dataset.day;
+    const dayDate = row.dataset.date;
+    const dayRemark = row.dataset.remark;
+
+    if (dayBalance >= daysRemaining) {
+      selectedDays.push({
+        id: dayId,
+        day: dayName,
+        date: dayDate,
+        remark: dayRemark,
+        daysUsed: daysRemaining,
+        balanceRemaining: dayBalance - daysRemaining
+      });
+      daysRemaining = 0;
+    } else if (dayBalance > 0) {
+      selectedDays.push({
+        id: dayId,
+        day: dayName,
+        date: dayDate,
+        remark: dayRemark,
+        daysUsed: dayBalance,
+        balanceRemaining: 0
+      });
+      daysRemaining -= dayBalance;
+    }
+  }
+  
+  return selectedDays;
+}
+
+// Test the calculation
+const selectedDays = calculateDaysToTake(1);
+console.log('\n✅ calculateDaysToTake(1) returned:', selectedDays);
+
+// Simulate createDayOffRequest function
+function createDayOffRequest(selectedDays, totalDaysRequested) {
+  const balance = 2; // Simulated available balance
+  
+  const sortedSelectedDays = selectedDays.slice().sort((a, b) => {
+    const dateA = new Date(a.date).getTime();
+    const dateB = new Date(b.date).getTime();
+    return dateA - dateB;
+  });
+  
+  const requestData = {
+    selected: sortedSelectedDays.map(d => ({
+      day: d.day,
+      date: d.date,
+      remark: d.remark,
+      id: d.id,
+      balance: d.daysUsed
+    })),
+    remainingBalance: balance
+  };
+  
+  console.log('\n✅ createDayOffRequest built requestData:', requestData);
+  
+  const encodedData = encodeURIComponent(JSON.stringify(requestData.selected));
+  const url = `/requests/dayoff-request?selected=${encodedData}&balance=${balance}&totalDaysRequested=${totalDaysRequested}`;
+  console.log('\n✅ URL that would be sent:', url);
+  
+  // Decode to show what the server would receive
+  const decoded = JSON.parse(decodeURIComponent(encodedData));
+  console.log('\n✅ Decoded selected array:', decoded);
+}
+
+createDayOffRequest(selectedDays, 1);
+
+// Clean up
+tempDiv.parentNode.removeChild(tempDiv);

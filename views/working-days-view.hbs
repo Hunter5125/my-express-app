@@ -1,0 +1,42 @@
+<h1>Available Working Days for {{user.name}}</h1>
+<p><strong>Employee No:</strong> {{user.employeeNo}}</p>
+<p><strong>Email:</strong> {{user.email}}</p>
+
+<h2>Available Working Days</h2>
+<p><strong>Total Balance:</strong> {{balance}}</p>
+
+<div class="table-wrapper">
+<table class="requests-table" style="border-collapse: collapse; width: 100%; margin-bottom: 20px;">
+  <thead>
+    <tr style="border-bottom: 2px solid #ddd;">
+      <th style="border: 1px solid #ddd; padding: 8px;">Working Day</th>
+      <th style="border: 1px solid #ddd; padding: 8px;">Date</th>
+      <th style="border: 1px solid #ddd; padding: 8px;">Remark</th>
+      <th style="border: 1px solid #ddd; padding: 8px;">Balance</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each workingDays}}
+    <tr style="border-bottom: 1px solid #ddd;">
+      <td style="border: 1px solid #ddd; padding: 8px;">{{this.day}}</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">{{formatDate this.date}}</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">{{this.remark}}</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">{{this.balance}}</td>
+    </tr>
+    {{else}}
+    <tr>
+      <td colspan="4" style="text-align: center; padding: 8px;">No available working days.</td>
+    </tr>
+    {{/each}}
+  </tbody>
+  <tfoot>
+    <tr style="border-top: 2px solid #ddd; font-weight: bold;">
+      <td style="border: 1px solid #ddd; padding: 8px;" colspan="3">Total Working Days: {{workingDays.length}}</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">Balance: {{balance}}</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+
+<p><a href="/dashboard" class="btn btn-secondary">Back to Dashboard</a></p>
+

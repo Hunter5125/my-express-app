@@ -1,21 +1,463 @@
-<h1>Welcome, {{session.user.name}}!</h1>
-<p>You are logged in as a <strong>{{session.user.role}}</strong>.</p>
-
 {{#if (eq session.user.role 'manager')}}
-  <h2>Manager Dashboard</h2>
-  <p>As a manager, you can:</p>
-  <ul>
-    <li><a href="/users">View all users</a></li>
-    <li><a href="/users/create">Create new users</a></li>
-  </ul>
+  {{#if requests}}
+  <h2>Requests for Approval</h2>
+  
+  <div class="search-section" style="margin-bottom: 20px;">
+    <label for="nameFilter-manager" style="font-weight: bold;">Filter by Employee Name:</label>
+    <input type="text" id="nameFilter-manager" class="name-filter-input" placeholder="Search employee name..." style="padding: 8px; width: 300px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
+  </div>
+
+  <div class="table-wrapper">
+  <table class="requests-table" style="border-collapse: collapse; width: 100%; margin-bottom: 20px;">
+    <thead>
+      <tr style="border-bottom: 2px solid #ddd;">
+        <th style="border: 1px solid #ddd; padding: 8px;">Employee</th>
+        <th style="border: 1px solid #ddd; padding: 8px;">Working Day</th>
+        <th style="border: 1px solid #ddd; padding: 8px;">Working Date</th>
+        <th style="border: 1px solid #ddd; padding: 8px;">Day to be taken</th>
+        <th style="border: 1px solid #ddd; padding: 8px;">Date to be taken</th>
+        <th style="border: 1px solid #ddd; padding: 8px;">Remark</th>
+        <th style="border: 1px solid #ddd; padding: 8px;">Remaining Balance</th>
+        <th style="border: 1px solid #ddd; padding: 8px;">Team Leader approval status</th>
+        <th style="border: 1px solid #ddd; padding: 8px;">Manager approval status</th>
+        <th style="border: 1px solid #ddd; padding: 8px;">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each requests}}
+      <tr style="border-bottom: 1px solid #ddd;" data-request-id="{{this._id}}" data-day-to-be-taken="{{#if this.day_to_be_taken}}{{this.day_to_be_taken}}{{else if this.day}}{{this.day}}{{/if}}" data-date-to-be-taken="{{#if this.date_to_be_taken}}{{this.date_to_be_taken}}{{else if this.date}}{{this.date}}{{/if}}" data-remaining-balance="{{this.balance}}" data-remark="{{this.remark}}">
+        <td style="border: 1px solid #ddd; padding: 8px;">{{this.employee.name}}</td>
+        <td style="border: 1px solid #ddd; padding: 8px;">{{#if this.workingDayIds.[0]}}{{this.workingDayIds.[0].day}}{{else}}{{#if this.working_day}}{{this.working_day}}{{else}}N/A{{/if}}{{/if}}</td>
+        <td style="border: 1px solid #ddd; padding: 8px;">{{#if this.workingDayIds.[0]}}{{#if this.workingDayIds.[0].date}}{{formatDate this.workingDayIds.[0].date}}{{else}}N/A{{/if}}{{else}}{{#if this.working_day_date}}{{formatDate this.working_day_date}}{{else}}N/A{{/if}}{{/if}}</td>
+        <td style="border: 1px solid #ddd; padding: 8px;">{{#if this.day_to_be_taken}}{{this.day_to_be_taken}}{{else if this.day}}{{this.day}}{{else}}N/A{{/if}}</td>
+        <td style="border: 1px solid #ddd; padding: 8px;">{{#if this.date_to_be_taken}}{{formatDate this.date_to_be_taken}}{{else if this.date}}{{formatDate this.date}}{{else}}N/A{{/if}}</td>
+        <td style="border: 1px solid #ddd; padding: 8px;">{{this.remark}}</td>
+        <td style="border: 1px solid #ddd; padding: 8px;">{{this.balance}}</td>
+        <td style="border: 1px solid #ddd; padding: 8px;">Approved</td>
+        <td style="border: 1px solid #ddd; padding: 8px;">
+          {{#if (eq this.status 'team_leader_approved')}}
+            <button class="btn btn-sm btn-success approve-btn" data-id="{{this._id}}" style="margin-right: 5px;">✅ Approve</button>
+            <button class="btn btn-sm btn-danger reject-btn" data-id="{{this._id}}">❌ Reject</button>
+          {{else}}
+            {{this.status}}
+          {{/if}}
+        </td>
+        <td style="border: 1px solid #ddd; padding: 8px;">
+          <button class="view-request-btn" data-id="{{this._id}}" style="background: none; border: none; cursor: pointer; font-size: 16px; margin-right: 10px;" title="View Request">👁️</button>
+          <a href="/dashboard/working-days/{{this.employee._id}}" class="btn btn-info btn-sm" title="View Available Working Days">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+              <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+            </svg>
+          </a>
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  </div>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Name filter for manager
+    const filterInput = document.getElementById('nameFilter-manager');
+    if (filterInput) {
+      filterInput.addEventListener('keyup', function() {
+        const filterValue = this.value.toLowerCase();
+        const table = filterInput.closest('div').nextElementSibling;
+        const rows = table.querySelectorAll('tbody tr');
+        rows.forEach(row => {
+          const employeeName = row.querySelector('td').textContent.toLowerCase();
+          if (employeeName.includes(filterValue)) {
+            row.style.display = '';
+          } else {
+            row.style.display = 'none';
+          }
+        });
+      });
+    }
+
+    // View request button functionality
+    function attachViewBtnListeners() {
+      document.querySelectorAll('.view-request-btn').forEach(btn => {
+        btn.onclick = function(e) {
+          e.stopPropagation();
+          const row = this.closest('tr');
+          
+          // Get raw data from row attributes (not formatted text from cells)
+          const dateToBeTaken = row.getAttribute('data-date-to-be-taken');
+          
+          // Convert date format if needed
+          let formattedDateForInput = '';
+          if (dateToBeTaken) {
+            try {
+              // If it's an ISO date string (e.g., "2026-01-20T00:00:00.000Z")
+              if (dateToBeTaken.includes('T')) {
+                formattedDateForInput = dateToBeTaken.split('T')[0];  // Get YYYY-MM-DD part
+              } else if (dateToBeTaken.includes('-')) {
+                // Already in YYYY-MM-DD format
+                formattedDateForInput = dateToBeTaken;
+              } else {
+                // Unknown format, use as is
+                formattedDateForInput = dateToBeTaken;
+              }
+            } catch (err) {
+              console.error('Error formatting date:', err);
+              formattedDateForInput = dateToBeTaken;
+            }
+          }
+          
+          const requestData = {
+            _id: this.dataset.id,
+            workingDay: row.querySelector('td:nth-child(2)').textContent.trim(),
+            workingDayDate: row.querySelector('td:nth-child(3)').textContent.trim(),
+            dayToBeTaken: row.getAttribute('data-day-to-be-taken'),
+            dateToBeTaken: formattedDateForInput,
+            remark: row.getAttribute('data-remark'),
+            remainingBalance: row.getAttribute('data-remaining-balance')
+          };
+          const encodedData = encodeURIComponent(JSON.stringify(requestData));
+          window.open(`/requests/dayoff-request?requestData=${encodedData}`, '_blank');
+        };
+      });
+    }
+
+    // Approve button functionality
+    function attachApproveBtnListeners() {
+      document.querySelectorAll('.approve-btn').forEach(btn => {
+        btn.onclick = function(e) {
+          e.stopPropagation();
+          const id = this.dataset.id;
+          if (confirm('Are you sure you want to approve this request?')) {
+            fetch(`/requests/${id}/approve`, { method: 'POST' })
+              .then(response => response.json())
+              .then(data => {
+                alert(data.message);
+                location.reload();
+              })
+              .catch(error => {
+                alert('Error: ' + error.message);
+              });
+          }
+        };
+      });
+    }
+
+    // Reject button functionality
+    function attachRejectBtnListeners() {
+      document.querySelectorAll('.reject-btn').forEach(btn => {
+        btn.onclick = function(e) {
+          e.stopPropagation();
+          const id = this.dataset.id;
+          if (confirm('Are you sure you want to reject this request?')) {
+            fetch(`/requests/${id}/reject`, { method: 'POST' })
+              .then(response => response.json())
+              .then(data => {
+                alert(data.message);
+                location.reload();
+              })
+              .catch(error => {
+                alert('Error: ' + error.message);
+              });
+          }
+        };
+      });
+    }
+
+    // Attach all listeners
+    attachViewBtnListeners();
+    attachApproveBtnListeners();
+    attachRejectBtnListeners();
+  });
+  </script>
+  {{else}}
+  <div style="padding: 20px; text-align: center; color: #666;">
+    <p><strong>No pending requests for approval</strong></p>
+  </div>
+  {{/if}}
 {{/if}}
 
 {{#if (eq session.user.role 'team_leader')}}
-  <h2>Team Leader Dashboard</h2>
-  <p>As a team leader, you can:</p>
-  <ul>
-    <li><a href="/users">View all users</a></li>
-  </ul>
+  {{#if requests}}
+  <h2>Requests for Approval</h2>
+  <div class="table-wrapper">
+  <table class="requests-table table-sm">
+    <thead>
+      <tr>
+        <th>Employee</th>
+        <th>Working Day</th>
+        <th>Working Date</th>
+        <th>Day to be taken</th>
+        <th>Date to be taken</th>
+        <th>Remark</th>
+        <th>Remaining Balance</th>
+        <th>Team Leader approval status</th>
+        <th>Actions</th>
+        <th>Remaining days working</th>
+        <th>Manager approval status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each requests}}
+      <tr data-request-id="{{this._id}}" data-day-to-be-taken="{{#if this.day_to_be_taken}}{{this.day_to_be_taken}}{{else if this.day}}{{this.day}}{{/if}}" data-date-to-be-taken="{{#if this.date_to_be_taken}}{{this.date_to_be_taken}}{{else if this.date}}{{this.date}}{{/if}}" data-remaining-balance="{{this.balance}}" data-remark="{{this.remark}}">
+        <td>{{this.employee.name}}</td>
+        <td>{{#if this.workingDayIds.[0]}}{{this.workingDayIds.[0].day}}{{else}}{{#if this.working_day}}{{this.working_day}}{{else}}N/A{{/if}}{{/if}}</td>
+        <td>{{#if this.workingDayIds.[0]}}{{#if this.workingDayIds.[0].date}}{{formatDate this.workingDayIds.[0].date}}{{else}}N/A{{/if}}{{else}}{{#if this.working_day_date}}{{formatDate this.working_day_date}}{{else}}N/A{{/if}}{{/if}}</td>
+        <td>{{#if this.day_to_be_taken}}{{this.day_to_be_taken}}{{else if this.day}}{{this.day}}{{else}}N/A{{/if}}</td>
+        <td>{{#if this.date_to_be_taken}}{{formatDate this.date_to_be_taken}}{{else if this.date}}{{formatDate this.date}}{{else}}N/A{{/if}}</td>
+        <td>{{this.remark}}</td>
+        <td>{{this.balance}}</td>
+        <td>
+          {{#if (eq this.status 'pending')}}
+            <button class="btn btn-sm btn-success approve-btn" data-id="{{this._id}}">✅ Approve</button>
+            <button class="btn btn-sm btn-danger reject-btn" data-id="{{this._id}}">❌ Reject</button>
+          {{else}}
+            {{this.status}}
+          {{/if}}
+        </td>
+        <td>
+          <button class="view-request-btn" data-id="{{this._id}}" title="View Request">👁️</button>
+        </td>
+        <td>
+          <a href="/dashboard/working-days/{{this.employee._id}}" class="working-days-btn" title="View Available Working Days">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+              <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+            </svg>
+          </a>
+        </td>
+        <td>{{this.teamLeaderApprovedBy}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  </div>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // View request button functionality for team leader
+    document.querySelectorAll('.view-request-btn').forEach(btn => {
+      btn.onclick = function(e) {
+        e.stopPropagation();
+        const row = this.closest('tr');
+        
+        // Get raw data from row attributes (not formatted text from cells)
+        const dateToBeTaken = row.getAttribute('data-date-to-be-taken');
+        
+        // Convert date format if needed
+        let formattedDateForInput = '';
+        if (dateToBeTaken) {
+          try {
+            // If it's an ISO date string (e.g., "2026-01-20T00:00:00.000Z")
+            if (dateToBeTaken.includes('T')) {
+              formattedDateForInput = dateToBeTaken.split('T')[0];  // Get YYYY-MM-DD part
+            } else if (dateToBeTaken.includes('-')) {
+              // Already in YYYY-MM-DD format
+              formattedDateForInput = dateToBeTaken;
+            } else {
+              // Unknown format, use as is
+              formattedDateForInput = dateToBeTaken;
+            }
+          } catch (err) {
+            console.error('Error formatting date:', err);
+            formattedDateForInput = dateToBeTaken;
+          }
+        }
+
+        // Extract data from the table row
+        const requestData = {
+          _id: this.dataset.id,
+          workingDay: row.querySelector('td:nth-child(2)').textContent.trim(),
+          workingDayDate: row.querySelector('td:nth-child(3)').textContent.trim(),
+          dayToBeTaken: row.getAttribute('data-day-to-be-taken'),
+          dateToBeTaken: formattedDateForInput,
+          remark: row.getAttribute('data-remark'),
+          remainingBalance: row.getAttribute('data-remaining-balance')
+        };
+
+        // Encode the data and pass it via URL
+        const encodedData = encodeURIComponent(JSON.stringify(requestData));
+        window.open(`/requests/dayoff-request?requestData=${encodedData}`, '_blank');
+      };
+    });
+
+    document.querySelectorAll('.approve-btn').forEach(btn => {
+      btn.onclick = function() {
+        const id = this.dataset.id;
+        if (confirm('Are you sure you want to approve this request?')) {
+          fetch(`/requests/${id}/approve`, { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+              alert(data.message);
+              location.reload();
+            })
+            .catch(error => {
+              alert('Error: ' + error.message);
+            });
+        }
+      };
+    });
+
+    document.querySelectorAll('.reject-btn').forEach(btn => {
+      btn.onclick = function() {
+        const id = this.dataset.id;
+        if (confirm('Are you sure you want to reject this request?')) {
+          fetch(`/requests/${id}/reject`, { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+              alert(data.message);
+              location.reload();
+            })
+            .catch(error => {
+              alert('Error: ' + error.message);
+            });
+        }
+      };
+    });
+  });
+  </script>
+  {{else}}
+  <div style="padding: 20px; text-align: center; color: #666;">
+    <p><strong>No pending requests for approval</strong></p>
+  </div>
+  {{/if}}
+{{/if}}
+
+{{#if (eq session.user.role 'admin')}}
+  {{#if requests}}
+  <h2>All Requests (Admin View)</h2>
+  
+  <div class="search-section" style="margin-bottom: 20px;">
+    <label for="nameFilter-admin" style="font-weight: bold;">Filter by Employee Name:</label>
+    <input type="text" id="nameFilter-admin" class="name-filter-input" placeholder="Search employee name..." style="padding: 8px; width: 300px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
+  </div>
+
+  <div class="table-wrapper">
+  <table class="requests-table" style="border-collapse: collapse; width: 100%; margin-bottom: 20px;">
+    <thead>
+      <tr style="border-bottom: 2px solid #ddd;">
+        <th style="border: 1px solid #ddd; padding: 8px;">Employee</th>
+        <th style="border: 1px solid #ddd; padding: 8px;">Working Day</th>
+        <th style="border: 1px solid #ddd; padding: 8px;">Working Date</th>
+        <th style="border: 1px solid #ddd; padding: 8px;">Day to be taken</th>
+        <th style="border: 1px solid #ddd; padding: 8px;">Date to be taken</th>
+        <th style="border: 1px solid #ddd; padding: 8px;">Remark</th>
+        <th style="border: 1px solid #ddd; padding: 8px;">Remaining Balance</th>
+        <th style="border: 1px solid #ddd; padding: 8px;">Team Leader approval status</th>
+        <th style="border: 1px solid #ddd; padding: 8px;">Manager approval status</th>
+        <th style="border: 1px solid #ddd; padding: 8px;">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each requests}}
+      <tr style="border-bottom: 1px solid #ddd;" data-request-id="{{this._id}}" data-day-to-be-taken="{{#if this.day_to_be_taken}}{{this.day_to_be_taken}}{{else if this.day}}{{this.day}}{{/if}}" data-date-to-be-taken="{{#if this.date_to_be_taken}}{{this.date_to_be_taken}}{{else if this.date}}{{this.date}}{{/if}}" data-remaining-balance="{{this.balance}}" data-remark="{{this.remark}}">
+        <td style="border: 1px solid #ddd; padding: 8px;">{{this.employee.name}}</td>
+        <td style="border: 1px solid #ddd; padding: 8px;">{{#if this.workingDayIds.[0]}}{{this.workingDayIds.[0].day}}{{else}}{{#if this.working_day}}{{this.working_day}}{{else}}N/A{{/if}}{{/if}}</td>
+        <td style="border: 1px solid #ddd; padding: 8px;">{{#if this.workingDayIds.[0]}}{{#if this.workingDayIds.[0].date}}{{formatDate this.workingDayIds.[0].date}}{{else}}N/A{{/if}}{{else}}{{#if this.working_day_date}}{{formatDate this.working_day_date}}{{else}}N/A{{/if}}{{/if}}</td>
+        <td style="border: 1px solid #ddd; padding: 8px;">{{#if this.day_to_be_taken}}{{this.day_to_be_taken}}{{else if this.day}}{{this.day}}{{else}}N/A{{/if}}</td>
+        <td style="border: 1px solid #ddd; padding: 8px;">{{#if this.date_to_be_taken}}{{formatDate this.date_to_be_taken}}{{else if this.date}}{{formatDate this.date}}{{else}}N/A{{/if}}</td>
+        <td style="border: 1px solid #ddd; padding: 8px;">{{this.remark}}</td>
+        <td style="border: 1px solid #ddd; padding: 8px;">{{this.balance}}</td>
+        <td style="border: 1px solid #ddd; padding: 8px;">{{this.teamLeaderApprovalStatus}}</td>
+        <td style="border: 1px solid #ddd; padding: 8px;">{{this.managerApprovalStatus}}</td>
+        <td style="border: 1px solid #ddd; padding: 8px;">
+          {{#if (eq this.status 'pending')}}
+            <button class="btn btn-sm btn-success approve-btn" data-id="{{this._id}}" style="margin-right: 5px;">✅ Team Approve</button>
+            <button class="btn btn-sm btn-danger reject-btn" data-id="{{this._id}}">❌ Reject</button>
+          {{else if (eq this.status 'team_leader_approved')}}
+            <button class="btn btn-sm btn-success approve-mgr-btn" data-id="{{this._id}}" style="margin-right: 5px;">✅ Mgr Approve</button>
+            <button class="btn btn-sm btn-danger reject-btn" data-id="{{this._id}}">❌ Reject</button>
+          {{else}}
+            {{this.status}}
+          {{/if}}
+          <button class="view-request-btn" data-id="{{this._id}}" style="background: none; border: none; cursor: pointer; font-size: 16px; margin-left: 10px;" title="View Request">👁️</button>
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  </div>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Name filter for admin
+    const filterInput = document.getElementById('nameFilter-admin');
+    if (filterInput) {
+      filterInput.addEventListener('keyup', function() {
+        const filterValue = this.value.toLowerCase();
+        const table = filterInput.closest('div').nextElementSibling;
+        const rows = table.querySelectorAll('tbody tr');
+        rows.forEach(row => {
+          const employeeName = row.querySelector('td').textContent.toLowerCase();
+          if (employeeName.includes(filterValue)) {
+            row.style.display = '';
+          } else {
+            row.style.display = 'none';
+          }
+        });
+      });
+    }
+
+    // Approve as Team Approve button (for pending requests)
+    document.querySelectorAll('.approve-btn').forEach(btn => {
+      btn.onclick = function() {
+        const id = this.dataset.id;
+        if (confirm('Are you sure you want to approve this request as Team Leader?')) {
+          fetch(`/requests/${id}/approve`, { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+              alert(data.message);
+              location.reload();
+            })
+            .catch(error => {
+              alert('Error: ' + error.message);
+            });
+        }
+      };
+    });
+
+    // Approve as Manager button (for team_leader_approved requests)
+    document.querySelectorAll('.approve-mgr-btn').forEach(btn => {
+      btn.onclick = function() {
+        const id = this.dataset.id;
+        if (confirm('Are you sure you want to approve this request as Manager?')) {
+          fetch(`/requests/${id}/approve-manager`, { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+              alert(data.message);
+              location.reload();
+            })
+            .catch(error => {
+              alert('Error: ' + error.message);
+            });
+        }
+      };
+    });
+
+    // Reject button
+    document.querySelectorAll('.reject-btn').forEach(btn => {
+      btn.onclick = function() {
+        const id = this.dataset.id;
+        if (confirm('Are you sure you want to reject this request?')) {
+          fetch(`/requests/${id}/reject`, { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+              alert(data.message);
+              location.reload();
+            })
+            .catch(error => {
+              alert('Error: ' + error.message);
+            });
+        }
+      };
+    });
+  });
+  </script>
+  {{else}}
+  <div style="padding: 20px; text-align: center; color: #666;">
+    <p><strong>No pending requests</strong></p>
+  </div>
+  {{/if}}
 {{/if}}
 
 {{#if (eq session.user.role 'employee')}}
@@ -25,5 +467,3 @@
     <li>View your profile</li>
   </ul>
 {{/if}}
-
-<p><a href="/logout">Logout</a></p>

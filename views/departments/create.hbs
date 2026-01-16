@@ -1,0 +1,21 @@
+<h1>Create New Department</h1>
+
+{{#if errors}}
+  <div class="error-messages">
+    {{#each errors}}
+      <div class="error">{{this.field}}: {{this.msg}}</div>
+    {{/each}}
+  </div>
+{{/if}}
+
+<form action="/departments/create" method="POST" class="form">
+  <div class="form-group">
+    <label for="name">Department Name <span class="required">*</span></label>
+    <input type="text" id="name" name="name" value="{{old.name}}" required>
+  </div>
+  
+  <div class="button-group">
+    <button type="submit" class="btn">Create Department</button>
+    <a href="/departments" class="btn btn-secondary">Cancel</a>
+  </div>
+</form>

@@ -17,8 +17,25 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['employee', 'team_leader', 'manager'],
+    enum: ['employee', 'team_leader', 'manager', 'admin'],
     required: true
+  },
+  department: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Department',
+    required: true
+  },
+  section: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Section',
+    required: function() {
+      // Only required for employees, optional for team leaders and managers
+      return this.role === 'employee';
+    }
+  },
+  supervisor: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
   },
   employeeNo: {
     type: String,

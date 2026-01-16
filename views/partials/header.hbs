@@ -8,9 +8,25 @@
 
     <nav id="nav-list" class="site-nav" role="navigation" aria-label="Primary">
       <ul>
-        <li><a href="/">Home</a></li>
         {{#if session.user}}
+          {{#if (and (ne session.user.role "employee") (ne (lowercase session.user.name) "yousef"))}}
+            <li><a href="/dashboard">Dashboard</a></li>
+          {{/if}}
           <li><a href="/requests">Requests</a></li>
+          {{#if (and (ne session.user.role "employee") (ne (lowercase session.user.name) "yousef"))}}
+            <li class="settings-dropdown">
+              <button class="settings-btn" id="settings-btn" aria-label="Settings menu" aria-haspopup="true" aria-expanded="false">
+                Settings
+                <svg class="chev" width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 10l5 5 5-5z"/></svg>
+              </button>
+              <ul class="settings-menu" id="settings-menu" role="menu" aria-label="Settings">
+                <li role="none"><a role="menuitem" href="/users">Users Settings</a></li>
+                <li role="none"><a role="menuitem" href="/departments">Department Settings</a></li>
+                <li role="none"><a role="menuitem" href="/sections">Section Settings</a></li>
+              </ul>
+            </li>
+            <li><a href="/requests/archive">Archive</a></li>
+          {{/if}}
         {{/if}}
       </ul>
 
@@ -24,7 +40,6 @@
             </button>
             <ul class="profile-menu" id="profile-menu" role="menu" aria-label="Profile">
               <li role="none"><a role="menuitem" href="/profile">Profile</a></li>
-              <li role="none"><a role="menuitem" href="/settings">Settings</a></li>
               <li role="none"><a role="menuitem" href="/logout">Logout</a></li>
             </ul>
           </div>
@@ -39,26 +54,91 @@
 <script>
   // small accessible toggles — safe to include inline inside partial
   (function () {
-    const navToggle = document.getElementById('nav-toggle');
-    const navList = document.getElementById('nav-list');
-    if (navToggle && navList) {
-      navToggle.addEventListener('click', () => {
-        const open = navList.classList.toggle('open');
-        navToggle.setAttribute('aria-expanded', open);
+    const settingsBtn = document.getElementById('settings-btn');
+    const settingsMenu = document.getElementById('settings-menu');
+    if (settingsBtn && settingsMenu) {
+      // Ensure menu is hidden by default - remove any open class
+      settingsMenu.classList.remove('open');
+      settingsBtn.setAttribute('aria-expanded', 'false');
+
+      settingsBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        const isOpen = settingsMenu.classList.contains('open');
+        if (isOpen) {
+          // Close menu
+          settingsMenu.classList.remove('open');
+          settingsBtn.setAttribute('aria-expanded', 'false');
+        } else {
+          // Open menu
+          settingsMenu.classList.add('open');
+          settingsBtn.setAttribute('aria-expanded', 'true');
+        }
+      });
+
+      // Close menu when clicking outside
+      document.addEventListener('click', (e) => {
+        if (settingsMenu && settingsBtn && !settingsBtn.contains(e.target) && !settingsMenu.contains(e.target)) {
+          if (settingsMenu.classList.contains('open')) {
+            settingsMenu.classList.remove('open');
+            settingsBtn.setAttribute('aria-expanded', 'false');
+          }
+        }
+      });
+
+      // Close menu when pressing Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && settingsMenu.classList.contains('open')) {
+          settingsMenu.classList.remove('open');
+          settingsBtn.setAttribute('aria-expanded', 'false');
+        }
       });
     }
 
     const profileBtn = document.getElementById('profile-btn');
     const profileMenu = document.getElementById('profile-menu');
     if (profileBtn && profileMenu) {
+      // Ensure menu is hidden by default - remove any open class
+      profileMenu.classList.remove('open');
+      profileBtn.setAttribute('aria-expanded', 'false');
+
+      // Remove any Settings links from profile menu
+      const settingsLinks = profileMenu.querySelectorAll('a[href="/settings"], a[href*="settings"]');
+      settingsLinks.forEach(link => {
+        const listItem = link.closest('li');
+        if (listItem) {
+          listItem.remove();
+        }
+      });
+
       profileBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        const open = profileMenu.classList.toggle('open');
-        profileBtn.setAttribute('aria-expanded', open);
+        e.preventDefault();
+        const isOpen = profileMenu.classList.contains('open');
+        if (isOpen) {
+          // Close menu
+          profileMenu.classList.remove('open');
+          profileBtn.setAttribute('aria-expanded', 'false');
+        } else {
+          // Open menu
+          profileMenu.classList.add('open');
+          profileBtn.setAttribute('aria-expanded', 'true');
+        }
       });
-      // close menu on outside click
-      document.addEventListener('click', () => {
-        if (profileMenu.classList.contains('open')) {
+
+      // Close menu when clicking outside
+      document.addEventListener('click', (e) => {
+        if (profileMenu && profileBtn && !profileBtn.contains(e.target) && !profileMenu.contains(e.target)) {
+          if (profileMenu.classList.contains('open')) {
+            profileMenu.classList.remove('open');
+            profileBtn.setAttribute('aria-expanded', 'false');
+          }
+        }
+      });
+
+      // Close menu when pressing Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && profileMenu.classList.contains('open')) {
           profileMenu.classList.remove('open');
           profileBtn.setAttribute('aria-expanded', 'false');
         }

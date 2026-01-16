@@ -1,0 +1,112 @@
+<div class="container">
+  <h1>Day Off Request Details</h1>
+
+  <div class="request-details">
+    <div class="detail-row">
+      <strong>Employee:</strong> {{request.employee.name}} ({{request.employee.email}})
+    </div>
+    <div class="detail-row">
+      <strong>Day:</strong> {{#if request.day_to_be_taken}}{{request.day_to_be_taken}}{{else if request.day}}{{request.day}}{{/if}}
+    </div>
+    <div class="detail-row">
+      <strong>Date:</strong> {{#if request.date_to_be_taken}}{{formatDate request.date_to_be_taken}}{{else if request.date}}{{formatDate request.date}}{{/if}}
+    </div>
+    <div class="detail-row">
+      <strong>Balance:</strong> {{request.balance}}
+    </div>
+    <div class="detail-row">
+      <strong>Remark:</strong> {{request.remark}}
+    </div>
+    <div class="detail-row">
+      <strong>Status:</strong> {{request.status}}
+    </div>
+    <div class="detail-row">
+      <strong>Team Leader:</strong> {{request.teamLeader.name}}
+    </div>
+    <div class="detail-row">
+      <strong>Manager:</strong> {{request.manager.name}}
+    </div>
+    {{#if request.teamLeaderApprovedAt}}
+    <div class="detail-row">
+      <strong>Team Leader Approved By:</strong> {{request.teamLeaderApprovedBy.name}}
+    </div>
+    <div class="detail-row">
+      <strong>Team Leader Approved At:</strong> {{formatDate request.teamLeaderApprovedAt}}
+    </div>
+    {{#if request.teamLeaderApprovedBy.signature}}
+    <div class="detail-row">
+      <strong>Team Leader Signature:</strong>
+      <img src="{{request.teamLeaderApprovedBy.signature}}" alt="Team Leader Signature" style="max-width: 200px; max-height: 100px;">
+    </div>
+    {{/if}}
+    {{/if}}
+    {{#if request.approvedAt}}
+    <div class="detail-row">
+      <strong>Manager Approved By:</strong> {{request.approvedBy.name}}
+    </div>
+    <div class="detail-row">
+      <strong>Manager Approved At:</strong> {{formatDate request.approvedAt}}
+    </div>
+    {{#if request.approvedBy.signature}}
+    <div class="detail-row">
+      <strong>Manager Signature:</strong>
+      <img src="{{request.approvedBy.signature}}" alt="Manager Signature" style="max-width: 200px; max-height: 100px;">
+    </div>
+    {{/if}}
+    {{/if}}
+  </div>
+
+  {{#if (eq session.user.role 'team_leader')}}
+  {{#if (eq request.status 'pending')}}
+  <div class="actions">
+    <form action="/requests/{{request._id}}/approve" method="POST" style="display: inline;">
+      <button type="submit" class="btn btn-success">Approve</button>
+    </form>
+    <form action="/requests/{{request._id}}/reject" method="POST" style="display: inline;">
+      <button type="submit" class="btn btn-danger">Reject</button>
+    </form>
+  </div>
+  {{/if}}
+  {{/if}}
+
+  {{#if (eq session.user.role 'manager')}}
+  {{#if (eq request.status 'team_leader_approved')}}
+  <div class="actions">
+    <form action="/requests/{{request._id}}/approve" method="POST" style="display: inline;">
+      <button type="submit" class="btn btn-success">Approve</button>
+    </form>
+    <form action="/requests/{{request._id}}/reject" method="POST" style="display: inline;">
+      <button type="submit" class="btn btn-danger">Reject</button>
+    </form>
+  </div>
+  {{/if}}
+  {{/if}}
+
+  <a href="/dashboard" class="btn btn-secondary">Back to Dashboard</a>
+</div>
+
+<style>
+.request-details {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.detail-row {
+  margin-bottom: 10px;
+}
+
+.detail-row strong {
+  display: inline-block;
+  width: 200px;
+}
+
+.actions {
+  margin-bottom: 20px;
+}
+
+.btn {
+  margin-right: 10px;
+}
+</style>

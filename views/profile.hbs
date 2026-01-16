@@ -1,0 +1,652 @@
+<h1>Profile</h1>
+
+<div class="profile-container" style="max-width: 1200px; margin: 20px auto;">
+  {{#if success}}
+    <div style="background: #d1fae5; border: 1px solid #10b981; color: #065f46; padding: 12px; border-radius: 4px; margin-bottom: 20px;">
+      ✓ {{success}}
+    </div>
+  {{/if}}
+  {{#if error}}
+    <div style="background: #fee2e2; border: 1px solid #ef4444; color: #991b1b; padding: 12px; border-radius: 4px; margin-bottom: 20px;">
+      ✗ {{error}}
+    </div>
+  {{/if}}
+
+  <!-- Two Column Layout -->
+  <div style="display: flex; gap: 24px; flex-wrap: wrap;">
+    <!-- Left Column - Change Password Section -->
+    <div style="flex: 1; min-width: 300px;">
+      <div class="profile-card" style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 24px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); height: 100%;">
+        <h2 style="margin: 0 0 20px 0; color: #333; border-bottom: 2px solid #eee; padding-bottom: 12px;">Change Password</h2>
+        
+        <form method="POST" action="/profile/change-password" style="margin-top: 20px;">
+          <div style="margin-bottom: 20px;">
+            <label for="currentPassword" style="display: block; font-weight: 600; color: #555; margin-bottom: 8px;">Current Password</label>
+            <input type="password" id="currentPassword" name="currentPassword" required 
+                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; box-sizing: border-box;">
+          </div>
+
+          <div style="margin-bottom: 20px;">
+            <label for="newPassword" style="display: block; font-weight: 600; color: #555; margin-bottom: 8px;">New Password</label>
+            <input type="password" id="newPassword" name="newPassword" required minlength="6"
+                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; box-sizing: border-box;">
+            <small style="color: #999;">Password must be at least 6 characters long</small>
+          </div>
+
+          <div style="margin-bottom: 20px;">
+            <label for="confirmPassword" style="display: block; font-weight: 600; color: #555; margin-bottom: 8px;">Confirm New Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required minlength="6"
+                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; box-sizing: border-box;">
+          </div>
+
+          <button type="submit" class="btn" style="display: inline-block; padding: 12px 24px; background: #dc2626; color: white; text-decoration: none; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; font-weight: 600; width: 100%;">
+            Change Password
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Right Column - Profile Information Section -->
+    <div style="flex: 1; min-width: 300px;">
+      <div class="profile-card" style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 24px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); height: 100%;">
+        <h2 style="margin: 0 0 20px 0; color: #333; border-bottom: 2px solid #eee; padding-bottom: 12px;">Profile Information</h2>
+        
+        <form method="POST" action="/profile/update" id="profileForm" style="margin-top: 20px;">
+          <div style="margin-bottom: 20px;">
+            <label for="name" style="display: block; font-weight: 600; color: #555; margin-bottom: 8px;">Name</label>
+            <input type="text" id="name" name="name" value="{{user.name}}" required 
+                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; box-sizing: border-box;">
+          </div>
+
+          <div style="margin-bottom: 20px;">
+            <label for="email" style="display: block; font-weight: 600; color: #555; margin-bottom: 8px;">Email</label>
+            <input type="email" id="email" name="email" value="{{user.email}}" required 
+                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; box-sizing: border-box;">
+            <small style="color: #999;">You can change your email address</small>
+          </div>
+
+          <div style="margin-bottom: 20px;">
+            <label style="display: block; font-weight: 600; color: #555; margin-bottom: 8px;">Employee Number</label>
+            <p style="margin: 0; color: #666; padding: 10px; background: #f5f5f5; border-radius: 4px;">{{user.employeeNo}}</p>
+            <small style="color: #999;">Employee number cannot be changed</small>
+          </div>
+
+          <div style="margin-bottom: 20px;">
+            <label for="signature" style="display: block; font-weight: 600; color: #555; margin-bottom: 8px;">Signature</label>
+            <!-- Hidden input to store signature data -->
+            <input type="hidden" id="signature" name="signature" value="{{#if user.signature}}{{user.signature}}{{/if}}" required>
+            
+            <!-- Signature preview/display area -->
+            <div id="signaturePreview" style="padding: 20px; margin-bottom: 10px; min-height: 140px; background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); display: flex; align-items: center; justify-content: center; border-radius: 8px;">
+              {{#if user.signature}}
+                {{{signatureImg user.signature}}}
+                <p style="color: #999; margin: 0; font-style: italic; display: none; text-align: center;">Unable to load signature</p>
+              {{else}}
+                <p style="color: #a0aec0; margin: 0; font-style: italic; text-align: center; font-size: 15px;">No signature uploaded yet</p>
+              {{/if}}
+            </div>
+            
+            <!-- Tabs for signature methods -->
+            <div style="display: flex; gap: 0; margin-bottom: 10px; border-bottom: 2px solid #ddd;">
+              <button type="button" id="drawSignatureTab" style="flex: 1; padding: 12px; background: #2563eb; color: white; border: none; cursor: pointer; font-weight: 600; text-align: center;">
+                Draw Signature
+              </button>
+              <button type="button" id="uploadSignatureTab" style="flex: 1; padding: 12px; background: #6b7280; color: white; border: none; cursor: pointer; font-weight: 600; text-align: center;">
+                Upload Image
+              </button>
+            </div>
+
+            <!-- Draw Signature Option -->
+            <div id="drawSignatureSection" style="margin-bottom: 10px;">
+              <button type="button" id="openSignaturePad" style="width: 100%; padding: 12px; background: #2563eb; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; font-weight: 600;">
+                {{#if user.signature}}
+                  {{#if (eq (substring user.signature 0 22) "data:image/png;base64")}}
+                    Update Signature
+                  {{else}}
+                    Draw Signature
+                  {{/if}}
+                {{else}}
+                  Sign Here
+                {{/if}}
+              </button>
+              <small style="color: #999; display: block; margin-top: 8px;">Click to draw your signature on the canvas</small>
+            </div>
+
+            <!-- Upload Signature Option -->
+            <div id="uploadSignatureSection" style="display: none; margin-bottom: 10px;">
+              <div style="position: relative; border: 2px dashed #2563eb; border-radius: 4px; padding: 20px; text-align: center; background: #f0f7ff; cursor: pointer;" id="uploadDropZone">
+                <input type="file" id="signatureImageInput" accept="image/*" style="display: none;">
+                <svg width="48" height="48" viewBox="0 0 24 24" style="margin: 0 auto 10px; color: #2563eb;" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="17 8 12 3 7 8"></polyline>
+                  <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+                <p style="margin: 0; color: #0f172a; font-weight: 600;">Drop signature image here or click to upload</p>
+                <small style="color: #999; display: block; margin-top: 5px;">Supported formats: JPG, PNG, GIF, WebP (Max 5MB)</small>
+              </div>
+              <div id="uploadProgress" style="display: none; margin-top: 10px;">
+                <div style="background: #e5e7eb; border-radius: 4px; height: 4px; overflow: hidden;">
+                  <div id="uploadProgressBar" style="background: #2563eb; height: 100%; width: 0%; transition: width 0.3s ease;"></div>
+                </div>
+                <small style="color: #999; display: block; margin-top: 5px;">Uploading...</small>
+              </div>
+              
+              <!-- Image Rotation Controls (shown after image selected) -->
+              <div id="rotationControls" style="display: none; margin-top: 10px; padding: 10px; background: #f0f7ff; border-radius: 4px; border: 1px solid #2563eb;">
+                <small style="color: #0f172a; display: block; margin-bottom: 8px; font-weight: 600;">Rotate Image:</small>
+                <div style="display: flex; gap: 10px; justify-content: center;">
+                  <button type="button" id="rotateLeftBtn" style="padding: 8px 16px; background: #6b7280; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 5px;">
+                    ↶ Left
+                  </button>
+                  <button type="button" id="rotateRightBtn" style="padding: 8px 16px; background: #2563eb; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 5px;">
+                    Right ↷
+                  </button>
+                  <button type="button" id="resetRotationBtn" style="padding: 8px 16px; background: #ef4444; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">
+                    Reset
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 20px;">
+            <label style="display: block; font-weight: 600; color: #555; margin-bottom: 8px;">Available Days</label>
+            <p style="margin: 0; color: #666; padding: 10px; background: #f5f5f5; border-radius: 4px;">{{user.availableDays}} days</p>
+          </div>
+
+          <div style="margin-bottom: 20px;">
+            <label style="display: block; font-weight: 600; color: #555; margin-bottom: 8px;">Role</label>
+            <p style="margin: 0; color: #666; padding: 10px; background: #f5f5f5; border-radius: 4px; text-transform: capitalize;">{{user.role}}</p>
+          </div>
+
+          <div style="margin-bottom: 20px;">
+            <label style="display: block; font-weight: 600; color: #555; margin-bottom: 8px;">Member Since</label>
+            <p style="margin: 0; color: #666; padding: 10px; background: #f5f5f5; border-radius: 4px;">{{formatDate user.createdAt}}</p>
+          </div>
+
+          <button type="submit" class="btn" style="display: inline-block; padding: 12px 24px; background: #2563eb; color: white; text-decoration: none; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; font-weight: 600; width: 100%;">
+            Update Profile
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation Links -->
+  <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid #eee;">
+    <a href="/requests" class="btn" style="display: inline-block; padding: 10px 20px; background: #2563eb; color: white; text-decoration: none; border-radius: 4px; margin-right: 10px;">View Requests</a>
+    {{#unless (eq (lowercase session.user.name) "yousef")}}
+      <a href="/dashboard" class="btn" style="display: inline-block; padding: 10px 20px; background: #6b7280; color: white; text-decoration: none; border-radius: 4px;">Dashboard</a>
+    {{/unless}}
+  </div>
+</div>
+
+<!-- Signature Pad Modal -->
+<div id="signatureModal" class="signature-modal" style="display: none;">
+  <div class="signature-modal-content">
+    <div class="signature-modal-header">
+      <h2 style="margin: 0;">Sign Your Signature</h2>
+      <span class="signature-close" id="closeSignatureModal">&times;</span>
+    </div>
+    <div class="signature-modal-body">
+      <canvas id="signatureCanvas" width="600" height="300"></canvas>
+      <div class="signature-actions" style="margin-top: 15px; display: flex; gap: 10px; justify-content: center;">
+        <button type="button" id="clearSignature" style="padding: 10px 20px; background: #6b7280; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 600;">
+          Clear
+        </button>
+        <button type="button" id="saveSignature" style="padding: 10px 20px; background: #10b981; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 600;">
+          Save Signature
+        </button>
+        <button type="button" id="cancelSignature" style="padding: 10px 20px; background: #dc2626; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 600;">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Include Signature Pad library from CDN -->
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
+
+<script>
+  let signaturePad = null;
+
+  // Tab switching
+  document.getElementById('drawSignatureTab').addEventListener('click', function() {
+    document.getElementById('drawSignatureSection').style.display = 'block';
+    document.getElementById('uploadSignatureSection').style.display = 'none';
+    document.getElementById('drawSignatureTab').style.background = '#2563eb';
+    document.getElementById('uploadSignatureTab').style.background = '#6b7280';
+  });
+
+  document.getElementById('uploadSignatureTab').addEventListener('click', function() {
+    document.getElementById('drawSignatureSection').style.display = 'none';
+    document.getElementById('uploadSignatureSection').style.display = 'block';
+    document.getElementById('drawSignatureTab').style.background = '#6b7280';
+    document.getElementById('uploadSignatureTab').style.background = '#2563eb';
+  });
+
+  // Open signature modal
+  document.getElementById('openSignaturePad').addEventListener('click', function() {
+    document.getElementById('signatureModal').style.display = 'block';
+    initializeSignaturePad();
+  });
+
+  // Close modal handlers
+  document.getElementById('closeSignatureModal').addEventListener('click', function() {
+    closeSignatureModal();
+  });
+
+  document.getElementById('cancelSignature').addEventListener('click', function() {
+    closeSignatureModal();
+  });
+
+  // Close modal when clicking outside
+  window.addEventListener('click', function(event) {
+    const modal = document.getElementById('signatureModal');
+    if (event.target === modal) {
+      closeSignatureModal();
+    }
+  });
+
+  function closeSignatureModal() {
+    document.getElementById('signatureModal').style.display = 'none';
+    if (signaturePad) {
+      signaturePad.clear();
+    }
+  }
+
+  function initializeSignaturePad() {
+    const canvas = document.getElementById('signatureCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Set canvas size based on container
+    const container = canvas.parentElement;
+    canvas.width = Math.min(600, window.innerWidth - 100);
+    canvas.height = 300;
+
+    // Initialize Signature Pad
+    signaturePad = new SignaturePad(canvas, {
+      backgroundColor: 'rgb(255, 255, 255)',
+      penColor: 'rgb(0, 0, 0)',
+      minWidth: 1,
+      maxWidth: 3
+    });
+
+    // Clear button
+    document.getElementById('clearSignature').addEventListener('click', function() {
+      signaturePad.clear();
+    });
+
+    // Save button
+    document.getElementById('saveSignature').addEventListener('click', function() {
+      if (signaturePad.isEmpty()) {
+        alert('Please provide a signature first.');
+        return;
+      }
+
+      // Get signature as data URL
+      const dataURL = signaturePad.toDataURL('image/png');
+      
+      // Update hidden input
+      document.getElementById('signature').value = dataURL;
+      
+      // Update preview
+      const preview = document.getElementById('signaturePreview');
+      preview.innerHTML = '<img src="' + dataURL + '" alt="Signature" style="max-width: 100%; max-height: 150px; border-radius: 4px;">';
+      
+      // Update button text
+      document.getElementById('openSignaturePad').textContent = 'Update Signature';
+      
+      // Close modal
+      closeSignatureModal();
+    });
+  }
+
+  // File upload handling
+  const uploadDropZone = document.getElementById('uploadDropZone');
+  const signatureImageInput = document.getElementById('signatureImageInput');
+  let currentImageFile = null;
+  let currentImageRotation = 0; // Track rotation in degrees
+
+  uploadDropZone.addEventListener('click', function() {
+    signatureImageInput.click();
+  });
+
+  // Drag and drop
+  uploadDropZone.addEventListener('dragover', function(e) {
+    e.preventDefault();
+    uploadDropZone.style.background = '#dbeafe';
+    uploadDropZone.style.borderColor = '#0066cc';
+  });
+
+  uploadDropZone.addEventListener('dragleave', function(e) {
+    e.preventDefault();
+    uploadDropZone.style.background = '#f0f7ff';
+    uploadDropZone.style.borderColor = '#2563eb';
+  });
+
+  uploadDropZone.addEventListener('drop', function(e) {
+    e.preventDefault();
+    uploadDropZone.style.background = '#f0f7ff';
+    uploadDropZone.style.borderColor = '#2563eb';
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+      handleFileUpload(files[0]);
+    }
+  });
+
+  signatureImageInput.addEventListener('change', function(e) {
+    if (e.target.files.length > 0) {
+      handleFileUpload(e.target.files[0]);
+    }
+  });
+
+  // Rotation button handlers
+  document.getElementById('rotateLeftBtn').addEventListener('click', function(e) {
+    e.preventDefault();
+    currentImageRotation = (currentImageRotation - 90) % 360;
+    updateImagePreviewWithRotation();
+  });
+
+  document.getElementById('rotateRightBtn').addEventListener('click', function(e) {
+    e.preventDefault();
+    currentImageRotation = (currentImageRotation + 90) % 360;
+    updateImagePreviewWithRotation();
+  });
+
+  document.getElementById('resetRotationBtn').addEventListener('click', function(e) {
+    e.preventDefault();
+    currentImageRotation = 0;
+    updateImagePreviewWithRotation();
+  });
+
+  function updateImagePreviewWithRotation() {
+    const preview = document.getElementById('signaturePreview');
+    const img = preview.querySelector('img');
+    if (img) {
+      img.style.transform = 'rotate(' + currentImageRotation + 'deg)';
+    }
+  }
+
+  function handleFileUpload(file) {
+    // Validate file
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+    const maxSize = 5 * 1024 * 1024; // 5MB
+
+    if (!allowedTypes.includes(file.type)) {
+      alert('Please upload an image file (JPG, PNG, GIF, or WebP)');
+      return;
+    }
+
+    if (file.size > maxSize) {
+      alert('File size must be less than 5MB');
+      return;
+    }
+
+    // Store file and reset rotation
+    currentImageFile = file;
+    currentImageRotation = 0;
+
+    // Read file as data URL for preview
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const preview = document.getElementById('signaturePreview');
+      preview.innerHTML = '<img src="' + e.target.result + '" alt="Signature" style="max-width: 100%; max-height: 150px; border-radius: 4px; transition: transform 0.3s ease;">';
+      
+      // Show rotation controls
+      document.getElementById('rotationControls').style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // Function to rotate image and convert to blob
+  function rotateImageAndUpload() {
+    if (!currentImageFile) {
+      alert('No image selected');
+      return;
+    }
+
+    // If no rotation, just upload directly
+    if (currentImageRotation === 0 || currentImageRotation % 360 === 0) {
+      uploadImage(currentImageFile);
+      return;
+    }
+
+    // Create canvas and rotate image
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const img = new Image();
+      img.onload = function() {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Set canvas size based on rotation
+        if (currentImageRotation === 90 || currentImageRotation === 270) {
+          canvas.width = img.height;
+          canvas.height = img.width;
+        } else {
+          canvas.width = img.width;
+          canvas.height = img.height;
+        }
+        
+        // Translate and rotate
+        ctx.translate(canvas.width / 2, canvas.height / 2);
+        ctx.rotate((currentImageRotation * Math.PI) / 180);
+        ctx.drawImage(img, -img.width / 2, -img.height / 2);
+        
+        // Convert canvas to blob
+        canvas.toBlob(function(blob) {
+          // Create new file from blob
+          const rotatedFile = new File([blob], currentImageFile.name, { type: currentImageFile.type });
+          uploadImage(rotatedFile);
+        }, currentImageFile.type);
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(currentImageFile);
+  }
+
+  function uploadImage(fileToUpload) {
+    // Show progress
+    document.getElementById('uploadProgress').style.display = 'block';
+    const progressBar = document.getElementById('uploadProgressBar');
+    progressBar.style.width = '0%';
+
+    // Create form data
+    const formData = new FormData();
+    formData.append('signatureImage', fileToUpload);
+
+    // Upload file
+    fetch('/profile/upload-signature', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      progressBar.style.width = '100%';
+      
+      if (data.success) {
+        // Update hidden input and preview
+        document.getElementById('signature').value = data.path;
+        const preview = document.getElementById('signaturePreview');
+        preview.innerHTML = '<img src="' + data.path + '" alt="Signature" style="max-width: 100%; max-height: 150px; border-radius: 4px;">';
+        
+        // Show success message
+        alert('Signature uploaded successfully!');
+        document.getElementById('uploadProgress').style.display = 'none';
+        document.getElementById('rotationControls').style.display = 'none';
+        currentImageFile = null;
+        currentImageRotation = 0;
+      } else {
+        alert('Error: ' + data.error);
+        document.getElementById('uploadProgress').style.display = 'none';
+      }
+    })
+    .catch(error => {
+      console.error('Upload error:', error);
+      alert('Error uploading signature');
+      document.getElementById('uploadProgress').style.display = 'none';
+    });
+  }
+
+  // Override profile form submission to handle rotation
+  const profileForm = document.getElementById('profileForm');
+  if (profileForm) {
+    const originalSubmit = profileForm.onsubmit;
+    profileForm.addEventListener('submit', function(e) {
+      if (currentImageFile && document.getElementById('rotationControls').style.display !== 'none') {
+        e.preventDefault();
+        rotateImageAndUpload();
+        return false;
+      }
+    });
+  }
+
+  // Also call rotateImageAndUpload when user clicks update profile with an image selected
+  const updateButton = profileForm ? profileForm.querySelector('button[type="submit"]') : null;
+  if (updateButton) {
+    updateButton.addEventListener('click', function(e) {
+      if (currentImageFile && document.getElementById('rotationControls').style.display !== 'none') {
+        e.preventDefault();
+        rotateImageAndUpload();
+      }
+    });
+  }
+
+  // Client-side password confirmation validation and signature display
+  document.addEventListener('DOMContentLoaded', function() {
+    // Handle signature display on page load
+    const signatureInput = document.getElementById('signature');
+    const signaturePreview = document.getElementById('signaturePreview');
+    
+    if (signatureInput && signatureInput.value) {
+      const signatureValue = signatureInput.value;
+      // Check if it's a base64 image
+      if (signatureValue.startsWith('data:image/png;base64,')) {
+        signaturePreview.innerHTML = '<img src="' + signatureValue + '" alt="Signature" style="max-width: 100%; max-height: 150px; border-radius: 4px;">';
+        const openBtn = document.getElementById('openSignaturePad');
+        if (openBtn) {
+          openBtn.textContent = 'Update Signature';
+        }
+      }
+    }
+
+    // Password form validation
+    const passwordForm = document.querySelector('form[action="/profile/change-password"]');
+    if (passwordForm) {
+      passwordForm.addEventListener('submit', function(e) {
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        
+        if (newPassword !== confirmPassword) {
+          e.preventDefault();
+          alert('New password and confirm password do not match!');
+          return false;
+        }
+      });
+    }
+  });
+</script>
+
+<style>
+  /* Signature Modal Styles */
+  .signature-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.3s;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .signature-modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 0;
+    border: 1px solid #888;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 700px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    animation: slideDown 0.3s;
+  }
+
+  @keyframes slideDown {
+    from {
+      transform: translateY(-50px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .signature-modal-header {
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8f9fa;
+    border-radius: 8px 8px 0 0;
+  }
+
+  .signature-modal-header h2 {
+    margin: 0;
+    color: #333;
+  }
+
+  .signature-close {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 20px;
+  }
+
+  .signature-close:hover,
+  .signature-close:focus {
+    color: #000;
+  }
+
+  .signature-modal-body {
+    padding: 20px;
+  }
+
+  #signatureCanvas {
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    cursor: crosshair;
+    display: block;
+    margin: 0 auto;
+    background: white;
+    touch-action: none;
+  }
+
+  @media (max-width: 768px) {
+    .profile-container > div[style*="display: flex"] {
+      flex-direction: column;
+    }
+    
+    .signature-modal-content {
+      width: 95%;
+      margin: 10% auto;
+    }
+    
+    #signatureCanvas {
+      width: 100%;
+      height: auto;
+    }
+  }
+</style>

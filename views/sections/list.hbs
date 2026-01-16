@@ -1,0 +1,69 @@
+<h1>Sections Management</h1>
+<a href="/sections/create" class="btn">+ Create New Section</a>
+
+{{#if sections}}
+<div class="table-responsive">
+  <table class="sections-table">
+    <thead>
+      <tr>
+        <th>Section Name</th>
+        <th>Department</th>
+        <th>Supervisor</th>
+        <th>Manager</th>
+        <th>Created Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each sections}}
+        <tr>
+          <td data-label="Section Name"><strong>{{this.name}}</strong></td>
+          <td data-label="Department">{{this.department.name}}</td>
+          <td data-label="Supervisor">
+            {{this.supervisor.name}}<br>
+            <small>{{this.supervisor.email}}</small>
+          </td>
+          <td data-label="Manager">
+            {{this.manager.name}}<br>
+            <small>{{this.manager.email}}</small>
+          </td>
+          <td data-label="Created Date">{{formatDate this.createdAt}}</td>
+          <td data-label="Actions">
+            <a href="/sections/{{this._id}}/edit" class="btn btn-sm">Edit</a>
+            <button class="btn btn-sm btn-danger delete-btn" data-id="{{this._id}}" data-name="{{this.name}}">Delete</button>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+{{else}}
+<p class="empty">No sections found. <a href="/sections/create">Create your first section</a></p>
+{{/if}}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.delete-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const id = this.dataset.id;
+      const name = this.dataset.name;
+      if (confirm(`Are you sure you want to delete section "${name}"? This action cannot be undone.`)) {
+        fetch(`/sections/${id}`, { method: 'DELETE' })
+          .then(response => {
+            if (response.ok) {
+              alert('Section deleted successfully');
+              location.reload();
+            } else {
+              return response.json().then(data => {
+                throw new Error(data.message || 'Failed to delete section');
+              });
+            }
+          })
+          .catch(error => {
+            alert('Error: ' + error.message);
+          });
+      }
+    });
+  });
+});
+</script>

@@ -1,0 +1,73 @@
+<h1>Approve Day Off Requests</h1>
+<h2>Pending Requests for Approval</h2>
+<div class="table-wrapper">
+<table class="requests-table" style="border-collapse: collapse; width: 100%; margin-bottom: 20px;">
+  <thead>
+    <tr style="border-bottom: 2px solid #ddd;">
+      <th style="border: 1px solid #ddd; padding: 8px;">Employee</th>
+      <th style="border: 1px solid #ddd; padding: 8px;">Day</th>
+      <th style="border: 1px solid #ddd; padding: 8px;">Date</th>
+      <th style="border: 1px solid #ddd; padding: 8px;">Remark</th>
+      <th style="border: 1px solid #ddd; padding: 8px;">Team Leader approval status</th>
+      <th style="border: 1px solid #ddd; padding: 8px;">Manager approval status</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each requests}}
+    <tr style="border-bottom: 1px solid #ddd;">
+      <td style="border: 1px solid #ddd; padding: 8px;">{{this.employee.name}}</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">{{#if this.day_to_be_taken}}{{this.day_to_be_taken}}{{else if this.day}}{{this.day}}{{/if}}</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">{{#if this.date_to_be_taken}}{{formatDate this.date_to_be_taken}}{{else if this.date}}{{formatDate this.date}}{{/if}}</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">{{this.remark}}</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">
+        {{#if (eq this.status 'pending')}}
+          <button class="btn btn-sm btn-success approve-btn" data-id="{{this._id}}" style="margin-right: 5px;">✅ Approve</button>
+          <button class="btn btn-sm btn-danger reject-btn" data-id="{{this._id}}">❌ Reject</button>
+        {{else}}
+          {{this.status}}
+        {{/if}}
+      </td>
+      <td style="border: 1px solid #ddd; padding: 8px;">Pending</td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.approve-btn').forEach(btn => {
+    btn.onclick = function() {
+      const id = this.dataset.id;
+      if (confirm('Are you sure you want to approve this request?')) {
+        fetch(`/requests/${id}/approve`, { method: 'POST' })
+          .then(response => response.json())
+          .then(data => {
+            alert(data.message);
+            location.reload();
+          })
+          .catch(error => {
+            alert('Error: ' + error.message);
+          });
+      }
+    };
+  });
+
+  document.querySelectorAll('.reject-btn').forEach(btn => {
+    btn.onclick = function() {
+      const id = this.dataset.id;
+      if (confirm('Are you sure you want to reject this request?')) {
+        fetch(`/requests/${id}/reject`, { method: 'POST' })
+          .then(response => response.json())
+          .then(data => {
+            alert(data.message);
+            location.reload();
+          })
+          .catch(error => {
+            alert('Error: ' + error.message);
+          });
+      }
+    };
+  });
+});
+</script>

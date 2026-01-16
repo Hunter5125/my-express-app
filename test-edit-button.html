@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Edit Button Test</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background-color: #f8fafc; }
+    button { padding: 5px 10px; margin-right: 5px; cursor: pointer; }
+    .form { margin-top: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+    .form label { display: block; margin: 10px 0 5px 0; font-weight: bold; }
+    .form input { display: block; width: 300px; padding: 8px; margin-bottom: 10px; }
+    .modal { display: none; background: rgba(0,0,0,0.5); position: fixed; top: 0; left: 0; right: 0; bottom: 0; align-items: center; justify-content: center; }
+    .modal.open { display: flex; }
+    .modal-content { background: white; padding: 20px; border-radius: 8px; }
+    .success { color: green; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Edit Button Test - Available Working Days</h1>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>Working Day</th>
+        <th>Date</th>
+        <th>Remark</th>
+        <th>Actions</th>
+        <th>Balance</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr data-id="id1" data-day="Monday" data-date="2026-01-14T00:00:00Z" data-remark="Test Remark 1" data-balance="0.5">
+        <td>Monday</td>
+        <td>1/14/2026</td>
+        <td>Test Remark 1</td>
+        <td>
+          <button class="edit-btn" style="background-color: #fbbf24;">✏️ Edit</button>
+          <button class="delete-btn" style="background-color: #ef4444; color: white;">🗑️ Delete</button>
+        </td>
+        <td>0.5</td>
+      </tr>
+      <tr data-id="id2" data-day="Tuesday" data-date="2026-01-16T00:00:00Z" data-remark="Test Remark 2" data-balance="0.5">
+        <td>Tuesday</td>
+        <td>1/16/2026</td>
+        <td>Test Remark 2</td>
+        <td>
+          <button class="edit-btn" style="background-color: #fbbf24;">✏️ Edit</button>
+          <button class="delete-btn" style="background-color: #ef4444; color: white;">🗑️ Delete</button>
+        </td>
+        <td>0.5</td>
+      </tr>
+      <tr data-id="id3" data-day="Wednesday" data-date="2026-01-21T00:00:00Z" data-remark="Test Remark 3" data-balance="1.5">
+        <td>Wednesday</td>
+        <td>1/21/2026</td>
+        <td>Test Remark 3</td>
+        <td>
+          <button class="edit-btn" style="background-color: #fbbf24;">✏️ Edit</button>
+          <button class="delete-btn" style="background-color: #ef4444; color: white;">🗑️ Delete</button>
+        </td>
+        <td>1.5</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <h2 id="modal-title">Edit Working Day</h2>
+      <div class="form">
+        <label>Working Day:</label>
+        <input type="text" id="day" readonly style="background-color: #f0f0f0;">
+        
+        <label>Date:</label>
+        <input type="date" id="date">
+        
+        <label>Remark:</label>
+        <input type="text" id="remark">
+        
+        <label>Balance:</label>
+        <input type="number" id="balance" step="0.5">
+        
+        <button onclick="closeModal()" style="background-color: #6b7280; color: white;">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="result" style="margin-top: 20px; padding: 15px; background: #f0f0f0; border-radius: 5px; display: none;">
+    <h3>Form Values Extracted:</h3>
+    <p id="result-text"></p>
+  </div>
+
+  <script>
+    function openModal() {
+      document.getElementById('modal').classList.add('open');
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.remove('open');
+    }
+
+    // Edit button handler (same logic as in requests.hbs)
+    function attachEditBtnListeners() {
+      document.querySelectorAll('.edit-btn').forEach(btn => {
+        btn.onclick = function(e) {
+          e.stopPropagation();
+          const row = this.closest('tr');
+          const id = row.dataset.id;
+          
+          // Get data directly from dataset attributes (more reliable)
+          const day = row.dataset.day;
+          const date = row.dataset.date;
+          const remark = row.dataset.remark;
+          const balance = row.dataset.balance;
+          
+          console.log('📋 Edit Button Clicked!');
+          console.log('  ID:', id);
+          console.log('  Day:', day);
+          console.log('  Date:', date);
+          console.log('  Remark:', remark);
+          console.log('  Balance:', balance);
+          
+          // Populate form with data
+          document.getElementById('request-id').value = id;
+          document.getElementById('day').value = day;
+          
+          // Format date to YYYY-MM-DD for input[type=date]
+          const dateValue = date ? new Date(date).toISOString().split('T')[0] : '';
+          document.getElementById('date').value = dateValue;
+          
+          document.getElementById('remark').value = remark;
+          document.getElementById('balance').value = balance;
+          
+          document.getElementById('modal-title').textContent = 'Edit Working Day';
+          
+          // Show result
+          const resultDiv = document.getElementById('result');
+          const resultText = document.getElementById('result-text');
+          resultText.innerHTML = `
+            <span class="success">✅ Edit button is working!</span><br>
+            ID: ${id}<br>
+            Day: ${day}<br>
+            Date: ${dateValue}<br>
+            Remark: ${remark}<br>
+            Balance: ${balance}
+          `;
+          resultDiv.style.display = 'block';
+          
+          openModal();
+        };
+      });
+    }
+
+    // Attach listeners when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      attachEditBtnListeners();
+      console.log('✅ Edit button listeners attached');
+    });
+  </script>
+</body>
+</html>

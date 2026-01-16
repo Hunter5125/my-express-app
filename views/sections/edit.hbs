@@ -1,0 +1,51 @@
+<h1>Edit Section</h1>
+
+{{#if errors}}
+<div class="error-messages">
+  {{#each errors}}
+    <p class="error">{{this.msg}}</p>
+  {{/each}}
+</div>
+{{/if}}
+
+<form action="/sections/{{section._id}}/edit" method="POST" class="form">
+  <div class="form-group">
+    <label for="name">Section Name <span class="required">*</span></label>
+    <input type="text" id="name" name="name" value="{{old.name}}" required>
+  </div>
+
+  <div class="form-group">
+    <label for="department">Department</label>
+    <select id="department" name="department">
+      <option value="">-- Select a Department --</option>
+      {{#each departments}}
+        <option value="{{this._id}}" {{#if (eq old.department this._id)}}selected{{/if}}>{{this.name}}</option>
+      {{/each}}
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="supervisor">Supervisor</label>
+    <select id="supervisor" name="supervisor">
+      <option value="">-- Select a Supervisor --</option>
+      {{#each supervisors}}
+        <option value="{{this._id}}" {{#if (eq old.supervisor this._id)}}selected{{/if}}>{{this.name}}</option>
+      {{/each}}
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="manager">Manager</label>
+    <select id="manager" name="manager">
+      <option value="">-- Select a Manager --</option>
+      {{#each managers}}
+        <option value="{{this._id}}" {{#if (eq old.manager this._id)}}selected{{/if}}>{{this.name}}</option>
+      {{/each}}
+    </select>
+  </div>
+
+  <div class="button-group">
+    <button type="submit" class="btn">Update Section</button>
+    <a href="/sections" class="btn btn-secondary">Cancel</a>
+  </div>
+</form>

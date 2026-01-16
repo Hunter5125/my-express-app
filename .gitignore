@@ -1,0 +1,46 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Build outputs
+dist/
+build/
+.next/
+
+# Test files (documentation)
+*.md
+!README.md
+
+# Temporary files
+temp_page.html
+test_response*.html
+test-*.js
+debug-data-flow.js
+check-*.js
+verify-*.js
+
+# Uploads (optional - keep if you want to track)
+# public/uploads/
+
+# MongoDB
+.mongodb/
+data/

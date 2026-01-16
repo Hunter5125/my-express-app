@@ -5,12 +5,12 @@
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     margin: 0;
-    padding: 20px;
+    padding: 0;
   }
   .form-container {
     max-width: 900px;
     margin: 0 auto;
-    padding: 30px;
+    padding: 1rem;
     border: 1px solid #ddd;
     background: white;
     border-radius: 8px;
@@ -20,29 +20,53 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
+    margin: 0 auto 30px auto;
     border-bottom: 2px solid #007bff;
     padding-bottom: 10px;
+    width: 100%;
+    flex-wrap: wrap;
   }
   .logo {
     font-size: 28px;
     font-weight: bold;
     color: #007bff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .logo img {
+    max-width: 150px;
+    max-height: 80px;
+    object-fit: contain;
+  }
+  .logo:last-child img {
+    max-width: 100%;
+    max-height: 260px;
   }
   .title {
     text-align: center;
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    min-width: 200px;
   }
   .title h2, .title h3 {
-    margin: 0;
+    margin: 5px 0;
     color: #333;
+    text-align: center;
+    width: 100%;
+    font-size: 1.1rem;
   }
   .employee-info {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    grid-template-columns: 1fr;
+    gap: 15px;
     margin-bottom: 30px;
-    padding: 20px;
+    padding: 15px;
     border: 1px solid #ddd;
     background: #f9f9f9;
     border-radius: 5px;
@@ -55,32 +79,67 @@
     font-weight: bold;
     margin-bottom: 5px;
     color: #555;
+    font-size: 0.95rem;
   }
   .employee-info input, .employee-info div div {
-    padding: 8px;
+    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  @media (min-width: 480px) {
+    .employee-info {
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      padding: 20px;
+    }
   }
   .signature-line {
     border-bottom: 1px solid #000;
-    width: 200px;
-    margin-top: 20px;
+    width: 100%;
+    max-width: 200px;
+    margin-top: 10px;
+    min-height: 70px;
+    word-break: break-all;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+  .signature-line img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+  .signature-line span {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .working-table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 30px;
     background: white;
+    border: 1px solid #ddd;
+    font-size: 0.9rem;
   }
   .working-table th, .working-table td {
     border: 1px solid #ddd;
-    padding: 12px;
+    padding: 10px;
     text-align: center;
   }
   .working-table th {
     background-color: #007bff;
     color: white;
     font-weight: bold;
+    padding: 12px;
   }
   .working-table tr:nth-child(even) {
     background-color: #f2f2f2;
@@ -90,6 +149,8 @@
     padding: 6px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
   }
   .add-row-btn {
     background-color: #28a745;
@@ -99,6 +160,8 @@
     border-radius: 5px;
     cursor: pointer;
     margin-bottom: 20px;
+    font-size: 14px;
+    min-height: 44px;
   }
   .add-row-btn:hover {
     background-color: #218838;
@@ -119,16 +182,61 @@
     border-radius: 4px;
   }
   .approval-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
     margin-bottom: 30px;
+  }
+  .approval-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background: white;
+    border: 1px solid #000;
+    table-layout: fixed;
+  }
+  .approval-table th {
+    background-color: #555;
+    color: white;
+    padding: 12px;
+    text-align: center;
+    font-weight: bold;
+    border: 1px solid #000;
+    width: 33.33%;
+  }
+  .approval-table td {
+    padding: 8px 12px;
+    border: 1px solid #000;
+    text-align: center;
+    vertical-align: middle;
+    width: 33.33%;
+  }
+  .approval-table tr {
+    height: auto;
+  }
+  .approval-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  .approval-label {
+    font-weight: bold;
+    margin-bottom: 4px;
+    display: block;
+    color: #333;
+    text-align: left;
+    font-size: 14px;
+  }
+  .approval-text {
+    min-height: 25px;
+    padding: 4px 8px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
   }
   .approval-block {
     padding: 20px;
     border: 1px solid #ddd;
     background: #f9f9f9;
     border-radius: 5px;
+    margin-bottom: 20px;
   }
   .approval-block h4 {
     margin-top: 0;
@@ -171,37 +279,521 @@
   .submit-btn:hover {
     background-color: #0056b3;
   }
+  .print-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+  }
+  .print-btn:hover {
+    background-color: #218838;
+  }
+  @media print {
+    * {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    @page {
+      margin: 0.2cm;
+      size: A4 portrait;
+      marks: none;
+    }
+    @page {
+      @top-left { content: ""; }
+      @top-center { content: ""; }
+      @top-right { content: ""; }
+      @bottom-left { content: ""; }
+      @bottom-center { content: ""; }
+      @bottom-right { content: ""; }
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-size: 8.5px;
+    }
+    .site-header,
+    header.site-header,
+    nav,
+    footer {
+      display: none !important;
+    }
+    body > header:not(.header),
+    body > nav,
+    body > footer {
+      display: none !important;
+    }
+    main.container {
+      margin: 0 !important;
+      padding: 0 !important;
+      display: block !important;
+    }
+    #content {
+      margin: 0 !important;
+      padding: 0 !important;
+      display: block !important;
+    }
+    body {
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    .form-container {
+      max-width: 100% !important;
+      margin: 0 !important;
+      padding: 4px !important;
+      border: none !important;
+      box-shadow: none !important;
+      page-break-inside: avoid;
+      transform: scale(0.85);
+      transform-origin: top center;
+      position: relative !important;
+      top: 0 !important;
+      display: block !important;
+      visibility: visible !important;
+    }
+    .form-container * {
+      visibility: visible !important;
+    }
+    .print-btn,
+    .submit-btn {
+      display: none !important;
+    }
+    .header {
+      page-break-inside: avoid;
+      margin-bottom: 6px;
+      padding-bottom: 3px;
+      border-bottom: 1px solid #007bff;
+    }
+    .logo {
+      font-size: 16px;
+    }
+    .logo img {
+      max-width: 65px !important;
+      max-height: 32px !important;
+    }
+    .logo:last-child img {
+      max-width: 100px !important;
+      max-height: 50px !important;
+    }
+    .title h2 {
+      font-size: 12px;
+      margin: 1px 0;
+      line-height: 1.1;
+    }
+    .title h3 {
+      font-size: 9px;
+      margin: 1px 0;
+      line-height: 1.1;
+    }
+    .employee-info {
+      page-break-inside: avoid;
+      margin-bottom: 6px;
+      padding: 4px;
+      font-size: 8px;
+    }
+    .employee-info label {
+      font-size: 9px;
+      margin-bottom: 2px;
+    }
+    .employee-info input {
+      padding: 3px;
+      font-size: 9px;
+    }
+    .signature-line {
+      min-height: 35px;
+      margin-top: 3px;
+    }
+    .working-table {
+      page-break-inside: avoid;
+      margin-bottom: 4px;
+      font-size: 8px;
+      border-collapse: collapse !important;
+      table-layout: fixed;
+    }
+    .working-table th,
+    .working-table td {
+      padding: 2px 2px;
+      font-size: 8px;
+      border: 1px solid #000 !important;
+    }
+    .working-table input,
+    .working-table select {
+      padding: 2px;
+      font-size: 8px;
+    }
+    .remaining-balance {
+      page-break-inside: avoid;
+      margin-bottom: 6px;
+      padding: 4px;
+      font-size: 9px;
+    }
+    .remaining-balance label {
+      font-size: 9px;
+    }
+    .remaining-balance input {
+      padding: 3px;
+      font-size: 9px;
+    }
+    .approval-section {
+      page-break-inside: avoid;
+      margin-bottom: 6px;
+    }
+    .approval-table {
+      page-break-inside: avoid;
+      margin-bottom: 3px;
+      font-size: 8px;
+      border-collapse: collapse !important;
+      table-layout: fixed;
+      width: 100%;
+      border: 1px solid #000 !important;
+    }
+    .approval-table th {
+      padding: 2px 3px;
+      font-size: 8px;
+      border: 1px solid #000 !important;
+      border-width: 1px 1px 1px 1px !important;
+    }
+    .approval-table td {
+      padding: 2px 3px;
+      font-size: 8px;
+      border: 1px solid #000 !important;
+      border-width: 1px 1px 1px 1px !important;
+    }
+    .approval-table tr {
+      border: none !important;
+    }
+    .approval-label {
+      margin-bottom: 2px;
+      font-size: 8px;
+    }
+    .approval-text {
+      min-height: 16px;
+      padding: 2px;
+      font-size: 8px;
+    }
+    .approval-table .signature-line {
+      min-height: 35px;
+      margin-top: 3px;
+    }
+    .notes {
+      page-break-inside: avoid;
+      padding: 4px;
+      margin-bottom: 4px;
+      font-size: 8px;
+    }
+    .notes h4 {
+      font-size: 9px;
+      margin: 2px 0;
+    }
+    .notes ul {
+      margin: 2px 0;
+      padding-left: 16px;
+    }
+    .notes li {
+      font-size: 8px;
+      margin: 1px 0;
+    }
+  }
+  /* Mobile responsive styles for phones (320px - 479px) */
+  @media (max-width: 479px) {
+    body {
+      padding: 0.5rem;
+      background-color: #f4f4f4;
+    }
+    .form-container {
+      max-width: 100%;
+      padding: 0.75rem;
+      margin: 0;
+      border-radius: 6px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .header {
+      flex-direction: column;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      gap: 0.5rem;
+    }
+    .logo {
+      font-size: 18px;
+      gap: 0.5rem;
+    }
+    .logo img {
+      max-width: 100px;
+      max-height: 60px;
+    }
+    .logo:last-child img {
+      max-width: 120px;
+      max-height: 150px;
+    }
+    .title {
+      min-width: 100%;
+    }
+    .title h2 {
+      font-size: 1rem;
+      margin: 0.25rem 0;
+    }
+    .title h3 {
+      font-size: 0.9rem;
+      margin: 0.25rem 0;
+    }
+    .employee-info {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    .employee-info label {
+      font-size: 0.85rem;
+      margin-bottom: 0.3rem;
+    }
+    .employee-info input, .employee-info div div {
+      padding: 0.75rem;
+      font-size: 16px;
+      min-height: 44px;
+    }
+    .signature-line {
+      max-width: 100%;
+      width: 100%;
+      margin-top: 0.5rem;
+      min-height: 50px;
+    }
+    .working-table {
+      font-size: 0.8rem;
+      margin-bottom: 1rem;
+    }
+    .working-table th {
+      padding: 0.5rem;
+      font-size: 0.75rem;
+    }
+    .working-table td {
+      padding: 0.5rem;
+      font-size: 0.8rem;
+    }
+    .working-table input, .working-table select {
+      padding: 0.5rem;
+      font-size: 14px;
+      min-height: 40px;
+    }
+    .add-row-btn {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 0.9rem;
+      min-height: 44px;
+    }
+    .remaining-balance {
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    .remaining-balance label {
+      font-size: 0.85rem;
+      margin-right: 0.5rem;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .remaining-balance input {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 16px;
+      min-height: 44px;
+    }
+    .approval-table {
+      font-size: 0.8rem;
+    }
+    .approval-table th {
+      padding: 0.5rem;
+      font-size: 0.75rem;
+      width: 33.33%;
+    }
+    .approval-table td {
+      padding: 0.5rem;
+      font-size: 0.8rem;
+      width: 33.33%;
+    }
+    .approval-block {
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    .approval-block label {
+      font-size: 0.85rem;
+      margin-bottom: 0.3rem;
+    }
+    .approval-block input {
+      padding: 0.75rem;
+      font-size: 16px;
+      min-height: 44px;
+    }
+    .notes {
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    .notes h4 {
+      font-size: 0.95rem;
+      margin: 0 0 0.5rem 0;
+    }
+    .notes ul {
+      margin: 0;
+      padding-left: 1.25rem;
+    }
+    .notes li {
+      font-size: 0.85rem;
+      margin: 0.5rem 0;
+    }
+    .submit-btn, .print-btn {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 0.95rem;
+      min-height: 48px;
+      margin-bottom: 0.5rem;
+    }
+    .print-btn {
+      margin-top: 0.5rem;
+    }
+  }
+  /* Tablet responsive styles (480px - 1024px) */
+  @media (min-width: 480px) and (max-width: 1024px) {
+    .form-container {
+      max-width: 95%;
+      padding: 1.25rem;
+    }
+    .header {
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+    }
+    .logo {
+      font-size: 20px;
+    }
+    .logo img {
+      max-width: 120px;
+      max-height: 70px;
+    }
+    .title h2 {
+      font-size: 1.1rem;
+    }
+    .title h3 {
+      font-size: 0.95rem;
+    }
+    .working-table {
+      font-size: 0.85rem;
+    }
+    .working-table th, .working-table td {
+      padding: 0.75rem;
+    }
+    .add-row-btn {
+      padding: 0.65rem 1.5rem;
+      font-size: 0.9rem;
+    }
+    .submit-btn, .print-btn {
+      padding: 0.65rem 1.5rem;
+      font-size: 0.95rem;
+      min-height: 44px;
+    }
+  }
 </style>
 
-<div class="form-container">
+<div class="form-container" data-mode="{{mode}}">
+{{!-- Debug information (remove in production) --}}
+{{!--
+{{#if existingRequest}}
+<div style="background: #f0f0f0; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc;">
+  <strong>Debug Info - Viewing Request:</strong><br>
+  ID: {{existingRequest._id}}<br>
+  Day: {{#if existingRequest.day_to_be_taken}}{{existingRequest.day_to_be_taken}}{{else if existingRequest.day}}{{existingRequest.day}}{{/if}}<br>
+  Date: {{#if existingRequest}}{{existingRequest.formattedDate_to_be_taken}}{{/if}}<br>
+  Remark: {{existingRequest.remark}}<br>
+  Balance: {{existingRequest.balance}}<br>
+  Working Days: {{#if selected}}{{selected.length}}{{else}}0{{/if}}
+</div>
+{{/if}}
+--}}
+
+<script>
+  window.existingRequestData = {
+    isExisting: {{#if existingRequest}}true{{else}}false{{/if}},
+    compDate: '{{#if existingRequest}}{{existingRequest.formattedDate_to_be_taken}}{{/if}}',
+    compDay: '{{#if existingRequest}}{{existingRequest.day_to_be_taken}}{{/if}}',
+    workingDayDate: '{{#if existingRequest}}{{existingRequest.working_day_date}}{{else if selected.[0]}}{{selected.[0].date}}{{/if}}',
+    workingDay: '{{#if existingRequest}}{{existingRequest.working_day}}{{else if selected.[0]}}{{selected.[0].day}}{{/if}}',
+    remark: '{{#if existingRequest}}{{existingRequest.remark}}{{else if selected.[0]}}{{selected.[0].remark}}{{/if}}',
+    balance: {{#if existingRequest}}{{existingRequest.balance}}{{else}}{{balance}}{{/if}},
+    teamLeaderApprovalStatus: '{{#if existingRequest}}{{existingRequest.teamLeaderApprovalStatus}}{{/if}}'
+  };
+  window.selectedData = {{#if selected}}{{{json selected}}}{{else}}[]{{/if}};
+
+  // IMMEDIATE DEBUG OUTPUT
+  console.log('%c🔍 HANDLEBARS OUTPUT INSPECTION', 'color: red; font-weight: bold;');
+  console.log('Literal existingRequest check: {{#if existingRequest}}EXISTS{{else}}MISSING{{/if}}');
+  console.log('Raw compDate from Handlebars:', "'{{#if existingRequest}}{{existingRequest.formattedDate_to_be_taken}}{{/if}}'");
+  console.log('Raw compDay from Handlebars:', "'{{#if existingRequest}}{{existingRequest.day_to_be_taken}}{{/if}}'");
+  console.log('Raw workingDayDate from Handlebars:', "'{{#if existingRequest}}{{existingRequest.working_day_date}}{{/if}}'");
+  
+  console.log('Existing request data from server:', window.existingRequestData);
+  console.log('Selected data from server:', window.selectedData);
+  console.log('✅ DEBUG: compDate value in window:', JSON.stringify(window.existingRequestData.compDate));
+  console.log('✅ DEBUG: compDay value in window:', JSON.stringify(window.existingRequestData.compDay));
+  console.log('✅ DEBUG: workingDayDate value in window:', JSON.stringify(window.existingRequestData.workingDayDate));
+</script>
   <div class="header">
-    <div class="logo">SRACO</div>
+    <div class="logo">
+      SRACO
+      <img src="/images/sraco-logo.jpg" alt="SRACO Logo">
+    </div>
     <div class="title">
       <h2>King Abdullah Sports City</h2>
       <h3>Operation & Maintenance Facilities Management</h3>
-      <h3>Leave in Lieu Request Form (LILRF)</h3>
+      <h3>Leave in Lieu Request Form (LILRF){{#if existingRequest}} - View Request{{/if}}</h3>
     </div>
-    <div class="logo">King Abdullah Sports City</div>
+    <div class="logo">
+      KASC
+      <img src="/images/kasc-log.png" alt="KASC Logo">
+    </div>
   </div>
 
   <div class="employee-info">
     <div>
       <label>Name of Requestor:</label>
-      <input type="text" id="requestor-name" value="{{session.user.name}}" required>
+      <input type="text" id="requestor-name" value="{{#if existingRequest}}{{existingRequest.employee.name}}{{else}}{{session.user.name}}{{/if}}" required>
     </div>
     <div>
       <label>Employee No.:</label>
-      <input type="text" id="employee-no" value="{{session.user.employeeNo}}" required>
+      <input type="text" id="employee-no" value="{{#if existingRequest}}{{existingRequest.employee.employeeNo}}{{else}}{{session.user.employeeNo}}{{/if}}" required>
     </div>
     <div>
       <label>Signature:</label>
-      <div class="signature-line">{{session.user.signature}}</div>
+      <div class="signature-line" style="min-height: 100px; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 8px; padding: 20px; background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);">
+        {{#if existingRequest}}
+          {{#if existingRequest.employee.signature}}
+            {{{signatureImg existingRequest.employee.signature}}}
+            <span style="color: #999; display: none; font-style: italic;">Unable to load signature</span>
+          {{else}}
+            <span style="color: #cbd5e1; font-style: italic;">No signature</span>
+          {{/if}}
+        {{else}}
+          {{#if session.user.signature}}
+            {{{signatureImg session.user.signature}}}
+            <span style="color: #999; display: none; font-style: italic;">Unable to load signature</span>
+          {{else}}
+            <span style="color: #cbd5e1; font-style: italic;">No signature</span>
+          {{/if}}
+        {{/if}}
+      </div>
     </div>
     <div>
-      <label>Date:</label>
+      <label>Date :</label>
       <input type="date" id="request-date" required>
     </div>
   </div>
+
+  <!-- DEBUG: Server-side values verification -->
+  <!-- existingRequest exists: {{#if existingRequest}}YES{{else}}NO{{/if}} -->
+  <!-- formattedDate_to_be_taken: {{#if existingRequest}}"{{existingRequest.formattedDate_to_be_taken}}"{{else}}NULL{{/if}} -->
+  <!-- day_to_be_taken: {{#if existingRequest}}"{{existingRequest.day_to_be_taken}}"{{else}}NULL{{/if}} -->
+  <!-- balance: {{#if existingRequest}}{{existingRequest.balance}}{{else}}NULL{{/if}} -->
+  <!-- remark: {{#if existingRequest}}"{{existingRequest.remark}}"{{else}}NULL{{/if}} -->
+  <!-- mode: {{mode}} -->
 
   <table class="working-table">
     <thead>
@@ -209,83 +801,134 @@
         <th colspan="2">Working Day</th>
         <th colspan="2">Compensation Day (To Be Taken On)</th>
         <th>Remarks / Justification</th>
+        <th style="background-color: #fff3cd;">Days Being Used</th>
       </tr>
       <tr>
-        <th>Date (dd/mm/yyyy)</th>
-        <th>Day</th>
-        <th>Date (dd/mm/yyyy)</th>
-        <th>Day</th>
+        <th>Working Date</th>
+        <th> working Day </th>
+        <th>Date to be taken</th>
+        <th>Day to be taken</th>
         <th>Remarks / Justification</th>
+        <th style="background-color: #fff3cd;">Days From This Day</th>
       </tr>
     </thead>
     <tbody id="working-days">
       <tr>
-        <td><input type="date" class="working-date" required></td>
+        <td><input type="date" class="working-date" required readonly {{#if existingRequest}}{{#if existingRequest.working_day_date}}value="{{existingRequest.working_day_date}}"{{else if selected.[0]}}value="{{selected.[0].date}}"{{/if}}{{else if selected}}value="{{selected.[0].date}}"{{/if}}></td>
         <td>
-          <select class="working-day" required>
+          <select class="working-day" required disabled>
             <option value="">Select Day</option>
-            <option value="Monday">Monday</option>
-            <option value="Tuesday">Tuesday</option>
-            <option value="Wednesday">Wednesday</option>
-            <option value="Thursday">Thursday</option>
-            <option value="Friday">Friday</option>
-            <option value="Saturday">Saturday</option>
-            <option value="Sunday">Sunday</option>
+            <option value="Monday" {{#if (eq existingRequest.working_day "Monday")}}selected{{else if (eq selected.[0].day "Monday")}}selected{{/if}}>Monday</option>
+            <option value="Tuesday" {{#if (eq existingRequest.working_day "Tuesday")}}selected{{else if (eq selected.[0].day "Tuesday")}}selected{{/if}}>Tuesday</option>
+            <option value="Wednesday" {{#if (eq existingRequest.working_day "Wednesday")}}selected{{else if (eq selected.[0].day "Wednesday")}}selected{{/if}}>Wednesday</option>
+            <option value="Thursday" {{#if (eq existingRequest.working_day "Thursday")}}selected{{else if (eq selected.[0].day "Thursday")}}selected{{/if}}>Thursday</option>
+            <option value="Friday" {{#if (eq existingRequest.working_day "Friday")}}selected{{else if (eq selected.[0].day "Friday")}}selected{{/if}}>Friday</option>
+            <option value="Saturday" {{#if (eq existingRequest.working_day "Saturday")}}selected{{else if (eq selected.[0].day "Saturday")}}selected{{/if}}>Saturday</option>
+            <option value="Sunday" {{#if (eq existingRequest.working_day "Sunday")}}selected{{else if (eq selected.[0].day "Sunday")}}selected{{/if}}>Sunday</option>
           </select>
         </td>
-        <td><input type="date" class="compensation-date" required></td>
-        <td>
-          <select class="compensation-day" required>
-            <option value="">Select Day</option>
-            <option value="Monday">Monday</option>
-            <option value="Tuesday">Tuesday</option>
-            <option value="Wednesday">Wednesday</option>
-            <option value="Thursday">Thursday</option>
-            <option value="Friday">Friday</option>
-            <option value="Saturday">Saturday</option>
-            <option value="Sunday">Sunday</option>
-          </select>
-        </td>
-        <td><input type="text" class="remarks" placeholder="Enter remarks" required></td>
+          <td>
+            {{#if (eq mode "view")}}
+              <input type="date" class="compensation-date" required readonly value="{{existingRequest.formattedDate_to_be_taken}}">
+            {{else}}
+              <input type="date" class="compensation-date" required value="">
+            {{/if}}
+          </td>
+          <td>
+            <select class="compensation-day" required {{#if (eq mode "view")}}disabled{{/if}}>
+              <option value="">Select Day</option>
+              <option value="Monday" {{#if (eq existingRequest.day_to_be_taken "Monday")}}selected{{/if}}>Monday</option>
+              <option value="Tuesday" {{#if (eq existingRequest.day_to_be_taken "Tuesday")}}selected{{/if}}>Tuesday</option>
+              <option value="Wednesday" {{#if (eq existingRequest.day_to_be_taken "Wednesday")}}selected{{/if}}>Wednesday</option>
+              <option value="Thursday" {{#if (eq existingRequest.day_to_be_taken "Thursday")}}selected{{/if}}>Thursday</option>
+              <option value="Friday" {{#if (eq existingRequest.day_to_be_taken "Friday")}}selected{{/if}}>Friday</option>
+              <option value="Saturday" {{#if (eq existingRequest.day_to_be_taken "Saturday")}}selected{{/if}}>Saturday</option>
+              <option value="Sunday" {{#if (eq existingRequest.day_to_be_taken "Sunday")}}selected{{/if}}>Sunday</option>
+            </select>
+          </td>
+        <td><input type="text" class="remarks" placeholder="Enter remarks" required readonly value="{{#if existingRequest}}{{existingRequest.remark}}{{else}}{{#if selected.[0]}}{{selected.[0].remark}}{{/if}}{{/if}}"></td>
+        <td style="background-color: #fff3cd; font-weight: bold; text-align: center;"><span class="days-used-display">0</span> days</td>
       </tr>
     </tbody>
+    <tfoot>
+      <tr style="background-color: #fff3cd; font-weight: bold; border-top: 2px solid #0066cc;">
+        <td colspan="5" style="text-align: right; padding-right: 20px;">Total requested days:</td>
+        <td style="background-color: #fff3cd; font-weight: bold; text-align: center;"><span id="total-days-used">0</span> days</td>
+      </tr>
+    </tfoot>
   </table>
-
-  <button type="button" id="add-row" class="btn btn-secondary">Add Another Day</button>
 
   <div class="remaining-balance">
     <label>Remaining Balance:</label>
-    <input type="number" id="remaining-balance" value="13">
+    <input type="number" id="remaining-balance" value="{{#if existingRequest}}{{existingRequest.balance}}{{else}}{{balance}}{{/if}}" readonly>
   </div>
 
   <div class="approval-section">
-    <div class="approval-block">
-      <h4>Supervisor Approval</h4>
-      <div>
-        <label>Reviewed by:</label>
-        <input type="text" id="reviewed-by">
-        <label>Date:</label>
-        <input type="date" id="reviewed-date">
-        <div class="signature-line"></div>
-      </div>
-      <div>
-        <label>Supervisor:</label>
-        <input type="text" id="supervisor">
-        <label>Date:</label>
-        <input type="date" id="supervisor-date">
-        <div class="signature-line"></div>
-      </div>
-    </div>
-    <div class="approval-block">
-      <h4>Department Manager Approval</h4>
-      <div>
-        <label>Name:</label>
-        <input type="text" id="manager-name">
-        <label>Date:</label>
-        <input type="date" id="manager-date">
-        <div class="signature-line"></div>
-      </div>
-    </div>
+    <table class="approval-table">
+      <thead>
+        <tr>
+          <th>Reviewed by:</th>
+          <th>Supervisor</th>
+          <th>Department Manager</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <span class="approval-label">Name:</span>
+            <div class="approval-text" id="reviewed-by-text">{{#if existingRequest}}{{#if existingRequest.teamLeaderApprovedBy}}{{existingRequest.teamLeaderApprovedBy.name}}{{/if}}{{/if}}</div>
+          </td>
+          <td>
+            <span class="approval-label">Name:</span>
+            <div class="approval-text"></div>
+          </td>
+          <td>
+            <span class="approval-label">Name:</span>
+            <div class="approval-text" id="manager-name-text">{{#if existingRequest}}{{#if existingRequest.approvedBy}}{{existingRequest.approvedBy.name}}{{/if}}{{/if}}</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span class="approval-label">Date:</span>
+            <div class="approval-text" id="reviewed-date-text">{{#if existingRequest}}{{#if existingRequest.teamLeaderApprovedAt}}{{formatDate existingRequest.teamLeaderApprovedAt}}{{/if}}{{/if}}</div>
+          </td>
+          <td>
+            <span class="approval-label">Date:</span>
+            <div class="approval-text"></div>
+          </td>
+          <td>
+            <span class="approval-label">Date:</span>
+            <div class="approval-text" id="manager-date-text">{{#if existingRequest}}{{#if existingRequest.approvedAt}}{{formatDate existingRequest.approvedAt}}{{/if}}{{/if}}</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span class="approval-label">Signature:</span>
+            <div class="signature-line" style="min-height: 60px; display: flex; align-items: center; justify-content: center; margin-top: 5px;">
+              {{#if existingRequest}}
+                {{#if existingRequest.teamLeaderApprovedBy.signature}}
+                  {{{signatureImg existingRequest.teamLeaderApprovedBy.signature}}}
+                {{/if}}
+              {{/if}}
+            </div>
+          </td>
+          <td>
+            <span class="approval-label">Signature:</span>
+            <div class="signature-line" style="min-height: 60px; display: flex; align-items: center; justify-content: center; margin-top: 5px;"></div>
+          </td>
+          <td>
+            <span class="approval-label">Signature:</span>
+            <div class="signature-line" style="min-height: 60px; display: flex; align-items: center; justify-content: center; margin-top: 5px;">
+              {{#if existingRequest}}
+                {{#if existingRequest.approvedBy.signature}}
+                  {{{signatureImg existingRequest.approvedBy.signature}}}
+                {{/if}}
+              {{/if}}
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <div class="notes">
@@ -295,20 +938,217 @@
       <li>Application must submit for approval at least 02 days prior to take day off.</li>
     </ul>
   </div>
-
-  <button type="submit" class="btn btn-primary" id="submit-form">Submit Request</button>
+  {{#unless existingRequest}}
+  <button type="button" class="btn btn-primary" id="submit-form">Submit Request</button>
+  {{/unless}}
+  <button type="button" class="print-btn" id="print-btn" onclick="window.print()">Print</button>
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+  // Signature rendering is now handled by server-side Handlebars helper
+  // This script no longer needs to manipulate signature display
+  
   // Set today's date
   const today = new Date().toISOString().split('T')[0];
+
+  // Helper to safely set a select's value by text
+  function setSelectValue(selectEl, value) {
+    if (!selectEl || !value) return;
+    const opts = Array.from(selectEl.options);
+    const match = opts.find(o => (o.value || o.textContent).trim() === value.trim());
+    if (match) {
+      selectEl.value = match.value;
+    }
+  }
+
+  // Force-fill Day/Date to be taken from URL or server-provided data
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tbody = document.getElementById('working-days');
+    const firstRow = tbody ? tbody.querySelector('tr') : null;
+    const compDateInput = firstRow ? firstRow.querySelector('.compensation-date') : null;
+    const compDaySelect = firstRow ? firstRow.querySelector('.compensation-day') : null;
+    const workingDateInput = firstRow ? firstRow.querySelector('.working-date') : null;
+    const workingDaySelect = firstRow ? firstRow.querySelector('.working-day') : null;
+
+    // Parse requestData from URL if present
+    let rd = null;
+    const requestDataParam = urlParams.get('requestData');
+    if (requestDataParam) {
+      try {
+        rd = JSON.parse(decodeURIComponent(requestDataParam));
+      } catch {}
+    }
+
+    // Fallback to server-provided existingRequestData
+    const erd = (window.existingRequestData || {});
+    const selectedData = Array.isArray(window.selectedData) ? window.selectedData : [];
+    const firstSelected = selectedData.length ? selectedData[0] : null;
+
+    // Compute values with priority: URL requestData -> existingRequestData -> selectedData
+    const dayToBeTaken = (rd && rd.dayToBeTaken) || erd.compDay || (firstSelected && firstSelected.day) || '';
+    const dateToBeTakenRaw = (rd && rd.dateToBeTaken) || erd.compDate || '';
+    let workingDay = (rd && rd.workingDay) || erd.workingDay || '';
+    let workingDayDateRaw = (rd && rd.workingDayDate) || erd.workingDayDate || '';
+    let remarkValue = (erd && erd.remark) || '';
+    
+    console.log('✅ DEBUG FORM FILL:');
+    console.log('  erd.compDay:', JSON.stringify(erd.compDay), '-> dayToBeTaken:', JSON.stringify(dayToBeTaken));
+    console.log('  erd.compDate:', JSON.stringify(erd.compDate), '-> dateToBeTakenRaw:', JSON.stringify(dateToBeTakenRaw));
+    console.log('  erd.workingDay:', JSON.stringify(erd.workingDay), '-> workingDay:', JSON.stringify(workingDay));
+    console.log('  erd.workingDayDate:', JSON.stringify(erd.workingDayDate), '-> workingDayDateRaw:', JSON.stringify(workingDayDateRaw));
+    console.log('  erd.remark:', JSON.stringify(erd.remark), '-> remarkValue:', JSON.stringify(remarkValue));
+    
+    if (!workingDay && firstSelected && firstSelected.day) workingDay = firstSelected.day;
+    if (!workingDayDateRaw && firstSelected && firstSelected.date) workingDayDateRaw = firstSelected.date;
+    if (!remarkValue && firstSelected && firstSelected.remark) remarkValue = firstSelected.remark;
+
+    // Normalize dates to YYYY-MM-DD for input[type=date]
+    function normalizeDate(d) {
+      if (!d) return '';
+      try {
+        const dt = new Date(d);
+        if (isNaN(dt.getTime())) return d; // pass-through if already formatted
+        return dt.toISOString().split('T')[0];
+      } catch { return d; }
+    }
+
+    const dateToBeTaken = normalizeDate(dateToBeTakenRaw);
+    const workingDayDate = normalizeDate(workingDayDateRaw);
+
+    console.log('📅 NORMALIZED DATES:');
+    console.log('  workingDayDateRaw:', JSON.stringify(workingDayDateRaw), '-> workingDayDate:', JSON.stringify(workingDayDate));
+    console.log('  dateToBeTakenRaw:', JSON.stringify(dateToBeTakenRaw), '-> dateToBeTaken:', JSON.stringify(dateToBeTaken));
+
+    // Apply values to the form if elements exist
+    if (firstRow) {
+      console.log('✅ Applying values to form row');
+      console.log('  workingDateInput:', !!workingDateInput, 'workingDayDate:', JSON.stringify(workingDayDate));
+      if (workingDateInput && workingDayDate) {
+        console.log('  ✓ Setting working date input to:', workingDayDate);
+        workingDateInput.value = workingDayDate;
+        workingDateInput.readOnly = true;
+      } else if (workingDateInput) {
+        console.log('  ✗ Cannot set working date - workingDayDate is empty:', JSON.stringify(workingDayDate));
+      }
+      if (workingDaySelect && workingDay) {
+        setSelectValue(workingDaySelect, workingDay);
+        workingDaySelect.disabled = true;
+      }
+      const remarksInput = firstRow ? firstRow.querySelector('.remarks') : null;
+      if (remarksInput && (remarkValue || remarkValue === '')) {
+        remarksInput.value = remarkValue;
+        remarksInput.readOnly = true;
+      }
+      console.log('  compDateInput:', !!compDateInput, 'dateToBeTaken:', JSON.stringify(dateToBeTaken));
+      if (compDateInput && dateToBeTaken) {
+        console.log('  ✓ Setting compensation date to:', dateToBeTaken);
+        compDateInput.value = dateToBeTaken;
+        compDateInput.readOnly = true;
+      } else {
+        console.log('  ✗ Not setting compensation date - compDateInput:', !!compDateInput, 'dateToBeTaken:', JSON.stringify(dateToBeTaken));
+      }
+      console.log('  compDaySelect:', !!compDaySelect, 'dayToBeTaken:', JSON.stringify(dayToBeTaken));
+      if (compDaySelect && dayToBeTaken) {
+        console.log('  ✓ Setting compensation day to:', dayToBeTaken);
+        setSelectValue(compDaySelect, dayToBeTaken);
+        compDaySelect.disabled = true;
+      } else {
+        console.log('  ✗ Not setting compensation day - compDaySelect:', !!compDaySelect, 'dayToBeTaken:', JSON.stringify(dayToBeTaken));
+      }
+    }
+  } catch (e) {
+    console.warn('Unable to auto-fill compensation fields:', e);
+  }
   document.getElementById('request-date').value = today;
 
-  // Initialize remaining balance
-  let remainingBalance = 13;
+  // Initialize remaining balance - use server value first, then URL, then default
+  const urlParams = new URLSearchParams(window.location.search);
+  let remainingBalance = window.existingRequestData.balance || parseFloat(urlParams.get('balance')) || 13;
   document.getElementById('remaining-balance').value = remainingBalance;
-
+  console.log('Set remaining balance:', remainingBalance, '(from:', window.existingRequestData.balance ? 'server' : 'URL or default', ')');
+  
+  // Parse requestData from URL parameter (used when viewing archived requests)
+  const requestDataParam = urlParams.get('requestData');
+  let requestDataFromUrl = null;
+  if (requestDataParam) {
+    try {
+      requestDataFromUrl = JSON.parse(decodeURIComponent(requestDataParam));
+      console.log('✅ Parsed requestData from URL:', requestDataFromUrl);
+      // Populate form fields with data from URL if available
+      const tbody = document.getElementById('working-days');
+      if (tbody) {
+        const firstRow = tbody.querySelector('tr');
+        console.log('✅ Found tbody and firstRow:', !!firstRow);
+        if (firstRow && requestDataFromUrl) {
+          // Set Working Date
+          if (requestDataFromUrl.workingDayDate) {
+            const workingDateInput = firstRow.querySelector('.working-date');
+            if (workingDateInput) {
+              console.log('📅 Setting working date:', requestDataFromUrl.workingDayDate);
+              workingDateInput.value = requestDataFromUrl.workingDayDate;
+              workingDateInput.readOnly = true;
+            }
+          }
+          // Set Working Day
+          if (requestDataFromUrl.workingDay) {
+            const workingDaySelect = firstRow.querySelector('.working-day');
+            if (workingDaySelect) {
+              console.log('📆 Setting working day:', requestDataFromUrl.workingDay);
+              workingDaySelect.value = requestDataFromUrl.workingDay;
+              workingDaySelect.disabled = true;
+            }
+          }
+          // Set Compensation Date (Date to be taken)
+          if (requestDataFromUrl.dateToBeTaken) {
+            const compDateInput = firstRow.querySelector('.compensation-date');
+            if (compDateInput) {
+              console.log('📅 Setting compensation date:', requestDataFromUrl.dateToBeTaken);
+              compDateInput.value = requestDataFromUrl.dateToBeTaken;
+              compDateInput.readOnly = true;
+            } else {
+              console.warn('❌ Could not find .compensation-date element');
+            }
+          } else {
+            console.warn('⚠️ dateToBeTaken is empty:', requestDataFromUrl.dateToBeTaken);
+          }
+          // Set Compensation Day
+          if (requestDataFromUrl.dayToBeTaken) {
+            const compDaySelect = firstRow.querySelector('.compensation-day');
+            if (compDaySelect) {
+              console.log('📆 Setting compensation day:', requestDataFromUrl.dayToBeTaken);
+              compDaySelect.value = requestDataFromUrl.dayToBeTaken;
+              compDaySelect.disabled = true;
+            } else {
+              console.warn('❌ Could not find .compensation-day element');
+            }
+          } else {
+            console.warn('⚠️ dayToBeTaken is empty:', requestDataFromUrl.dayToBeTaken);
+          }
+          // Set Remark
+          if (requestDataFromUrl.remark) {
+            const remarksInput = firstRow.querySelector('.remarks');
+            if (remarksInput) {
+              console.log('📝 Setting remark:', requestDataFromUrl.remark);
+              remarksInput.value = requestDataFromUrl.remark;
+              remarksInput.readOnly = true;
+            }
+          }
+          // Set Remaining Balance
+          if (requestDataFromUrl.remainingBalance && requestDataFromUrl.remainingBalance !== 'N/A') {
+            console.log('💰 Setting remaining balance:', requestDataFromUrl.remainingBalance);
+            document.getElementById('remaining-balance').value = requestDataFromUrl.remainingBalance;
+          }
+        }
+      }
+    } catch (e) {
+      console.error('Error parsing requestData from URL:', e);
+    }
+  } else {
+    console.log('ℹ️ No requestData parameter in URL');
+  }
+  
   // Function to get day name from date
   function getDayName(dateString) {
     const date = new Date(dateString);
@@ -316,129 +1156,380 @@ document.addEventListener('DOMContentLoaded', function() {
     return days[date.getDay()];
   }
 
-  // Pre-fill form with query parameters
-  const urlParams = new URLSearchParams(window.location.search);
-  const selected = urlParams.get('selected');
-  if (selected) {
+  // Use selectedData from global variable set by server
+  let selectedData = window.selectedData || [];
+  console.log('Using selectedData from server:', selectedData);
+
+  // Parse selected data from URL parameter (from smart allocation)
+  const selectedParam = urlParams.get('selected');
+  const totalDaysRequestedParam = urlParams.get('totalDaysRequested');
+  
+  if (selectedParam) {
     try {
-      const selectedData = JSON.parse(selected);
-      const tbody = document.getElementById('working-days');
-      tbody.innerHTML = ''; // Clear existing rows
-      selectedData.forEach(item => {
-        const dayName = getDayName(item.date);
-        const newRow = document.createElement('tr');
-        newRow.innerHTML = `
-          <td><input type="date" class="working-date" value="${item.date}" required></td>
-          <td>
-            <select class="working-day" required>
-              <option value="">Select Day</option>
-              <option value="Monday" ${dayName === 'Monday' ? 'selected' : ''}>Monday</option>
-              <option value="Tuesday" ${dayName === 'Tuesday' ? 'selected' : ''}>Tuesday</option>
-              <option value="Wednesday" ${dayName === 'Wednesday' ? 'selected' : ''}>Wednesday</option>
-              <option value="Thursday" ${dayName === 'Thursday' ? 'selected' : ''}>Thursday</option>
-              <option value="Friday" ${dayName === 'Friday' ? 'selected' : ''}>Friday</option>
-              <option value="Saturday" ${dayName === 'Saturday' ? 'selected' : ''}>Saturday</option>
-              <option value="Sunday" ${dayName === 'Sunday' ? 'selected' : ''}>Sunday</option>
-            </select>
-          </td>
-          <td><input type="date" class="compensation-date" required></td>
-          <td>
-            <select class="compensation-day" required>
-              <option value="">Select Day</option>
-              <option value="Monday">Monday</option>
-              <option value="Tuesday">Tuesday</option>
-              <option value="Wednesday">Wednesday</option>
-              <option value="Thursday">Thursday</option>
-              <option value="Friday">Friday</option>
-              <option value="Saturday">Saturday</option>
-              <option value="Sunday">Sunday</option>
-            </select>
-          </td>
-          <td><input type="text" class="remarks" placeholder="Enter remarks" value="${item.remark}" required></td>
-        `;
-        tbody.appendChild(newRow);
-      });
-      // Update balance based on pre-filled rows
-      remainingBalance = 13 - selectedData.length;
-      document.getElementById('remaining-balance').value = remainingBalance;
+      const parsedSelected = JSON.parse(decodeURIComponent(selectedParam));
+      if (Array.isArray(parsedSelected) && parsedSelected.length > 0) {
+        selectedData = parsedSelected;
+        console.log('Parsed selected data from URL:', selectedData);
+      }
     } catch (e) {
-      console.error('Error parsing selected data:', e);
+      console.error('Error parsing selected data from URL:', e);
     }
   }
 
-  const addRowBtn = document.getElementById('add-row');
+  // Get total days requested to limit rows shown
+  // Try from URL first, then from server-passed variable
+  let totalDaysRequested = parseFloat(totalDaysRequestedParam) || parseFloat('{{{totalDaysRequested}}}') || 0;
+  console.log('Total days requested:', totalDaysRequested);
+
+  // Get data from global variable set by server
+  const { isExisting, compDate, compDay, remark: existingRemark, balance: existingBalance } = window.existingRequestData || {
+    isExisting: false,
+    compDate: '',
+    compDay: '',
+    remark: '',
+    balance: 0
+  };
+
+  console.log('Using existing request data:', { isExisting, compDate, compDay, existingRemark, existingBalance });
+
+  console.log('About to populate form, selectedData:', selectedData, 'isExisting:', isExisting);
+
+  // IMPORTANT: In VIEW mode, no rows should be editable - preserve all server-provided values
+  const formContainer = document.querySelector('.form-container');
+  const pageMode = formContainer ? formContainer.getAttribute('data-mode') : 'create';
+  console.log('Page mode detected:', pageMode);
+  if (pageMode === 'view') {
+    console.log('🔒 VIEW MODE DETECTED - All form fields will be read-only, no rows editable');
+  }
+
+  // Debug: Check if elements exist
+  if (isExisting) {
+    console.log('Existing request detected, looking for compensation date input');
+    const tbody = document.getElementById('working-days');
+    if (tbody) {
+      const firstRow = tbody.querySelector('tr');
+      if (firstRow) {
+        const compDateInput = firstRow.cells[2]?.querySelector('input');
+        console.log('Compensation date input found:', compDateInput);
+        console.log('Current value:', compDateInput?.value);
+        console.log('Setting to compDate:', compDate);
+      }
+    }
+  }
+  if (selectedData && selectedData.length > 0) {
+    console.log('Populating working day data with', selectedData.length, 'items');
+    const tbody = document.getElementById('working-days');
+
+    // Get the template row (first and only row initially)
+    const templateRow = tbody.querySelector('tr');
+    if (!templateRow) {
+      console.error('No template row found in table');
+      return;
+    }
+
+    // Remove all rows except the first template row
+    const allRows = Array.from(tbody.querySelectorAll('tr'));
+    for (let i = allRows.length - 1; i > 0; i--) {
+      allRows[i].remove();
+    }
+
+    // Calculate how many rows we need to show and which to make editable
+    // Rows are editable only if they're part of the FIRST whole day requested
+    // Additional fractional rows needed to complete the request are read-only
+    let rowsToShow = selectedData.length;
+    let rowsToMakeEditable = rowsToShow;
+    
+    // In VIEW mode, don't make any rows editable
+    if (pageMode === 'view') {
+      console.log('⚠️  VIEW MODE: Overriding rowsToMakeEditable to 0');
+      rowsToMakeEditable = 0;
+    }
+    
+    if (totalDaysRequested > 0) {
+      let accumulatedDays = 0;
+      rowsToShow = 0;
+      // Only recalculate rowsToMakeEditable if NOT in view mode
+      if (pageMode !== 'view') {
+        rowsToMakeEditable = 0;
+      }
+      const wholeRequestedDays = Math.floor(totalDaysRequested);  // e.g., 1.5 → 1
+      const fractionalPart = totalDaysRequested - wholeRequestedDays;  // e.g., 1.5 → 0.5
+      
+      console.log(`\nRequest breakdown: whole=${wholeRequestedDays}, fractional=${fractionalPart}, total=${totalDaysRequested}`);
+      
+      for (let i = 0; i < selectedData.length; i++) {
+        const daysUsed = parseFloat(selectedData[i].balance) || 1;
+        accumulatedDays += daysUsed;
+        
+        console.log(`Row ${i}: daysUsed=${daysUsed}, accumulated=${accumulatedDays}, total needed=${totalDaysRequested}`);
+        rowsToShow = i + 1;  // Always show this row
+        
+        // Mark rows as editable only for the first whole day worth of rows
+        if (accumulatedDays <= wholeRequestedDays) {
+          // This row is part of the whole days portion, make it editable
+          rowsToMakeEditable = i + 1;
+          console.log(`  Row ${i} is EDITABLE (part of first ${wholeRequestedDays} whole day(s))`);
+        } else {
+          // This row is part of the fractional remainder, make it read-only
+          console.log(`  Row ${i} is READ-ONLY (part of fractional remainder)`);
+        }
+        
+        if (accumulatedDays >= totalDaysRequested) {
+          break;  // Have shown enough rows
+        }
+      }
+      console.log(`Showing ${rowsToShow} rows, making ${rowsToMakeEditable} editable (need ${totalDaysRequested} days)\n`);
+    }
+
+    // Process all selected working days
+    selectedData.forEach((item, index) => {
+      console.log(`Processing item ${index}:`, item);
+      let row;
+      
+      if (index === 0) {
+        // Use the existing first row for the first item
+        row = templateRow;
+      } else {
+        // Clone the template row for additional items
+        row = templateRow.cloneNode(true);
+        tbody.appendChild(row);
+      }
+      
+      // Determine if this row should be editable or read-only
+      const isEditableRow = (index < rowsToMakeEditable);
+      console.log(`Row ${index}: editable=${isEditableRow}`);
+
+      // Clear previous data
+      row.setAttribute('data-id', item.id || '');
+      row.setAttribute('data-days-used', item.balance || 1);  // item.balance contains daysUsed from smart allocation
+      if (!isEditableRow) {
+        row.setAttribute('data-readonly', 'true');  // Mark as read-only
+      }
+      
+      // Display the daysUsed value in the table for user visibility
+      const daysUsedDisplay = row.querySelector('.days-used-display');
+      if (daysUsedDisplay) {
+        daysUsedDisplay.textContent = item.balance || 1;
+        console.log(`Set daysUsedDisplay to: ${item.balance || 1}`);
+      }
+      
+      // Fill Working Date (using class selector)
+      const workingDateInput = row.querySelector('.working-date');
+      if (workingDateInput) {
+        let dateValue = item.date;
+        console.log(`Processing date: "${dateValue}"`);
+        
+        if (!dateValue) {
+          console.warn(`Missing date for item ${index}:`, item);
+        } else {
+          // Handle multiple date formats:
+          // 1. ISO format: "2025-12-20T00:00:00.000Z"
+          // 2. JavaScript toString: "Sat Dec 20 2025 03:00:00 GMT+0300 (GMT+03:00)"
+          // 3. Already formatted: "2025-12-20"
+          
+          let finalDate = dateValue;
+          
+          // Parse JavaScript Date toString format: "Sat Dec 20 2025 03:00:00..."
+          if (dateValue.includes('GMT') || dateValue.includes('000Z')) {
+            const dateObj = new Date(dateValue);
+            if (!isNaN(dateObj.getTime())) {
+              // Valid date - format as YYYY-MM-DD
+              const year = dateObj.getFullYear();
+              const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+              const day = String(dateObj.getDate()).padStart(2, '0');
+              finalDate = `${year}-${month}-${day}`;
+            }
+          }
+          // Parse ISO format with T separator
+          else if (dateValue.includes('T')) {
+            finalDate = dateValue.split('T')[0];
+          }
+          // Assume it's already in YYYY-MM-DD format
+          
+          workingDateInput.value = finalDate;
+          workingDateInput.readOnly = true;
+          console.log(`Set working date to: ${workingDateInput.value} (from: ${dateValue})`);
+        }
+      } else {
+        console.warn(`Working date input not found in row`);
+      }
+      
+      // Fill Working Day (using class selector)
+      const workingDaySelect = row.querySelector('.working-day');
+      if (workingDaySelect && item.day) {
+        workingDaySelect.value = item.day;
+        workingDaySelect.disabled = true;
+        console.log(`Set working day to: ${item.day}`);
+      } else {
+        console.warn(`Working day select not found or no day value`);
+      }
+      
+      // Handle Compensation Date (only clear if editable, preserve if view mode)
+      const compDateInput = row.querySelector('.compensation-date');
+      if (compDateInput) {
+        if (isEditableRow) {
+          compDateInput.value = '';
+          compDateInput.readOnly = false;
+          console.log(`Row ${index}: Compensation date is EDITABLE`);
+        } else {
+          // Don't clear in view mode - preserve server-provided value
+          compDateInput.readOnly = true;
+          compDateInput.style.backgroundColor = '#f0f0f0';
+          compDateInput.style.cursor = 'not-allowed';
+          console.log(`Row ${index}: Compensation date is READ-ONLY (value: ${compDateInput.value})`);
+        }
+      }
+      
+      // Handle Compensation Day (only clear if editable, preserve if view mode)
+      const compDaySelect = row.querySelector('.compensation-day');
+      if (compDaySelect) {
+        if (isEditableRow) {
+          compDaySelect.value = '';
+          compDaySelect.disabled = false;
+          console.log(`Row ${index}: Compensation day is EDITABLE`);
+        } else {
+          // Don't clear in view mode - preserve server-provided selection
+          compDaySelect.disabled = true;
+          compDaySelect.style.backgroundColor = '#f0f0f0';
+          compDaySelect.style.cursor = 'not-allowed';
+          console.log(`Row ${index}: Compensation day is READ-ONLY (value: ${compDaySelect.value})`);
+        }
+      }
+      
+      // Fill Remarks
+      const remarksInput = row.querySelector('.remarks');
+      if (remarksInput && item.remark) {
+        remarksInput.value = item.remark;
+        if (!isEditableRow) {
+          remarksInput.readOnly = true;
+          remarksInput.style.backgroundColor = '#f0f0f0';
+          remarksInput.style.cursor = 'not-allowed';
+        }
+        console.log(`Set remarks to: ${item.remark}`);
+      }
+    });
+
+    // Update remaining balance - only if coming from URL parameter (Request DayOff flow)
+    // Don't overwrite if viewing an existing request (view mode)
+    const urlBalance = urlParams.get('balance');
+    const remainingBalanceInput = document.getElementById('remaining-balance');
+    if (remainingBalanceInput && urlBalance !== null) {
+      // Only update if balance parameter is explicitly provided in URL
+      remainingBalanceInput.value = parseFloat(urlBalance).toFixed(2);
+      console.log(`Set remaining balance to: ${parseFloat(urlBalance)}`);
+    } else if (remainingBalanceInput && pageMode === 'view') {
+      // In view mode, keep the server-provided value (already set at line 884)
+      console.log(`View mode: keeping server balance value: ${remainingBalanceInput.value}`);
+    }
+
+    // Update total days in footer
+    updateTotalDays();
+  }
+
+  // Function to calculate and update the total days displayed in the table footer
+  function updateTotalDays() {
+    const totalDaysElement = document.getElementById('total-days-used');
+    if (!totalDaysElement) {
+      console.warn('Total days element not found');
+      return;
+    }
+
+    const tbody = document.getElementById('working-days');
+    if (!tbody) return;
+
+    const rows = tbody.querySelectorAll('tr');
+    let totalDays = 0;
+
+    rows.forEach((row) => {
+      const daysUsedAttr = row.getAttribute('data-days-used');
+      const daysUsed = parseFloat(daysUsedAttr) || 0;
+      totalDays += daysUsed;
+    });
+
+    totalDaysElement.textContent = totalDays.toFixed(1).replace(/\.0$/, ''); // Format: 1 or 1.5
+    console.log('Updated total days to:', totalDaysElement.textContent);
+  }
+
   const workingDaysTbody = document.getElementById('working-days');
   const submitBtn = document.getElementById('submit-form');
 
-  addRowBtn.onclick = function() {
-    const newRow = document.createElement('tr');
-    newRow.innerHTML = `
-      <td><input type="date" class="working-date" required></td>
-      <td>
-        <select class="working-day" required>
-          <option value="">Select Day</option>
-          <option value="Monday">Monday</option>
-          <option value="Tuesday">Tuesday</option>
-          <option value="Wednesday">Wednesday</option>
-          <option value="Thursday">Thursday</option>
-          <option value="Friday">Friday</option>
-          <option value="Saturday">Saturday</option>
-          <option value="Sunday">Sunday</option>
-        </select>
-      </td>
-      <td><input type="date" class="compensation-date" required></td>
-      <td>
-        <select class="compensation-day" required>
-          <option value="">Select Day</option>
-          <option value="Monday">Monday</option>
-          <option value="Tuesday">Tuesday</option>
-          <option value="Wednesday">Wednesday</option>
-          <option value="Thursday">Thursday</option>
-          <option value="Friday">Friday</option>
-          <option value="Saturday">Saturday</option>
-          <option value="Sunday">Sunday</option>
-        </select>
-      </td>
-      <td><input type="text" class="remarks" placeholder="Enter remarks" required></td>
-    `;
-    workingDaysTbody.appendChild(newRow);
-    // Update remaining balance
-    remainingBalance -= 1;
-    document.getElementById('remaining-balance').value = remainingBalance;
-  };
-
-  submitBtn.onclick = function(e) {
-    e.preventDefault();
-    // Collect form data and submit
-    const formData = {
-      requestorName: document.getElementById('requestor-name').value,
-      employeeNo: document.getElementById('employee-no').value,
-      requestDate: document.getElementById('request-date').value,
+  if (submitBtn) {
+    submitBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      // Collect form data and submit - ONLY process rows with data-id (selected rows)
+      const formData = {
       workingDays: [],
-      remainingBalance: document.getElementById('remaining-balance').value,
-      reviewedBy: document.getElementById('reviewed-by').value,
-      reviewedDate: document.getElementById('reviewed-date').value,
-      supervisor: document.getElementById('supervisor').value,
-      supervisorDate: document.getElementById('supervisor-date').value,
-      managerName: document.getElementById('manager-name').value,
-      managerDate: document.getElementById('manager-date').value
+      workingDayIds: [],
+      remainingBalance: parseFloat(document.getElementById('remaining-balance').value)
     };
-
+    
     const rows = workingDaysTbody.querySelectorAll('tr');
-    rows.forEach(row => {
-      const workingDate = row.cells[0].querySelector('input').value;
-      const workingDay = row.cells[1].querySelector('select').value;
-      const compensationDate = row.cells[2].querySelector('input').value;
-      const compensationDay = row.cells[3].querySelector('select').value;
-      const remarks = row.cells[4].querySelector('input').value;
+    console.log('Total rows in table:', rows.length);
+    
+    // Only process rows that have data-id (meaning they are actual selected working days)
+    rows.forEach((row, rowIndex) => {
+      const id = row.getAttribute('data-id');
+      const daysUsedAttr = row.getAttribute('data-days-used');
+      
+      // Skip rows without data-id (template rows)
+      if (!id) {
+        console.log(`Row ${rowIndex}: Skipping - no data-id`);
+        return;
+      }
+      
+      const compensationDate = row.querySelector('.compensation-date').value;
+      const compensationDay = row.querySelector('.compensation-day').value;
+      const remarks = row.querySelector('.remarks').value;
+      const daysUsed = parseFloat(daysUsedAttr) || 1;
+      
+      console.log(`Row ${rowIndex}:`);
+      console.log(`  - ID: ${id}`);
+      console.log(`  - Days Used (from data-days-used): ${daysUsed}`);
+      console.log(`  - Compensation Date: ${compensationDate}`);
+      console.log(`  - Compensation Day: ${compensationDay}`);
+      console.log(`  - Remarks: ${remarks}`);
+      
+      console.log(`Row ${rowIndex}:`);
+      console.log(`  id="${id}"`);
+      console.log(`  data-days-used="${daysUsedAttr}" (parsed as: ${daysUsed})`);
+      console.log(`  compensationDate="${compensationDate}"`);
+      console.log(`  compensationDay="${compensationDay}"`);
+      console.log(`  remarks="${remarks}"`);
+      
+      // Validate required fields
+      if (!compensationDate || !compensationDay || !remarks) {
+        console.error(`❌ Missing required field in row ${rowIndex}: date=${compensationDate}, day=${compensationDay}, remarks=${remarks}`);
+        alert(`Row ${rowIndex + 1}: Please fill in all fields (Date, Day, and Remarks)`);
+        return;
+      }
+      
       formData.workingDays.push({
-        workingDate: workingDate,
-        workingDay: workingDay,
         compensationDate: compensationDate,
         compensationDay: compensationDay,
-        remarks: remarks
+        remarks: remarks,
+        daysUsed: daysUsed  // Include the amount used
       });
+      formData.workingDayIds.push(id);
     });
+    
+    // Check if we have any valid data
+    if (formData.workingDayIds.length === 0) {
+      alert('Please select at least one working day and fill in all required fields');
+      return;
+    }
+    
+    // Check remaining balance - need at least 1 day BEFORE deduction
+    // remainingBalance is the balance AFTER deduction, so check if original balance >= 1
+    const originalBalance = formData.remainingBalance + 1; // Add back the 1 day we deducted
+    if (originalBalance < 1) {
+      alert(`Insufficient balance: You need at least 1 day to submit a request. You have ${originalBalance.toFixed(2)} days available.`);
+      return;
+    }
+
+    console.log('Final formData to send:', JSON.stringify(formData, null, 2));
+    console.log('workingDayIds count:', formData.workingDayIds.length);
+    console.log('workingDays count:', formData.workingDays.length);
 
     // Send to backend
     fetch('/requests/dayoff-request', {
@@ -446,15 +1537,26 @@ document.addEventListener('DOMContentLoaded', function() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData)
     })
-    .then(response => response.json())
+    .then(response => {
+      console.log('Response status:', response.status);
+      return response.json().then(data => {
+        if (!response.ok) {
+          console.error('❌ Server error:', data.error);
+          throw new Error(data.error || `Server error: ${response.status}`);
+        }
+        return data;
+      });
+    })
     .then(data => {
+      console.log('✓ Success:', data.message);
       alert('Request submitted successfully!');
-      window.close(); // Close the tab
+      window.location.href = '/requests'; // Redirect to main page
     })
     .catch(error => {
-      console.error('Error:', error);
-      alert('Error submitting request');
+      console.error('❌ Error:', error.message);
+      alert('Error: ' + (error.message || 'Error submitting request'));
     });
-  };
+    });
+  }
 });
 </script>

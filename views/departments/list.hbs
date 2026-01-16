@@ -1,0 +1,57 @@
+<h1>Departments</h1>
+<a href="/departments/create" class="btn">Create New Department</a>
+
+{{#if departments}}
+<div class="table-responsive">
+  <table class="departments-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Created At</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each departments}}
+        <tr>
+          <td data-label="Name"><strong>{{this.name}}</strong></td>
+          <td data-label="Created At">{{formatDate this.createdAt}}</td>
+          <td data-label="Actions">
+            <a href="/departments/{{this._id}}/edit" class="btn btn-sm" title="Edit">Edit</a>
+            <button class="btn btn-sm btn-danger delete-btn" data-id="{{this._id}}" data-name="{{this.name}}" title="Delete">Delete</button>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+{{else}}
+<p class="empty">No departments found. <a href="/departments/create">Create your first department</a></p>
+{{/if}}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.delete-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const id = this.dataset.id;
+      const name = this.dataset.name;
+      if (confirm(`Are you sure you want to delete department "${name}"? This action cannot be undone.`)) {
+        fetch(`/departments/${id}`, { method: 'DELETE' })
+          .then(response => {
+            if (response.ok) {
+              alert('Department deleted successfully');
+              location.reload();
+            } else {
+              return response.json().then(data => {
+                throw new Error(data.message || 'Failed to delete department');
+              });
+            }
+          })
+          .catch(error => {
+            alert('Error: ' + error.message);
+          });
+      }
+    });
+  });
+});
+</script>

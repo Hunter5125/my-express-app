@@ -1,0 +1,196 @@
+<link rel="stylesheet" href="/requests.css">
+<h1>Approved Requests Archive</h1>
+
+<div style="margin-bottom: 20px;">
+  <label for="search-name" style="margin-right: 10px;">Search Employee:</label>
+  <input type="text" id="search-name" placeholder="Enter employee name" style="margin-right: 20px;">
+  <label for="search-no" style="margin-right: 10px;">Search Employee No:</label>
+  <input type="text" id="search-no" placeholder="Enter employee no" style="margin-right: 20px;">
+  <label for="filter-section" style="margin-right: 10px;">Filter by Section:</label>
+  <select id="filter-section" style="margin-right: 20px;">
+    <option value="">-- All Sections --</option>
+    {{#each sections}}
+      <option value="{{this}}">{{this}}</option>
+    {{/each}}
+  </select>
+</div>
+
+<div class="table-wrapper">
+<table class="requests-table" style="border-collapse: collapse; width: 100%; margin-bottom: 20px;">
+  <thead>
+    <tr style="border-bottom: 2px solid #ddd;">
+      <th style="border: 1px solid #ddd; padding: 8px;"><input type="checkbox" id="select-all"></th>
+      <th style="border: 1px solid #ddd; padding: 8px;">Employee</th>
+      <th style="border: 1px solid #ddd; padding: 8px;">Employee No</th>
+      <th style="border: 1px solid #ddd; padding: 8px;">Department</th>
+      <th style="border: 1px solid #ddd; padding: 8px;">Section</th>
+      <th style="border: 1px solid #ddd; padding: 8px;">Supervisor</th>
+      <th style="border: 1px solid #ddd; padding: 8px;">Manager</th>
+      <th style="border: 1px solid #ddd; padding: 8px;">Working Day</th>
+      <th style="border: 1px solid #ddd; padding: 8px;">Working Day Date</th>
+      <th style="border: 1px solid #ddd; padding: 8px;">Day to be taken</th>
+      <th style="border: 1px solid #ddd; padding: 8px;">Date to be taken</th>
+      <th style="border: 1px solid #ddd; padding: 8px;">Remark</th>
+      <th style="border: 1px solid #ddd; padding: 8px;">Team Leader Approval</th>
+      <th style="border: 1px solid #ddd; padding: 8px;">Manager Approval</th>
+      <th style="border: 1px solid #ddd; padding: 8px;">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each approvedRequests}}
+    <tr style="border-bottom: 1px solid #ddd;" data-employee-name="{{this.employee.name}}" data-employee-no="{{this.employee.employeeNo}}" data-section="{{#if this.employee.section}}{{this.employee.section.name}}{{/if}}">
+      <td style="border: 1px solid #ddd; padding: 8px;"><input type="checkbox" class="row-select" data-id="{{this._id}}"></td>
+      <td style="border: 1px solid #ddd; padding: 8px;">{{this.employee.name}}</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">{{this.employee.employeeNo}}</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">{{#if this.employee.section}}{{this.employee.section.department.name}}{{else}}N/A{{/if}}</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">{{#if this.employee.section}}{{this.employee.section.name}}{{else}}N/A{{/if}}</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">{{#if this.employee.supervisor}}{{this.employee.supervisor.name}}{{else}}N/A{{/if}}</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">{{#if this.manager}}{{this.manager.name}}{{else}}N/A{{/if}}</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">{{#if this.workingDayIds.[0]}}{{this.workingDayIds.[0].day}}{{else if this.working_day}}{{this.working_day}}{{else}}No Working Day{{/if}}</td>
+      <td style="border: 1px solid #ddd; padding: 8px;" data-raw-date="{{#if this.workingDayIds.[0]}}{{#if this.workingDayIds.[0].date}}{{this.workingDayIds.[0].date}}{{/if}}{{else if this.working_day_date}}{{this.working_day_date}}{{/if}}">{{#if this.workingDayIds.[0]}}{{#if this.workingDayIds.[0].date}}{{formatDate this.workingDayIds.[0].date}}{{else}}No Date{{/if}}{{else if this.working_day_date}}{{formatDate this.working_day_date}}{{else}}No Working Day{{/if}}</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">{{#if this.day_to_be_taken}}{{this.day_to_be_taken}}{{else if this.day}}{{this.day}}{{else}}N/A{{/if}}</td>
+      <td style="border: 1px solid #ddd; padding: 8px;" data-raw-date="{{#if this.date_to_be_taken}}{{this.date_to_be_taken}}{{else if this.date}}{{this.date}}{{/if}}">{{#if this.date_to_be_taken}}{{formatDate this.date_to_be_taken}}{{else if this.date}}{{formatDate this.date}}{{else}}N/A{{/if}}</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">{{this.remark}}</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">{{this.teamLeaderApprovalStatus}}</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">{{this.managerApprovalStatus}}</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">
+        <button class="view-request-btn" data-id="{{this._id}}" style="background: none; border: none; cursor: pointer; font-size: 16px;">👁️</button>
+      </td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+</div>
+
+<div style="margin-top: 20px;">
+  <button id="delete-selected-btn" style="background-color: #dc3545; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 4px;">Delete Selected</button>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const searchNameInput = document.getElementById('search-name');
+  const searchNoInput = document.getElementById('search-no');
+  const filterSectionInput = document.getElementById('filter-section');
+  const selectAllCheckbox = document.getElementById('select-all');
+  const deleteSelectedBtn = document.getElementById('delete-selected-btn');
+  const rows = document.querySelectorAll('tbody tr');
+
+  // Search and filter functionality
+  function filterRows() {
+    const nameFilter = searchNameInput.value.toLowerCase();
+    const noFilter = searchNoInput.value.toLowerCase();
+    const sectionFilter = filterSectionInput.value.toLowerCase();
+
+    rows.forEach(row => {
+      const employeeName = row.dataset.employeeName.toLowerCase();
+      const employeeNo = row.dataset.employeeNo.toLowerCase();
+      const sectionName = row.dataset.section.toLowerCase();
+      
+      const matchesName = employeeName.includes(nameFilter);
+      const matchesNo = employeeNo.includes(noFilter);
+      const matchesSection = !sectionFilter || sectionName.includes(sectionFilter);
+
+      if (matchesName && matchesNo && matchesSection) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  }
+
+  searchNameInput.addEventListener('input', filterRows);
+  searchNoInput.addEventListener('input', filterRows);
+  filterSectionInput.addEventListener('change', filterRows);
+
+  // Select all functionality
+  selectAllCheckbox.addEventListener('change', function() {
+    const checkboxes = document.querySelectorAll('.row-select');
+    checkboxes.forEach(cb => cb.checked = this.checked);
+  });
+
+  // Delete selected functionality
+  deleteSelectedBtn.addEventListener('click', function() {
+    const selectedIds = [];
+    document.querySelectorAll('.row-select:checked').forEach(cb => {
+      selectedIds.push(cb.dataset.id);
+    });
+
+    if (selectedIds.length === 0) {
+      alert('Please select at least one row to delete.');
+      return;
+    }
+
+    if (confirm(`Are you sure you want to delete ${selectedIds.length} selected requests?`)) {
+      // Delete each selected request
+      selectedIds.forEach(id => {
+        fetch(`/requests/request/${id}`, { method: 'DELETE' })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`Failed to delete request ${id}`);
+            }
+          })
+          .catch(error => {
+            console.error('Error deleting request:', error);
+            alert(`Error deleting request ${id}: ${error.message}`);
+          });
+      });
+
+      // Reload the page after a short delay to allow deletions to complete
+      setTimeout(() => location.reload(), 1000);
+    }
+  });
+
+  // Individual delete functionality
+  document.querySelectorAll('.delete-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const id = this.dataset.id;
+      if (confirm('Are you sure you want to delete this request?')) {
+        fetch(`/requests/request/${id}`, { method: 'DELETE' })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`Failed to delete request ${id}`);
+            }
+            location.reload();
+          })
+          .catch(error => {
+            console.error('Error deleting request:', error);
+            alert(`Error deleting request ${id}: ${error.message}`);
+          });
+      }
+    });
+  });
+
+  // Attach event listeners for view request buttons
+  document.querySelectorAll('.view-request-btn').forEach(btn => {
+    btn.onclick = function() {
+      const row = this.closest('tr');
+      const cells = row.querySelectorAll('td');
+
+      // Extract data from the table row
+      // Column indices: 0=checkbox, 1=employee, 2=empNo, 3=dept, 4=section, 5=supervisor, 6=manager, 7=workingDay, 8=workingDayDate, 9=dayToBeTaken, 10=dateToBeTaken, 11=remark, 12=tlStatus, 13=mgrStatus, 14=actions
+      const rawWorkingDate = cells[8].getAttribute('data-raw-date');
+      const workingDayDate = rawWorkingDate ? new Date(rawWorkingDate).toISOString().split('T')[0] : '';
+
+      const rawCompensationDate = cells[10].getAttribute('data-raw-date');
+      const dateToBeTaken = rawCompensationDate ? new Date(rawCompensationDate).toISOString().split('T')[0] : '';
+
+      const requestData = {
+        _id: this.dataset.id,
+        workingDay: cells[7].textContent.trim(),
+        workingDayDate: workingDayDate,
+        dayToBeTaken: cells[9].textContent.trim(),
+        dateToBeTaken: dateToBeTaken,
+        remark: cells[11].textContent.trim(),
+        remainingBalance: 'N/A', // Not applicable for archive
+        employeeNo: cells[2].textContent.trim(),
+        teamLeaderStatus: cells[12].textContent.trim(),
+        managerStatus: cells[13].textContent.trim()
+      };
+
+      // Encode the data and pass it via URL
+      const encodedData = encodeURIComponent(JSON.stringify(requestData));
+      window.open(`/requests/dayoff-request?requestData=${encodedData}`, '_blank');
+    };
+  });
+});
+</script>

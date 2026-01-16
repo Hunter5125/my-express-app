@@ -1,0 +1,157 @@
+<h1>Edit User</h1>
+
+{{#if errors}}
+  <div class="error-messages">
+    {{#each errors}}
+      <div class="error">{{this.field}}: {{this.msg}}</div>
+    {{/each}}
+  </div>
+{{/if}}
+
+<form method="POST" class="form">
+  <div class="form-group">
+    <label for="name">Name <span class="required">*</span></label>
+    <input type="text" id="name" name="name" value="{{old.name}}" required>
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email <span class="required">*</span></label>
+    <input type="email" id="email" name="email" value="{{old.email}}" required>
+  </div>
+
+  <div class="form-group">
+    <label for="password">Password (leave blank to keep current password)</label>
+    <input type="password" id="password" name="password">
+  </div>
+
+  <div class="form-group">
+    <label for="role">Role <span class="required">*</span></label>
+    <select id="role" name="role" required onchange="updateFieldVisibility()">
+      <option value="">-- Select a Role --</option>
+      <option value="employee" {{#if (eq old.role 'employee')}}selected{{/if}}>Employee</option>
+      <option value="team_leader" {{#if (eq old.role 'team_leader')}}selected{{/if}}>Team Leader</option>
+      <option value="manager" {{#if (eq old.role 'manager')}}selected{{/if}}>Manager</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="department">Department <span class="required">*</span></label>
+    <select id="department" name="department" required>
+      <option value="">-- Select a Department --</option>
+      {{#each departments}}
+        <option value="{{this._id}}" {{#if (eq old.department this._id)}}selected{{/if}}>{{this.name}}</option>
+      {{/each}}
+    </select>
+  </div>
+
+  <div class="form-group" id="section-group" style="display: none;">
+    <label for="section">Section <span class="required">*</span></label>
+    <select id="section" name="section">
+      <option value="">-- Select a Section --</option>
+      {{#each sections}}
+        <option value="{{this._id}}" data-dept="{{this.department}}" {{#if (eq old.section this._id)}}selected{{/if}}>{{this.name}}</option>
+      {{/each}}
+    </select>
+  </div>
+
+  <div class="form-group" id="supervisor-group" style="display: none;">
+    <label for="supervisor">Supervisor <span class="required">*</span></label>
+    <select id="supervisor" name="supervisor">
+      <option value="">-- Select a Supervisor --</option>
+      {{#each supervisorsBySection}}
+        {{#each this}}
+          <option value="{{this._id}}" data-section-id="{{@../key}}">{{this.name}}</option>
+        {{/each}}
+      {{/each}}
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="employeeNo">Employee Number <span class="required">*</span></label>
+    <input type="text" id="employeeNo" name="employeeNo" value="{{old.employeeNo}}" required>
+  </div>
+
+  <div class="form-group">
+    <label for="signature">Signature <span class="required">*</span></label>
+    <input type="text" id="signature" name="signature" value="{{old.signature}}" required>
+  </div>
+
+  <div class="button-group">
+    <button type="submit" class="btn">Update User</button>
+    <a href="/users" class="btn btn-secondary">Cancel</a>
+  </div>
+</form>
+
+<script>
+function updateFieldVisibility() {
+  const role = document.getElementById('role').value;
+  const sectionGroup = document.getElementById('section-group');
+  const supervisorGroup = document.getElementById('supervisor-group');
+  const sectionSelect = document.getElementById('section');
+  const supervisorSelect = document.getElementById('supervisor');
+
+  // Reset visibility
+  sectionGroup.style.display = 'none';
+  supervisorGroup.style.display = 'none';
+
+  // Clear values when hiding fields
+  sectionSelect.value = '';
+  supervisorSelect.value = '';
+
+  if (role === 'employee') {
+    sectionGroup.style.display = 'block';
+    supervisorGroup.style.display = 'block';
+    sectionSelect.required = true;
+    supervisorSelect.required = true;
+  } else if (role === 'team_leader') {
+    sectionGroup.style.display = 'block';
+    sectionSelect.required = true;
+    supervisorSelect.required = false;
+  } else if (role === 'manager') {
+    sectionSelect.required = false;
+    supervisorSelect.required = false;
+  }
+}
+
+function filterSupervisorsBySection() {
+  const selectedSectionId = document.getElementById('section').value;
+  const supervisorOptions = document.getElementById('supervisor').querySelectorAll('option');
+  
+  supervisorOptions.forEach(option => {
+    if (option.value === '') {
+      // Always show the "Select Supervisor" option
+      option.style.display = '';
+    } else {
+      // Show only supervisors for the selected section
+      const supervisorSectionId = option.dataset.sectionId;
+      if (supervisorSectionId === selectedSectionId) {
+        option.style.display = '';
+      } else {
+        option.style.display = 'none';
+      }
+    }
+  });
+  
+  // Reset supervisor selection when section changes
+  document.getElementById('supervisor').value = '';
+}
+
+// Event listeners
+document.addEventListener('DOMContentLoaded', function() {
+  const roleSelect = document.getElementById('role');
+  const sectionSelect = document.getElementById('section');
+  const supervisorSelect = document.getElementById('supervisor');
+  
+  if (roleSelect) {
+    roleSelect.addEventListener('change', updateFieldVisibility);
+  }
+  
+  if (sectionSelect) {
+    sectionSelect.addEventListener('change', filterSupervisorsBySection);
+  }
+
+  // Run initialization on page load
+  updateFieldVisibility();
+  filterSupervisorsBySection();
+});
+</script>

@@ -1,0 +1,238 @@
+/* Login Page Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    line-height: 1.6;
+    padding-top: 80px; /* Account for header */
+}
+
+.auth-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    padding: 50px 40px;
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+}
+
+.auth-card h2 {
+    font-size: 2.2rem;
+    font-weight: 300;
+    color: #333;
+    margin-bottom: 35px;
+    letter-spacing: 1px;
+}
+
+.auth-card form {
+    text-align: left;
+}
+
+.auth-card label {
+    display: block;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+}
+
+.auth-card input {
+    width: 100%;
+    padding: 16px 20px;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    font-size: 16px;
+    margin-bottom: 25px;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+    font-family: inherit;
+}
+
+.auth-card input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    background: white;
+    transform: translateY(-1px);
+}
+
+.auth-card input::placeholder {
+    color: #adb5bd;
+    font-style: italic;
+}
+
+.auth-card .btn {
+    width: 100%;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+    margin-top: 10px;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.auth-card .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+.auth-card .btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 10px rgba(102, 126, 234, 0.3);
+}
+
+.auth-card .muted {
+    color: #666;
+    font-size: 0.9rem;
+    margin-top: 25px;
+    text-align: center;
+}
+
+.auth-card .muted a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.auth-card .muted a:hover {
+    color: #764ba2;
+    text-decoration: underline;
+}
+
+/* Error message styling */
+.auth-card .error {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.2);
+}
+
+/* Form validation styles */
+.auth-card input:valid {
+    border-color: #28a745;
+}
+
+.auth-card input:invalid:not(:placeholder-shown) {
+    border-color: #dc3545;
+}
+
+.auth-card input:invalid:not(:placeholder-shown):focus {
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+}
+
+/* Animation for form entrance */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.auth-card {
+    animation: slideInUp 0.6s ease-out;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+    body {
+        padding-top: 100px; /* More space for header on mobile */
+    }
+
+    .auth-card {
+        padding: 35px 25px;
+        margin: 20px;
+        max-width: none;
+    }
+
+    .auth-card h2 {
+        font-size: 1.8rem;
+        margin-bottom: 25px;
+    }
+
+    .auth-card input {
+        padding: 14px 16px;
+        font-size: 16px; /* Prevent zoom on iOS */
+    }
+
+    .auth-card .btn {
+        padding: 14px 16px;
+        font-size: 16px;
+    }
+}
+
+/* Focus accessibility */
+.auth-card input:focus,
+.auth-card .btn:focus {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+}
+
+/* Loading state for button */
+.auth-card .btn.loading {
+    opacity: 0.7;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.auth-card .btn.loading::after {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+    margin-left: 10px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Header styles for login page */
+.site-header {
+    display: none !important;
+}
