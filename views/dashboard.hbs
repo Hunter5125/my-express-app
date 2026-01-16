@@ -8,33 +8,33 @@
   </div>
 
   <div class="table-wrapper">
-  <table class="requests-table" style="border-collapse: collapse; width: 100%; margin-bottom: 20px;">
+  <table class="requests-table">
     <thead>
-      <tr style="border-bottom: 2px solid #ddd;">
-        <th style="border: 1px solid #ddd; padding: 8px;">Employee</th>
-        <th style="border: 1px solid #ddd; padding: 8px;">Working Day</th>
-        <th style="border: 1px solid #ddd; padding: 8px;">Working Date</th>
-        <th style="border: 1px solid #ddd; padding: 8px;">Day to be taken</th>
-        <th style="border: 1px solid #ddd; padding: 8px;">Date to be taken</th>
-        <th style="border: 1px solid #ddd; padding: 8px;">Remark</th>
-        <th style="border: 1px solid #ddd; padding: 8px;">Remaining Balance</th>
-        <th style="border: 1px solid #ddd; padding: 8px;">Team Leader approval status</th>
-        <th style="border: 1px solid #ddd; padding: 8px;">Manager approval status</th>
-        <th style="border: 1px solid #ddd; padding: 8px;">Actions</th>
+      <tr>
+        <th>Employee</th>
+        <th>Working Day</th>
+        <th>Working Date</th>
+        <th>Day to be taken</th>
+        <th>Date to be taken</th>
+        <th>Remark</th>
+        <th>Remaining Balance</th>
+        <th>Team Leader approval status</th>
+        <th>Manager approval status</th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
       {{#each requests}}
-      <tr style="border-bottom: 1px solid #ddd;" data-request-id="{{this._id}}" data-day-to-be-taken="{{#if this.day_to_be_taken}}{{this.day_to_be_taken}}{{else if this.day}}{{this.day}}{{/if}}" data-date-to-be-taken="{{#if this.date_to_be_taken}}{{this.date_to_be_taken}}{{else if this.date}}{{this.date}}{{/if}}" data-remaining-balance="{{this.balance}}" data-remark="{{this.remark}}">
-        <td style="border: 1px solid #ddd; padding: 8px;">{{this.employee.name}}</td>
-        <td style="border: 1px solid #ddd; padding: 8px;">{{#if this.workingDayIds.[0]}}{{this.workingDayIds.[0].day}}{{else}}{{#if this.working_day}}{{this.working_day}}{{else}}N/A{{/if}}{{/if}}</td>
-        <td style="border: 1px solid #ddd; padding: 8px;">{{#if this.workingDayIds.[0]}}{{#if this.workingDayIds.[0].date}}{{formatDate this.workingDayIds.[0].date}}{{else}}N/A{{/if}}{{else}}{{#if this.working_day_date}}{{formatDate this.working_day_date}}{{else}}N/A{{/if}}{{/if}}</td>
-        <td style="border: 1px solid #ddd; padding: 8px;">{{#if this.day_to_be_taken}}{{this.day_to_be_taken}}{{else if this.day}}{{this.day}}{{else}}N/A{{/if}}</td>
-        <td style="border: 1px solid #ddd; padding: 8px;">{{#if this.date_to_be_taken}}{{formatDate this.date_to_be_taken}}{{else if this.date}}{{formatDate this.date}}{{else}}N/A{{/if}}</td>
-        <td style="border: 1px solid #ddd; padding: 8px;">{{this.remark}}</td>
-        <td style="border: 1px solid #ddd; padding: 8px;">{{this.balance}}</td>
-        <td style="border: 1px solid #ddd; padding: 8px;">Approved</td>
-        <td style="border: 1px solid #ddd; padding: 8px;">
+      <tr data-request-id="{{this._id}}" data-day-to-be-taken="{{#if this.day_to_be_taken}}{{this.day_to_be_taken}}{{else if this.day}}{{this.day}}{{/if}}" data-date-to-be-taken="{{#if this.date_to_be_taken}}{{this.date_to_be_taken}}{{else if this.date}}{{this.date}}{{/if}}" data-remaining-balance="{{this.balance}}" data-remark="{{this.remark}}">
+        <td data-label="Employee">{{this.employee.name}}</td>
+        <td data-label="Working Day">{{#if this.workingDayIds.[0]}}{{this.workingDayIds.[0].day}}{{else}}{{#if this.working_day}}{{this.working_day}}{{else}}N/A{{/if}}{{/if}}</td>
+        <td data-label="Working Date">{{#if this.workingDayIds.[0]}}{{#if this.workingDayIds.[0].date}}{{formatDate this.workingDayIds.[0].date}}{{else}}N/A{{/if}}{{else}}{{#if this.working_day_date}}{{formatDate this.working_day_date}}{{else}}N/A{{/if}}{{/if}}</td>
+        <td data-label="Day to Take">{{#if this.day_to_be_taken}}{{this.day_to_be_taken}}{{else if this.day}}{{this.day}}{{else}}N/A{{/if}}</td>
+        <td data-label="Take Date">{{#if this.date_to_be_taken}}{{formatDate this.date_to_be_taken}}{{else if this.date}}{{formatDate this.date}}{{else}}N/A{{/if}}</td>
+        <td data-label="Remark">{{this.remark}}</td>
+        <td data-label="Balance">{{this.balance}}</td>
+        <td data-label="TL Status">Approved</td>
+        <td data-label="Mgr Status">
           {{#if (eq this.status 'team_leader_approved')}}
             <button class="btn btn-sm btn-success approve-btn" data-id="{{this._id}}" style="margin-right: 5px;">✅ Approve</button>
             <button class="btn btn-sm btn-danger reject-btn" data-id="{{this._id}}">❌ Reject</button>
@@ -42,8 +42,8 @@
             {{this.status}}
           {{/if}}
         </td>
-        <td style="border: 1px solid #ddd; padding: 8px;">
-          <button class="view-request-btn" data-id="{{this._id}}" style="background: none; border: none; cursor: pointer; font-size: 16px; margin-right: 10px;" title="View Request">👁️</button>
+        <td data-label="Actions">
+          <button class="view-request-btn" data-id="{{this._id}}" title="View Request">👁️</button>
           <a href="/dashboard/working-days/{{this.employee._id}}" class="btn btn-info btn-sm" title="View Available Working Days">
             <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
               <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
