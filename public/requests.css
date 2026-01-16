@@ -730,8 +730,15 @@
 /* Table wrapper for responsive scrolling */
 .table-wrapper {
   width: 100%;
-  overflow-x: auto;
+  overflow-x: visible;
   -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 768px) {
+  .table-wrapper {
+    width: 100%;
+    overflow-x: visible !important;
+  }
 }
 
 .view-request-btn {
@@ -766,6 +773,7 @@
     font-size: 0.7rem;
     margin: 0.75rem 0;
     width: 100%;
+    overflow: visible;
   }
 
   .requests-table th,
@@ -1071,8 +1079,7 @@
   .requests-table {
     display: block;
     width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow: visible;
     border: none;
   }
 
@@ -1087,12 +1094,13 @@
 
   .requests-table tr {
     display: block;
-    margin-bottom: 1.2rem;
+    margin-bottom: 1rem;
     border: 1px solid #e2e8f0;
-    border-radius: 10px;
+    border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
     background: #ffffff;
+    page-break-inside: avoid;
   }
 
   .requests-table tr:hover {
@@ -1100,17 +1108,16 @@
   }
 
   .requests-table td {
-    display: block;
-    padding: 0.8rem 0.75rem;
+    display: flex;
+    padding: 0.6rem 0.75rem;
     text-align: left;
     border: none;
     border-bottom: 1px solid #f1f5f9;
     position: relative;
-    padding-left: 40%;
-    min-height: 2.8rem;
-    display: flex;
     align-items: center;
     word-break: break-word;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .requests-table td:last-child {
@@ -1119,15 +1126,14 @@
 
   .requests-table td::before {
     content: attr(data-label);
-    position: absolute;
-    left: 0.8rem;
-    top: 0.8rem;
     font-weight: 700;
     color: #0066cc;
-    width: 35%;
-    font-size: 0.8rem;
+    min-width: 100px;
+    font-size: 0.75rem;
     text-transform: uppercase;
-    letter-spacing: 0.8px;
+    letter-spacing: 0.5px;
+    margin-right: 0.5rem;
+    flex-shrink: 0;
   }
 
   .requests-table td[data-label="Working Day"],
@@ -1140,9 +1146,9 @@
   }
 
   .requests-table td[data-label="Actions"] {
-    padding-left: 0.75rem;
+    padding: 0.75rem 0.75rem;
     flex-direction: row;
-    gap: 0.5rem;
+    gap: 0.4rem;
     flex-wrap: wrap;
     background: transparent;
   }
@@ -1151,17 +1157,14 @@
     display: none;
   }
 
-  .requests-table td[data-label="Actions"] .btn,
-  .requests-table td[data-label="Actions"] .approve-btn,
-  .requests-table td[data-label="Actions"] .reject-btn,
-  .requests-table td[data-label="Actions"] .delete-btn,
-  .requests-table td[data-label="Actions"] .view-request-btn,
-  .requests-table td[data-label="Actions"] .edit-btn {
-    flex: 1;
-    min-width: 50px;
-    font-size: 0.7rem;
-    padding: 0.35rem 0.5rem;
-    min-height: 30px;
+  .requests-table td[data-label="Actions"] button {
+    padding: 0.2rem 0.3rem;
+    min-width: 24px;
+    min-height: 24px;
+    font-size: 0.9rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
   }
 
   .requests-table td[data-label="Employee Name"],
@@ -1170,7 +1173,6 @@
     font-weight: 700;
     background: linear-gradient(135deg, rgba(0, 102, 204, 0.03), rgba(16, 185, 129, 0.03));
   }
-
 
   .requests-table strong {
     display: block;
