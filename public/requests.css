@@ -643,30 +643,37 @@
   #request-form .form-row {
     display: flex;
     flex-wrap: nowrap;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
+    gap: 0.3rem;
+    margin-bottom: 0.8rem;
     width: 100%;
+    box-sizing: border-box;
   }
 
   #request-form .form-row .form-item {
-    flex: 1;
+    flex: 1 1 50%;
     min-width: 0;
     display: flex;
     flex-direction: column;
+    box-sizing: border-box;
   }
 
   #request-form .form-row .form-item label {
-    font-size: 0.7rem;
-    margin-bottom: 0.25rem;
+    font-size: 0.65rem;
+    margin-bottom: 0.2rem;
     font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   #request-form .form-row .form-item input,
   #request-form .form-row .form-item select {
-    padding: 0.45rem 0.4rem;
-    font-size: 13px;
-    margin-bottom: 0;
-    border-radius: 5px;
+    padding: 0.4rem 0.3rem;
+    font-size: 12px;
+    margin-bottom: 0 !important;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
   }
 }
 
