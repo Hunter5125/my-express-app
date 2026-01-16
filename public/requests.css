@@ -836,12 +836,13 @@
   .requests-table tbody td::before {
     font-weight: 700 !important;
     color: #0066cc !important;
-    min-width: 70px !important;
+    min-width: auto !important;
     font-size: 0.6rem !important;
-    text-transform: uppercase !important;
+    text-transform: capitalize !important;
     letter-spacing: 0.2px !important;
-    margin-right: 0.3rem !important;
+    margin-right: 0.2rem !important;
     flex-shrink: 0 !important;
+    content: attr(data-label) ": " !important;
   }
 
   .requests-table tbody td:nth-child(10)::before,
@@ -1274,13 +1275,14 @@
 
   /* Common label styling */
   .requests-table tbody td::before {
+    content: attr(data-label) ": " !important;
     font-weight: 700 !important;
     color: #0066cc !important;
-    min-width: 80px !important;
+    min-width: auto !important;
     font-size: 0.65rem !important;
-    text-transform: uppercase !important;
+    text-transform: capitalize !important;
     letter-spacing: 0.3px !important;
-    margin-right: 0.4rem !important;
+    margin-right: 0.3rem !important;
     flex-shrink: 0 !important;
   }
 
