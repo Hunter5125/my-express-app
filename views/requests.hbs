@@ -87,7 +87,11 @@
       <input type="hidden" id="request-id">
       
       <div class="form-row">
-        <div>
+        <div class="form-item">
+          <label for="date">Working Date:</label>
+          <input type="date" id="date" required>
+        </div>
+        <div class="form-item">
           <label for="day">Working Day:</label>
           <select id="day" required>
             <option value="">Select Day</option>
@@ -100,19 +104,15 @@
             <option value="Saturday">Saturday</option>
           </select>
         </div>
-        <div>
-          <label for="date">Date:</label>
-          <input type="date" id="date" required>
-        </div>
       </div>
 
       <div class="form-row">
-        <div>
-          <label for="remark">Compensation Date:</label>
+        <div class="form-item">
+          <label for="compensation-date">Compensation Date:</label>
           <input type="date" id="compensation-date" required>
         </div>
-        <div>
-          <label for="day-to-take">Day:</label>
+        <div class="form-item">
+          <label for="day-to-take">Compensation Day:</label>
           <select id="day-to-take" required>
             <option value="">Select Day</option>
             <option value="Sunday">Sunday</option>
@@ -128,8 +128,10 @@
 
       <label for="remark">Remark:</label>
       <input type="text" id="remark" required>
+      
       <label for="balance">Balance:</label>
       <input type="number" id="balance" step="0.5" min="0" required>
+      
       <button type="submit" class="btn btn-primary">Save</button>
     </form>
   </div>
