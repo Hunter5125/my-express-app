@@ -57,8 +57,7 @@
   border-radius: 6px;
   font-size: 13px;
   min-height: 36px;
-}}
-
+}
 .filter-section input:focus,
 .filter-section select:focus {
   outline: none;
