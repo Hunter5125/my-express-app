@@ -2,18 +2,20 @@
 
 .requests-table {
   width: 100%;
-  max-width: 1200px;
   border-collapse: collapse;
   background: #ffffff;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 10px 25px rgba(15, 23, 42, 0.15);
   border: 2px solid #0066cc;
-  margin: 2rem auto;
+  margin: 2rem 0;
   font-size: 0.95rem;
-  margin-left: auto;
-  margin-right: auto;
-  box-sizing: border-box;
+}
+
+@media (max-width: 479px) {
+  .requests-table {
+    min-width: 600px;
+  }
 }
 
 .requests-table thead {
@@ -281,15 +283,6 @@
   margin-bottom: 1.5rem;
   border: 1px solid #e2e8f0;
   box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
-  width: 100%;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
 }
 
 @media (max-width: 479px) {
@@ -305,7 +298,6 @@
   color: #0f172a;
   font-weight: 600;
   font-size: 0.95rem;
-  width: 100%;
 }
 
 .search-section input,
@@ -368,19 +360,12 @@
   background: white;
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(15, 23, 42, 0.1);
-  width: 95%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 }
 
 @media (max-width: 479px) {
   .form-container {
     padding: 1rem;
-    margin: 1rem auto;
-    width: 100%;
-    border-radius: 8px;
+    margin: 1rem 0;
   }
 }
 
@@ -388,14 +373,6 @@
   .form-container {
     padding: 1.5rem;
     margin: 1.5rem auto;
-    width: 95%;
-  }
-}
-
-@media (min-width: 1025px) {
-  .form-container {
-    max-width: 900px;
-    width: 90%;
   }
 }
 
@@ -419,9 +396,6 @@
   gap: 1rem;
   margin: 1.5rem 0;
   flex-wrap: wrap;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
 }
 
 .button-group .btn {
@@ -490,10 +464,6 @@
   box-shadow: 0 25px 50px rgba(15, 23, 42, 0.3), 0 0 1px rgba(15, 23, 42, 0.1);
   animation: slideUp 0.3s ease;
   border: 1px solid rgba(255, 255, 255, 0.8);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
 }
 
 @keyframes slideUp {
