@@ -29,6 +29,8 @@ build/
 # Test files (documentation)
 *.md
 !README.md
+!GITHUB_PUSH_INSTRUCTIONS.md
+!READY_FOR_GITHUB.md
 
 # Temporary files
 temp_page.html
