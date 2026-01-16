@@ -207,45 +207,124 @@
     }
 
     .working-table tr {
-      display: block;
+      display: flex;
+      flex-wrap: wrap;
       margin-bottom: 1rem;
       border: 1px solid #e2e8f0;
       border-radius: 8px;
       overflow: hidden;
       background: white;
+      gap: 0;
     }
 
-    .working-table td {
-      display: block;
-      text-align: left;
-      padding: 0.75rem;
-      border: none;
+    .working-table td:nth-child(1),
+    .working-table td:nth-child(2),
+    .working-table td:nth-child(3) {
+      flex: 1;
+      min-width: 25%;
       border-bottom: 1px solid #f1f5f9;
-      position: relative;
-      padding-left: 40%;
-      min-height: 2rem;
+      border-right: 1px solid #f1f5f9;
+      padding: 0.75rem;
+      text-align: center;
     }
 
-    .working-table td:last-child {
-      border-bottom: none;
+    .working-table td:nth-child(3) {
+      border-right: none;
     }
 
-    .working-table td::before {
-      content: attr(data-label);
-      position: absolute;
-      left: 0.75rem;
-      top: 0.75rem;
+    .working-table td:nth-child(1)::before {
+      content: "Working Date";
+      display: block;
       font-weight: 700;
       color: #0066cc;
-      width: 35%;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.5rem;
+    }
+
+    .working-table td:nth-child(2)::before {
+      content: "Working Day";
+      display: block;
+      font-weight: 700;
+      color: #0066cc;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.5rem;
+    }
+
+    .working-table td:nth-child(3)::before {
+      content: "Compensation Date";
+      display: block;
+      font-weight: 700;
+      color: #0066cc;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.5rem;
+    }
+
+    .working-table td:nth-child(4) {
+      width: 100%;
+      border: none;
+      border-top: 1px solid #f1f5f9;
+      border-bottom: 1px solid #f1f5f9;
+      padding: 0.75rem;
+      text-align: center;
+      padding-left: 0.75rem;
+    }
+
+    .working-table td:nth-child(4)::before {
+      content: "Compensation Day";
+      display: block;
+      font-weight: 700;
+      color: #0066cc;
       font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      margin-bottom: 0.5rem;
     }
 
-    .working-table td[style*="background-color: #fff3cd"] {
+    .working-table td:nth-child(5) {
+      width: 100%;
+      border: none;
+      border-top: 1px solid #f1f5f9;
+      border-bottom: 1px solid #f1f5f9;
+      padding: 0.75rem;
+      text-align: center;
+      padding-left: 0.75rem;
+    }
+
+    .working-table td:nth-child(5)::before {
+      content: "Remarks";
+      display: block;
+      font-weight: 700;
+      color: #0066cc;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.5rem;
+    }
+
+    .working-table td:nth-child(6) {
+      width: 100%;
+      border: none;
+      border-top: 1px solid #f1f5f9;
+      padding: 0.75rem;
+      text-align: center;
       background: linear-gradient(135deg, #fef3c7 0%, #fff9e6 100%) !important;
-      border-bottom: none;
+    }
+
+    .working-table td:nth-child(6)::before {
+      content: "Days Being Used";
+      display: block;
+      font-weight: 700;
+      color: #78350f;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.5rem;
     }
 
     .working-table input, .working-table select {
@@ -259,13 +338,23 @@
       font-size: 0.8rem;
     }
 
-    .working-table td {
+    .working-table td:nth-child(1),
+    .working-table td:nth-child(2),
+    .working-table td:nth-child(3) {
+      min-width: 33.333%;
       padding: 0.5rem;
-      padding-left: 35%;
-      min-height: 1.8rem;
     }
 
-    .working-table td::before {
+    .working-table td:nth-child(1)::before,
+    .working-table td:nth-child(2)::before,
+    .working-table td:nth-child(3)::before {
+      font-size: 0.65rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .working-table td:nth-child(4)::before,
+    .working-table td:nth-child(5)::before,
+    .working-table td:nth-child(6)::before {
       font-size: 0.7rem;
     }
 
