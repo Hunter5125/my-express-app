@@ -959,3 +959,101 @@
     padding: 0.5rem 0.75rem;
   }
 }
+/* Mobile table vertical layout - max-width: 768px */
+@media (max-width: 768px) {
+  .requests-table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .requests-table thead {
+    display: none;
+  }
+
+  .requests-table tbody {
+    display: block;
+    width: 100%;
+  }
+
+  .requests-table tr {
+    display: block;
+    margin-bottom: 1.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.1);
+  }
+
+  .requests-table td {
+    display: block;
+    padding: 0.75rem;
+    text-align: left;
+    border: none;
+    border-bottom: 1px solid #f1f5f9;
+    position: relative;
+    padding-left: 35%;
+    min-height: 2.5rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .requests-table td:last-child {
+    border-bottom: none;
+  }
+
+  .requests-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0.75rem;
+    top: 0.75rem;
+    font-weight: 700;
+    color: var(--accent);
+    width: 30%;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .requests-table td[data-label="Employee"],
+  .requests-table td[data-label="Employee Name"],
+  .requests-table td[data-label="Day"],
+  .requests-table td[data-label="Working Day"] {
+    font-weight: 700;
+    background: linear-gradient(135deg, rgba(0, 102, 204, 0.03), rgba(16, 185, 129, 0.03));
+  }
+
+  .requests-table td[data-label="Actions"] {
+    padding-left: 0.75rem;
+    flex-direction: row;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .requests-table td[data-label="Actions"]::before {
+    display: none;
+  }
+
+  .requests-table td[data-label="Actions"] .btn,
+  .requests-table td[data-label="Actions"] .approve-btn,
+  .requests-table td[data-label="Actions"] .reject-btn,
+  .requests-table td[data-label="Actions"] .delete-btn,
+  .requests-table td[data-label="Actions"] .view-request-btn {
+    flex: 1;
+    min-width: 60px;
+    font-size: 0.8rem;
+    padding: 0.4rem 0.6rem;
+  }
+
+  .requests-table strong {
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+
+  .requests-table small {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.8rem;
+  }
+}
