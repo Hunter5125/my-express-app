@@ -2,14 +2,18 @@
 
 .requests-table {
   width: 100%;
+  max-width: 1200px;
   border-collapse: collapse;
   background: #ffffff;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 10px 25px rgba(15, 23, 42, 0.15);
   border: 2px solid #0066cc;
-  margin: 2rem 0;
+  margin: 2rem auto;
   font-size: 0.95rem;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
 }
 
 .requests-table thead {
@@ -277,6 +281,15 @@
   margin-bottom: 1.5rem;
   border: 1px solid #e2e8f0;
   box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
 }
 
 @media (max-width: 479px) {
@@ -287,11 +300,12 @@
 }
 
 .search-section label {
-  display: inline-block;
-  margin-right: 1rem;
+  display: block;
+  margin-bottom: 0.5rem;
   color: #0f172a;
   font-weight: 600;
   font-size: 0.95rem;
+  width: 100%;
 }
 
 .search-section input,
@@ -299,11 +313,43 @@
   padding: 0.6rem 0.8rem;
   border: 1px solid #cbd5e1;
   border-radius: 8px;
-  margin-right: 1rem;
   font-size: 0.95rem;
   background: white;
   color: #0f172a;
   transition: all 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 0.75rem;
+}
+
+.search-section input:focus,
+.search-section select:focus {
+  outline: none;
+  border-color: #0066cc;
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+}
+
+@media (max-width: 479px) {
+  .search-section label {
+    font-size: 0.85rem;
+  }
+
+  .search-section input,
+  .search-section select {
+    font-size: 16px;
+    padding: 0.5rem;
+  }
+}
+
+@media (min-width: 480px) and (max-width: 1024px) {
+  .search-section {
+    padding: 1.25rem;
+  }
+
+  .search-section input,
+  .search-section select {
+    font-size: 0.9rem;
+  }
 }
 
 .search-section input:focus,
@@ -322,12 +368,34 @@
   background: white;
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(15, 23, 42, 0.1);
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 @media (max-width: 479px) {
   .form-container {
     padding: 1rem;
-    margin: 1rem 0;
+    margin: 1rem auto;
+    width: 100%;
+    border-radius: 8px;
+  }
+}
+
+@media (min-width: 480px) and (max-width: 1024px) {
+  .form-container {
+    padding: 1.5rem;
+    margin: 1.5rem auto;
+    width: 95%;
+  }
+}
+
+@media (min-width: 1025px) {
+  .form-container {
+    max-width: 900px;
+    width: 90%;
   }
 }
 
@@ -351,11 +419,37 @@
   gap: 1rem;
   margin: 1.5rem 0;
   flex-wrap: wrap;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
 }
 
 .button-group .btn {
   flex: 1;
   min-width: 150px;
+  text-align: center;
+}
+
+@media (max-width: 479px) {
+  .button-group {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .button-group .btn {
+    width: 100%;
+    min-width: auto;
+  }
+}
+
+@media (min-width: 480px) and (max-width: 1024px) {
+  .button-group {
+    gap: 0.75rem;
+  }
+
+  .button-group .btn {
+    min-width: 130px;
+  }
 }
 
 /* Modal */
@@ -372,6 +466,8 @@
   z-index: 1000;
   backdrop-filter: blur(4px);
   animation: fadeIn 0.3s ease;
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
 @keyframes fadeIn {
@@ -394,6 +490,10 @@
   box-shadow: 0 25px 50px rgba(15, 23, 42, 0.3), 0 0 1px rgba(15, 23, 42, 0.1);
   animation: slideUp 0.3s ease;
   border: 1px solid rgba(255, 255, 255, 0.8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 @keyframes slideUp {
@@ -407,6 +507,32 @@
   }
 }
 
+@media (max-width: 479px) {
+  .modal {
+    padding: 0.5rem;
+  }
+
+  .modal-content {
+    width: 98%;
+    max-height: 95vh;
+    border-radius: 12px;
+  }
+}
+
+@media (min-width: 480px) and (max-width: 1024px) {
+  .modal-content {
+    width: 90%;
+    max-width: 550px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .modal-content {
+    width: 95%;
+    max-width: 550px;
+  }
+}
+
 .modal-header {
   display: flex;
   justify-content: space-between;
@@ -417,38 +543,12 @@
 }
 
 .modal-header h2 {
-  margin: 0;
-  color: #0066cc;
-  font-size: 1.5rem;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-}
-
-.modal-close {
-  background: none;
-  border: none;
-  font-size: 2rem;
-  cursor: pointer;
-  color: #94a3b8;
-  transition: all 0.3s ease;
-  padding: 0;
-  width: 40px;
-  height: 40px;
+  width: 100%;
+  box-sizing: border-box;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
-}
-
-.modal-close:hover {
-  color: #0f172a;
-  background: rgba(0, 0, 0, 0.05);
-  transform: rotate(90deg);
-}
-
-/* Modal Form */
-#request-form {
-  padding: 2rem;
 }
 
 #request-form label {
@@ -457,6 +557,7 @@
   font-weight: 600;
   color: #0f172a;
   font-size: 0.95rem;
+  width: 100%;
 }
 
 #request-form input,
@@ -471,6 +572,79 @@
   color: #0f172a;
   background: #ffffff;
   transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+#request-form input:focus,
+#request-form select:focus {
+  outline: none;
+  border-color: #0066cc;
+  box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.1);
+  background: #ffffff;
+}
+
+#request-form button {
+  width: 100%;
+  padding: 0.85rem 1.5rem;
+  background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+  box-sizing: border-box;
+}
+
+#request-form button:hover {
+  background: linear-gradient(135deg, #0052a3 0%, #003d7a 100%);
+  box-shadow: 0 6px 16px rgba(0, 102, 204, 0.4);
+  transform: translateY(-2px);
+}
+
+#request-form button:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 479px) {
+  #request-form {
+    padding: 1rem;
+  }
+
+  #request-form label {
+    font-size: 0.85rem;
+    margin-bottom: 0.4rem;
+  }
+
+  #request-form input,
+  #request-form select {
+    padding: 0.65rem;
+    font-size: 16px;
+    margin-bottom: 1rem;
+  }
+
+  #request-form button {
+    padding: 0.7rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (min-width: 480px) and (max-width: 1024px) {
+  #request-form {
+    padding: 1.5rem;
+  }
+
+  #request-form input,
+  #request-form select {
+    padding: 0.7rem;
+    margin-bottom: 1.25rem;
+  }
+
+  #request-form button {
+    padding: 0.8rem 1.5rem;
+  };
 }
 
 #request-form input:focus,
