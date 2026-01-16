@@ -126,31 +126,153 @@
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 30px;
-    background: white;
-    border: 1px solid #ddd;
-    font-size: 0.9rem;
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 102, 204, 0.1);
+    border: 2px solid #e0eaff;
+    font-size: 0.95rem;
   }
   .working-table th, .working-table td {
-    border: 1px solid #ddd;
-    padding: 10px;
+    border-bottom: 2px solid #e2e8f0;
+    padding: 14px 12px;
     text-align: center;
+    vertical-align: middle;
   }
   .working-table th {
-    background-color: #007bff;
+    background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
     color: white;
-    font-weight: bold;
-    padding: 12px;
+    font-weight: 700;
+    padding: 16px 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.85rem;
   }
-  .working-table tr:nth-child(even) {
-    background-color: #f2f2f2;
+  .working-table thead tr:first-child th {
+    border-bottom: 3px solid #0052a3;
+  }
+  .working-table tbody tr {
+    transition: all 0.3s ease;
+    background: white;
+  }
+  .working-table tbody tr:hover {
+    background: linear-gradient(135deg, rgba(0, 102, 204, 0.05), rgba(16, 185, 129, 0.05));
+    box-shadow: inset 0 0 0 1px #cbd5e1;
+  }
+  .working-table tbody tr:last-child td {
+    border-bottom: 2px solid #0066cc;
   }
   .working-table input, .working-table select {
     width: 100%;
-    padding: 6px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    padding: 10px 8px;
+    border: 2px solid #cbd5e1;
+    border-radius: 6px;
     font-size: 14px;
+    font-family: inherit;
     box-sizing: border-box;
+    transition: all 0.3s ease;
+    background: white;
+    color: #0f172a;
+  }
+  .working-table input:focus, .working-table select:focus {
+    outline: none;
+    border-color: #0066cc;
+    box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+  }
+  .working-table input[readonly] {
+    background: #f1f5f9;
+    color: #475569;
+  }
+  .working-table td[style*="background-color: #fff3cd"] {
+    background: linear-gradient(135deg, #fef3c7 0%, #fff9e6 100%) !important;
+    font-weight: 700;
+    color: #78350f;
+    border-right: 3px solid #fcd34d;
+  }
+
+  /* Mobile Responsive - Vertical Stack Layout */
+  @media (max-width: 768px) {
+    .working-table {
+      font-size: 0.85rem;
+      margin-bottom: 20px;
+    }
+
+    .working-table thead {
+      display: none;
+    }
+
+    .working-table tbody {
+      display: block;
+      width: 100%;
+    }
+
+    .working-table tr {
+      display: block;
+      margin-bottom: 1rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      overflow: hidden;
+      background: white;
+    }
+
+    .working-table td {
+      display: block;
+      text-align: left;
+      padding: 0.75rem;
+      border: none;
+      border-bottom: 1px solid #f1f5f9;
+      position: relative;
+      padding-left: 40%;
+      min-height: 2rem;
+    }
+
+    .working-table td:last-child {
+      border-bottom: none;
+    }
+
+    .working-table td::before {
+      content: attr(data-label);
+      position: absolute;
+      left: 0.75rem;
+      top: 0.75rem;
+      font-weight: 700;
+      color: #0066cc;
+      width: 35%;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .working-table td[style*="background-color: #fff3cd"] {
+      background: linear-gradient(135deg, #fef3c7 0%, #fff9e6 100%) !important;
+      border-bottom: none;
+    }
+
+    .working-table input, .working-table select {
+      padding: 0.6rem;
+      font-size: 14px;
+    }
+  }
+
+  @media (max-width: 479px) {
+    .working-table {
+      font-size: 0.8rem;
+    }
+
+    .working-table td {
+      padding: 0.5rem;
+      padding-left: 35%;
+      min-height: 1.8rem;
+    }
+
+    .working-table td::before {
+      font-size: 0.7rem;
+    }
+
+    .working-table input, .working-table select {
+      padding: 0.5rem;
+      font-size: 13px;
+    }
   }
   .add-row-btn {
     background-color: #28a745;
@@ -814,8 +936,8 @@
     </thead>
     <tbody id="working-days">
       <tr>
-        <td><input type="date" class="working-date" required readonly {{#if existingRequest}}{{#if existingRequest.working_day_date}}value="{{existingRequest.working_day_date}}"{{else if selected.[0]}}value="{{selected.[0].date}}"{{/if}}{{else if selected}}value="{{selected.[0].date}}"{{/if}}></td>
-        <td>
+        <td data-label="Working Date"><input type="date" class="working-date" required readonly {{#if existingRequest}}{{#if existingRequest.working_day_date}}value="{{existingRequest.working_day_date}}"{{else if selected.[0]}}value="{{selected.[0].date}}"{{/if}}{{else if selected}}value="{{selected.[0].date}}"{{/if}}></td>
+        <td data-label="Working Day">
           <select class="working-day" required disabled>
             <option value="">Select Day</option>
             <option value="Monday" {{#if (eq existingRequest.working_day "Monday")}}selected{{else if (eq selected.[0].day "Monday")}}selected{{/if}}>Monday</option>
@@ -827,14 +949,14 @@
             <option value="Sunday" {{#if (eq existingRequest.working_day "Sunday")}}selected{{else if (eq selected.[0].day "Sunday")}}selected{{/if}}>Sunday</option>
           </select>
         </td>
-          <td>
+          <td data-label="Compensation Date">
             {{#if (eq mode "view")}}
               <input type="date" class="compensation-date" required readonly value="{{existingRequest.formattedDate_to_be_taken}}">
             {{else}}
               <input type="date" class="compensation-date" required value="">
             {{/if}}
           </td>
-          <td>
+          <td data-label="Compensation Day">
             <select class="compensation-day" required {{#if (eq mode "view")}}disabled{{/if}}>
               <option value="">Select Day</option>
               <option value="Monday" {{#if (eq existingRequest.day_to_be_taken "Monday")}}selected{{/if}}>Monday</option>
@@ -846,8 +968,8 @@
               <option value="Sunday" {{#if (eq existingRequest.day_to_be_taken "Sunday")}}selected{{/if}}>Sunday</option>
             </select>
           </td>
-        <td><input type="text" class="remarks" placeholder="Enter remarks" required readonly value="{{#if existingRequest}}{{existingRequest.remark}}{{else}}{{#if selected.[0]}}{{selected.[0].remark}}{{/if}}{{/if}}"></td>
-        <td style="background-color: #fff3cd; font-weight: bold; text-align: center;"><span class="days-used-display">0</span> days</td>
+        <td data-label="Remarks"><input type="text" class="remarks" placeholder="Enter remarks" required readonly value="{{#if existingRequest}}{{existingRequest.remark}}{{else}}{{#if selected.[0]}}{{selected.[0].remark}}{{/if}}{{/if}}"></td>
+        <td data-label="Days Being Used" style="background-color: #fff3cd; font-weight: bold; text-align: center;"><span class="days-used-display">0</span> days</td>
       </tr>
     </tbody>
     <tfoot>
