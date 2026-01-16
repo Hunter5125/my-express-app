@@ -599,6 +599,22 @@
     padding: 0.7rem 1rem;
     font-size: 0.9rem;
   }
+
+  /* Form row layout - 2 columns on mobile */
+  #request-form .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  #request-form .form-row input,
+  #request-form .form-row select {
+    margin-bottom: 0.5rem;
+  }
+
+  #request-form .form-row label {
+    font-size: 0.75rem;
+  }
 }
 
 @media (min-width: 480px) and (max-width: 1024px) {

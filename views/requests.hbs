@@ -85,19 +85,47 @@
     </div>
     <form id="request-form">
       <input type="hidden" id="request-id">
-      <label for="day">Working Day:</label>
-      <select id="day" required>
-        <option value="">Select Day</option>
-        <option value="Sunday">Sunday</option>
-        <option value="Monday">Monday</option>
-        <option value="Tuesday">Tuesday</option>
-        <option value="Wednesday">Wednesday</option>
-        <option value="Thursday">Thursday</option>
-        <option value="Friday">Friday</option>
-        <option value="Saturday">Saturday</option>
-      </select>
-      <label for="date">Date:</label>
-      <input type="date" id="date" required>
+      
+      <div class="form-row">
+        <div>
+          <label for="day">Working Day:</label>
+          <select id="day" required>
+            <option value="">Select Day</option>
+            <option value="Sunday">Sunday</option>
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+            <option value="Saturday">Saturday</option>
+          </select>
+        </div>
+        <div>
+          <label for="date">Date:</label>
+          <input type="date" id="date" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div>
+          <label for="remark">Compensation Date:</label>
+          <input type="date" id="compensation-date" required>
+        </div>
+        <div>
+          <label for="day-to-take">Day:</label>
+          <select id="day-to-take" required>
+            <option value="">Select Day</option>
+            <option value="Sunday">Sunday</option>
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+            <option value="Saturday">Saturday</option>
+          </select>
+        </div>
+      </div>
+
       <label for="remark">Remark:</label>
       <input type="text" id="remark" required>
       <label for="balance">Balance:</label>
