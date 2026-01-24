@@ -599,27 +599,31 @@
   }
   .approval-table {
     width: 100%;
+    max-width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
+    margin: 0 auto 1rem auto;
     background: white;
     border: 1px solid #000;
-    table-layout: fixed;
+    table-layout: auto;
+    font-size: 0.85rem;
   }
   .approval-table th {
     background-color: #555;
     color: white;
-    padding: 12px;
+    padding: 6px 4px;
     text-align: center;
     font-weight: bold;
     border: 1px solid #000;
+    font-size: 0.8rem;
     width: 33.33%;
   }
   .approval-table td {
-    padding: 8px 12px;
+    padding: 6px 4px;
     border: 1px solid #000;
     text-align: center;
     vertical-align: middle;
     width: 33.33%;
+    font-size: 0.8rem;
   }
   .approval-table tr {
     height: auto;
@@ -629,20 +633,32 @@
   }
   .approval-label {
     font-weight: bold;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
     display: block;
     color: #333;
     text-align: left;
-    font-size: 14px;
+    font-size: 11px;
+    line-height: 1.2;
   }
   .approval-text {
-    min-height: 25px;
-    padding: 4px 8px;
+    min-height: 20px;
+    padding: 2px 4px;
     text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
+    font-size: 11px;
+    line-height: 1.2;
+  }
+  /* Compact signature styling */
+  .approval-table .signature-line {
+    min-height: 40px !important;
+    margin-top: 2px !important;
+  }
+  .approval-table .signature-line img {
+    max-height: 35px;
+    width: auto;
+    object-fit: contain;
   }
   .approval-block {
     padding: 20px;
@@ -650,6 +666,99 @@
     background: #f9f9f9;
     border-radius: 5px;
     margin-bottom: 20px;
+  }
+
+  /* Approval table responsive design */
+  @media (max-width: 768px) {
+    .approval-table {
+      font-size: 0.75rem;
+      margin: 0 auto 0.75rem auto;
+    }
+    .approval-table th {
+      padding: 4px 2px;
+      font-size: 0.7rem;
+    }
+    .approval-table td {
+      padding: 4px 2px;
+      font-size: 0.7rem;
+    }
+    .approval-label {
+      font-size: 9px;
+      margin-bottom: 1px;
+    }
+    .approval-text {
+      min-height: 18px;
+      padding: 1px 2px;
+      font-size: 9px;
+    }
+    .approval-table .signature-line {
+      min-height: 30px !important;
+      margin-top: 1px !important;
+    }
+    .approval-table .signature-line img {
+      max-height: 25px;
+    }
+  }
+
+  /* Mobile optimization */
+  @media (max-width: 479px) {
+    .approval-table {
+      font-size: 0.65rem;
+    }
+    .approval-table th {
+      padding: 3px 2px;
+      font-size: 0.65rem;
+    }
+    .approval-table td {
+      padding: 3px 2px;
+      font-size: 0.65rem;
+    }
+    .approval-label {
+      font-size: 8px;
+      margin-bottom: 0px;
+    }
+    .approval-text {
+      min-height: 15px;
+      padding: 0px 1px;
+      font-size: 8px;
+    }
+    .approval-table .signature-line {
+      min-height: 25px !important;
+      margin-top: 1px !important;
+    }
+    .approval-table .signature-line img {
+      max-height: 20px;
+    }
+  }
+
+  /* Desktop optimization */
+  @media (min-width: 1025px) {
+    .approval-table {
+      max-width: 90%;
+      margin: 0 auto 1rem auto;
+      font-size: 0.8rem;
+    }
+    .approval-table th {
+      padding: 5px 3px;
+      font-size: 0.75rem;
+    }
+    .approval-table td {
+      padding: 5px 3px;
+      font-size: 0.75rem;
+    }
+    .approval-label {
+      font-size: 10px;
+    }
+    .approval-text {
+      font-size: 10px;
+      min-height: 18px;
+    }
+    .approval-table .signature-line {
+      min-height: 35px !important;
+    }
+    .approval-table .signature-line img {
+      max-height: 30px;
+    }
   }
   .approval-block h4 {
     margin-top: 0;
