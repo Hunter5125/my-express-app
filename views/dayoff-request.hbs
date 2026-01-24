@@ -11,7 +11,7 @@
     max-width: 900px;
     margin: 0 auto;
     padding: 0.5rem;
-    border: 1px solid #ddd;
+    border: 2px solid #0066cc;
     background: white;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -696,11 +696,15 @@
     background-color: #28a745;
     color: white;
     border: none;
-    padding: 12px 30px;
+    padding: 8px 16px;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
-    margin-top: 20px;
+    font-size: 12px;
+    margin-top: 0;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999;
   }
   .print-btn:hover {
     background-color: #218838;
@@ -1035,6 +1039,10 @@
       padding: 6px 12px !important;
       font-size: 11px !important;
       margin-top: 0.5rem !important;
+      position: fixed !important;
+      bottom: 20px !important;
+      right: 20px !important;
+      z-index: 999 !important;
     }
     .signature-line {
       min-height: 35px !important;
@@ -1514,7 +1522,7 @@
     </table>
   </div>
 
-  <div class="notes">
+  <div class="notes" style="display: none;">
     <h4>Mandatory Notes:</h4>
     <ul>
       <li>Managers' applications should be approved by Project Director only.</li>
@@ -1524,8 +1532,8 @@
   {{#unless existingRequest}}
   <button type="button" class="btn btn-primary" id="submit-form">Submit Request</button>
   {{/unless}}
-  <button type="button" class="print-btn" id="print-btn" onclick="window.print()">Print</button>
 </div>
+<button type="button" class="print-btn" id="print-btn" onclick="window.print()" style="position: fixed; bottom: 20px; right: 20px; padding: 8px 16px; font-size: 12px; z-index: 999;">Print</button>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
