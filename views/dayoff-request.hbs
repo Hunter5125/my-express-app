@@ -1047,24 +1047,6 @@
     }
   }
 
-  /* Hide Approval Status and Working Days & Compensation Schedule sections */
-  .approval-section {
-    display: none !important;
-  }
-  
-  .approval-status-header {
-    display: none !important;
-  }
-  
-  .working-days-compensation-section {
-    display: none !important;
-  }
-  
-  /* Also hide the working table */
-  .working-table {
-    display: none !important;
-  }
-
   /* Mobile responsive styles for phones (320px - 479px) */
   @media (max-width: 479px) {
     body {
@@ -1363,7 +1345,7 @@
   <!-- remark: {{#if existingRequest}}"{{existingRequest.remark}}"{{else}}NULL{{/if}} -->
   <!-- mode: {{mode}} -->
 
-  <div class="working-days-compensation-section" style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); padding: 20px; border-radius: 12px; border-left: 5px solid #0066cc; box-shadow: 0 2px 8px rgba(0, 102, 204, 0.1); margin-bottom: 20px;">
+  <div style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); padding: 20px; border-radius: 12px; border-left: 5px solid #0066cc; box-shadow: 0 2px 8px rgba(0, 102, 204, 0.1); margin-bottom: 20px;">
     <h3 style="margin: 0 0 10px 0; color: #0066cc; font-size: 16px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700;">📋 Working Days & Compensation Schedule</h3>
     <p style="margin: 0; color: #475569; font-size: 13px;">Fill in the working day details and compensation dates below:</p>
   </div>
@@ -1436,7 +1418,7 @@
     <input type="number" id="remaining-balance" value="{{#if existingRequest}}{{existingRequest.balance}}{{else}}{{balance}}{{/if}}" readonly style="font-size: 18px; font-weight: 700; color: #0066cc; background: white; border: 2px solid #0066cc; padding: 12px; border-radius: 8px; width: 100%; box-sizing: border-box;">
   </div>
 
-  <div class="approval-status-header" style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); padding: 20px; border-radius: 12px; border-left: 5px solid #10b981; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.1); margin-top: 30px; margin-bottom: 20px;">
+  <div style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); padding: 20px; border-radius: 12px; border-left: 5px solid #10b981; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.1); margin-top: 30px; margin-bottom: 20px;">
     <h3 style="margin: 0 0 10px 0; color: #10b981; font-size: 16px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700;">✅ Approval Status</h3>
     <p style="margin: 0; color: #475569; font-size: 13px;">Review and approval details from supervisors and management:</p>
   </div>
