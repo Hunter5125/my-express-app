@@ -603,46 +603,54 @@
     border-collapse: collapse;
     margin: 0 auto 1rem auto;
     background: white;
-    border: 1px solid #000;
+    border: 2px solid #0052cc;
     table-layout: auto;
     font-size: 0.85rem;
   }
   .approval-table th {
-    background-color: #555;
+    background: linear-gradient(135deg, #0052cc 0%, #0047b2 100%);
     color: white;
-    padding: 6px 4px;
+    padding: 8px 6px;
     text-align: center;
-    font-weight: bold;
-    border: 1px solid #000;
-    font-size: 0.8rem;
+    font-weight: 700;
+    border: 2px solid #0052cc;
+    font-size: 0.75rem;
     width: 33.33%;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
   .approval-table td {
-    padding: 6px 4px;
-    border: 1px solid #000;
+    padding: 8px 6px;
+    border: 2px solid #e0e0e0;
     text-align: center;
     vertical-align: middle;
     width: 33.33%;
     font-size: 0.8rem;
+    background: white;
   }
   .approval-table tr {
     height: auto;
   }
-  .approval-table tr:nth-child(even) {
-    background-color: #f9f9f9;
+  .approval-table tbody tr:nth-child(odd) {
+    background-color: #f5f5f5;
+  }
+  .approval-table tbody tr:nth-child(even) {
+    background-color: white;
   }
   .approval-label {
-    font-weight: bold;
-    margin-bottom: 2px;
+    font-weight: 700;
+    margin-bottom: 3px;
     display: block;
     color: #333;
     text-align: left;
-    font-size: 11px;
+    font-size: 10px;
     line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
   }
   .approval-text {
     min-height: 20px;
-    padding: 2px 4px;
+    padding: 3px 4px;
     text-align: center;
     display: flex;
     align-items: center;
