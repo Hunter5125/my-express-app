@@ -596,37 +596,43 @@
   }
   .approval-section {
     margin-bottom: 30px;
+    width: 100%;
   }
   .approval-table {
-    width: 100%;
-    max-width: 100%;
+    width: 100% !important;
+    max-width: 100% !important;
     border-collapse: collapse;
-    margin: 0 auto 1rem auto;
+    margin: 0 !important;
+    padding: 0 !important;
     background: white;
     border: 2px solid #0052cc;
-    table-layout: auto;
+    table-layout: fixed;
     font-size: 0.85rem;
   }
   .approval-table th {
     background: linear-gradient(135deg, #0052cc 0%, #0047b2 100%);
     color: white;
-    padding: 8px 6px;
+    padding: 10px 8px;
     text-align: center;
     font-weight: 700;
     border: 2px solid #0052cc;
     font-size: 0.75rem;
-    width: 33.33%;
+    width: 33.33% !important;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    overflow: hidden;
+    word-break: break-word;
   }
   .approval-table td {
-    padding: 8px 6px;
+    padding: 10px 8px;
     border: 2px solid #e0e0e0;
     text-align: center;
     vertical-align: middle;
-    width: 33.33%;
+    width: 33.33% !important;
     font-size: 0.8rem;
     background: white;
+    overflow: hidden;
+    word-break: break-word;
   }
   .approval-table tr {
     height: auto;
@@ -1566,12 +1572,12 @@
     <input type="number" id="remaining-balance" value="{{#if existingRequest}}{{existingRequest.balance}}{{else}}{{balance}}{{/if}}" readonly style="font-size: 18px; font-weight: 700; color: #0066cc; background: white; border: 2px solid #0066cc; padding: 12px; border-radius: 8px; width: 100%; box-sizing: border-box;">
   </div>
 
-  <div style="background: transparent; padding: 0; border-radius: 0; border-left: none; box-shadow: none; margin-top: 20px; margin-bottom: 10px;">
+  <div style="background: transparent; padding: 0; border-radius: 0; border-left: none; box-shadow: none; margin-top: 20px; margin-bottom: 10px; width: 100%;">
     <h3 style="margin: 0 0 0 0; color: #10b981; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700;">✅ Approval Status</h3>
     <p style="margin: 0; color: #475569; font-size: 13px; display: none;">Review and approval details from supervisors and management:</p>
   </div>
 
-  <div class="approval-section">
+  <div class="approval-section" style="width: 100%; padding: 0; margin: 0;">
     <table class="approval-table">
       <thead>
         <tr>
