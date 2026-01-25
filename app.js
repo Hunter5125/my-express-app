@@ -79,16 +79,22 @@ hbs.registerHelper('formatDate', function(date, format) {
   if (!date) return 'N/A';
   try {
     const d = new Date(date);
-    if (isNaN(d.getTime())) return 'Invalid Date';
+    if (isNaN(d.getTime())) {
+      console.warn('formatDate: Invalid date received:', date);
+      return 'Invalid Date';
+    }
     
     // If format is 'iso', return YYYY-MM-DD
     if (format === 'iso') {
-      return d.toISOString().split('T')[0];
+      const iso = d.toISOString().split('T')[0];
+      console.log('formatDate iso:', { input: String(date).substring(0, 50), output: iso });
+      return iso;
     }
     
     // Default: return locale date string
     return d.toLocaleDateString();
   } catch (e) {
+    console.error('formatDate error:', e.message);
     return 'Invalid Date';
   }
 });
