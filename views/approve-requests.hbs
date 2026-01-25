@@ -7,6 +7,7 @@
       <th style="border: 1px solid #ddd; padding: 8px;">Employee</th>
       <th style="border: 1px solid #ddd; padding: 8px;">Day</th>
       <th style="border: 1px solid #ddd; padding: 8px;">Date</th>
+      <th style="border: 1px solid #ddd; padding: 8px;">Days Requested</th>
       <th style="border: 1px solid #ddd; padding: 8px;">Remark</th>
       <th style="border: 1px solid #ddd; padding: 8px;">Team Leader approval status</th>
       <th style="border: 1px solid #ddd; padding: 8px;">Manager approval status</th>
@@ -18,6 +19,7 @@
       <td style="border: 1px solid #ddd; padding: 8px;">{{this.employee.name}}</td>
       <td style="border: 1px solid #ddd; padding: 8px;">{{#if this.day_to_be_taken}}{{this.day_to_be_taken}}{{else if this.day}}{{this.day}}{{/if}}</td>
       <td style="border: 1px solid #ddd; padding: 8px;">{{#if this.date_to_be_taken}}{{formatDate this.date_to_be_taken}}{{else if this.date}}{{formatDate this.date}}{{/if}}</td>
+      <td style="border: 1px solid #ddd; padding: 8px;"><strong>{{#if this.workingDayIds}}{{this.workingDayIds.length}} day{{#if (ne this.workingDayIds.length 1)}}s{{/if}}{{else}}1 day{{/if}}</strong></td>
       <td style="border: 1px solid #ddd; padding: 8px;">{{this.remark}}</td>
       <td style="border: 1px solid #ddd; padding: 8px;">
         {{#if (eq this.status 'pending')}}

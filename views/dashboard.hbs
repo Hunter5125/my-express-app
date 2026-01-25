@@ -189,6 +189,7 @@
         <th>Working Date</th>
         <th>Day to be taken</th>
         <th>Date to be taken</th>
+        <th>Days Requested</th>
         <th>Remark</th>
         <th>Remaining Balance</th>
         <th>Team Leader approval status</th>
@@ -205,6 +206,7 @@
         <td>{{#if this.workingDayIds.[0]}}{{#if this.workingDayIds.[0].date}}{{formatDate this.workingDayIds.[0].date}}{{else}}N/A{{/if}}{{else}}{{#if this.working_day_date}}{{formatDate this.working_day_date}}{{else}}N/A{{/if}}{{/if}}</td>
         <td>{{#if this.day_to_be_taken}}{{this.day_to_be_taken}}{{else if this.day}}{{this.day}}{{else}}N/A{{/if}}</td>
         <td>{{#if this.date_to_be_taken}}{{formatDate this.date_to_be_taken}}{{else if this.date}}{{formatDate this.date}}{{else}}N/A{{/if}}</td>
+        <td><strong>{{#if this.workingDayIds}}{{this.workingDayIds.length}} day{{#if (ne this.workingDayIds.length 1)}}s{{/if}}{{else}}1 day{{/if}}</strong></td>
         <td>{{this.remark}}</td>
         <td>{{this.balance}}</td>
         <td>
@@ -341,6 +343,7 @@
         <th style="border: 1px solid #ddd; padding: 8px;">Working Date</th>
         <th style="border: 1px solid #ddd; padding: 8px;">Day to be taken</th>
         <th style="border: 1px solid #ddd; padding: 8px;">Date to be taken</th>
+        <th style="border: 1px solid #ddd; padding: 8px;">Days Requested</th>
         <th style="border: 1px solid #ddd; padding: 8px;">Remark</th>
         <th style="border: 1px solid #ddd; padding: 8px;">Remaining Balance</th>
         <th style="border: 1px solid #ddd; padding: 8px;">Team Leader approval status</th>
@@ -356,6 +359,7 @@
         <td style="border: 1px solid #ddd; padding: 8px;">{{#if this.workingDayIds.[0]}}{{#if this.workingDayIds.[0].date}}{{formatDate this.workingDayIds.[0].date}}{{else}}N/A{{/if}}{{else}}{{#if this.working_day_date}}{{formatDate this.working_day_date}}{{else}}N/A{{/if}}{{/if}}</td>
         <td style="border: 1px solid #ddd; padding: 8px;">{{#if this.day_to_be_taken}}{{this.day_to_be_taken}}{{else if this.day}}{{this.day}}{{else}}N/A{{/if}}</td>
         <td style="border: 1px solid #ddd; padding: 8px;">{{#if this.date_to_be_taken}}{{formatDate this.date_to_be_taken}}{{else if this.date}}{{formatDate this.date}}{{else}}N/A{{/if}}</td>
+        <td style="border: 1px solid #ddd; padding: 8px;"><strong>{{#if this.workingDayIds}}{{this.workingDayIds.length}} day{{#if (ne this.workingDayIds.length 1)}}s{{/if}}{{else}}1 day{{/if}}</strong></td>
         <td style="border: 1px solid #ddd; padding: 8px;">{{this.remark}}</td>
         <td style="border: 1px solid #ddd; padding: 8px;">{{this.balance}}</td>
         <td style="border: 1px solid #ddd; padding: 8px;">{{this.teamLeaderApprovalStatus}}</td>
