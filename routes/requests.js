@@ -456,7 +456,8 @@ router.get('/dayoff-request', async (req, res) => {
             actualRequest = await DayOffRequest.findById(requestData._id)
               .populate('employee', 'name email employeeNo signature')
               .populate('teamLeaderApprovedBy', 'name signature')
-              .populate('approvedBy', 'name signature');
+              .populate('approvedBy', 'name signature')
+              .populate('workingDayIds', 'day balance date remark');
           }
         } catch (err) {
           console.error('Error fetching request:', err);
@@ -512,13 +513,27 @@ router.get('/dayoff-request', async (req, res) => {
         };
 
         // Create selected data from the table data (working day info)
-        selected = [{
-          id: requestData._id, // Use request ID as working day ID for display purposes
-          day: requestData.workingDay,
-          date: formatDateString(requestData.workingDayDate),
-          remark: requestData.remark,
-          balance: parseFloat(requestData.remainingBalance) || 0
-        }];
+        // First, try to use actual working days from database if available
+        if (actualRequest && actualRequest.workingDayIds && Array.isArray(actualRequest.workingDayIds) && actualRequest.workingDayIds.length > 0) {
+          console.log(`Using ${actualRequest.workingDayIds.length} working days from database`);
+          selected = actualRequest.workingDayIds.map(wd => ({
+            id: wd._id.toString(),
+            day: wd.day,
+            date: wd.date ? wd.date.toISOString().split('T')[0] : '',
+            remark: wd.remark,
+            balance: wd.balance
+          }));
+        } else {
+          // Fallback to single row from requestData if database lookup failed
+          console.log('Using single row from requestData (database lookup failed or no working days found)');
+          selected = [{
+            id: requestData._id,
+            day: requestData.workingDay,
+            date: formatDateString(requestData.workingDayDate),
+            remark: requestData.remark,
+            balance: parseFloat(requestData.remainingBalance) || 0
+          }];
+        }
 
         console.log('Created mock data from table row');
       } catch (error) {
