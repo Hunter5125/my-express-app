@@ -72,12 +72,19 @@ router.post('/login', async (req, res) => {
       return res.render('login', { error: 'Invalid email or password', session: req.session });
     }
     req.session.user = { _id: user._id, name: user.name, email: user.email, role: user.role, employeeNo: user.employeeNo, signature: user.signature };
-    // Redirect employees to /requests, others to /dashboard
-    if (user.role === 'employee') {
-      res.redirect('/requests');
-    } else {
-      res.redirect('/dashboard');
-    }
+    // Save session before redirecting to ensure it persists to MongoDB
+    req.session.save((err) => {
+      if (err) {
+        console.error('Session save error:', err);
+        return res.status(500).send('Session save error');
+      }
+      // Redirect employees to /requests, others to /dashboard
+      if (user.role === 'employee') {
+        res.redirect('/requests');
+      } else {
+        res.redirect('/dashboard');
+      }
+    });
   } catch (error) {
     res.status(500).send('Login error');
   }
