@@ -473,7 +473,29 @@ router.get('/dayoff-request', async (req, res) => {
           console.log(`  📅 Parsing date: "${dateStr}" (type: ${typeof dateStr})`);
           
           try {
-            // Try to parse the date string
+            // Handle JavaScript Date toString() format: "Wed Jan 28 2026 03:00:00 GMT+0300..."
+            // Extract just the date part if it's in this format
+            if (dateStr.includes('2026') && (dateStr.includes('Jan') || dateStr.includes('Feb') || dateStr.includes('Mar'))) {
+              // This looks like JavaScript Date.toString() output
+              // Try to extract month, day, year
+              const monthMap = {
+                'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04', 'May': '05', 'Jun': '06',
+                'Jul': '07', 'Aug': '08', 'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dec': '12'
+              };
+              
+              const matches = dateStr.match(/(\w{3})\s+(\d{1,2})\s+(\d{4})/);
+              if (matches) {
+                const [, month, day, year] = matches;
+                const monthNum = monthMap[month];
+                if (monthNum) {
+                  const result = `${year}-${monthNum}-${String(day).padStart(2, '0')}`;
+                  console.log(`  ✅ Successfully extracted date from JS toString format: ${result}`);
+                  return result;
+                }
+              }
+            }
+            
+            // Try to parse the date string normally
             let dateObj = new Date(dateStr);
             
             // Check if valid date
