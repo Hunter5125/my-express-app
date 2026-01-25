@@ -262,26 +262,26 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     const selectedDays = [];
-    let daysRemaining = daysRequested;
+    let rowsCreated = 0;
+    const requestedRowsNeeded = Math.ceil(daysRequested); // Number of rows needed to match requested days
 
-    // Step 1: Allocate from existing working days
-    console.log(`\n📋 Strategy: Allocate from existing working days first...`);
-    const daysToTakePerDay = Math.ceil(daysRequested / workingDaysData.length);
+    // Step 1: Create rows from existing working days (take max 1 day per row)
+    console.log(`\n📋 Strategy: Create ${requestedRowsNeeded} rows - first fill from existing working days, then placeholders...`);
     
-    for (let i = 0; i < workingDaysData.length && daysRemaining > 0; i++) {
+    for (let i = 0; i < workingDaysData.length && rowsCreated < requestedRowsNeeded; i++) {
       const wd = workingDaysData[i];
       const dayBalance = parseFloat(wd.balance);
 
       if (!wd.day || !wd.date) {
-        console.warn(`  ⚠️  Row ${i}: Missing day or date!`, wd);
+        console.warn(`  ⚠️  Working day ${i}: Missing day or date!`, wd);
         continue;
       }
 
       if (dayBalance > 0) {
-        // Calculate how much to take from this day
-        const daysToUse = Math.min(daysToTakePerDay, daysRemaining, dayBalance);
+        // Take up to 1 day from this working day (or less if balance is insufficient)
+        const daysToUse = Math.min(1, dayBalance); // Maximum 1 day per row
         
-        console.log(`  [${i}] Taking ${daysToUse} days from "${wd.day}" (balance=${dayBalance}, remaining=${daysRemaining})`);
+        console.log(`  [Row ${rowsCreated}] Taking ${daysToUse} day(s) from "${wd.day}" (balance=${dayBalance})`);
         
         selectedDays.push({
           id: wd._id,
@@ -292,32 +292,32 @@ document.addEventListener('DOMContentLoaded', function() {
           balanceRemaining: dayBalance - daysToUse
         });
         
-        daysRemaining -= daysToUse;
+        rowsCreated++;
       } else {
-        console.log(`  [${i}] Skipped (balance = 0)`);
+        console.log(`  Working day ${i}: Skipped (balance = 0)`);
       }
     }
 
-    // Step 2: Add placeholder rows for remaining requested days
-    if (daysRemaining > 0) {
-      console.log(`\n📝 Adding ${daysRemaining} placeholder row(s) for user to fill...`);
+    // Step 2: Create placeholder rows for remaining rows needed
+    const placeholdersNeeded = requestedRowsNeeded - rowsCreated;
+    if (placeholdersNeeded > 0) {
+      console.log(`\n📝 Adding ${placeholdersNeeded} placeholder row(s) for user to fill...`);
       
-      while (daysRemaining > 0) {
+      for (let i = 0; i < placeholdersNeeded; i++) {
         selectedDays.push({
           id: null,  // No ID - this is a new entry
           day: '',    // User must fill this in
           date: '',   // User must fill this in
           remark: '', 
-          balance: daysRemaining >= 1 ? 1 : daysRemaining, // 1 day per row or whatever remains
+          balance: 1,  // 1 day per placeholder row
           isPlaceholder: true  // Flag to mark this as empty
         });
         
-        daysRemaining -= 1;
-        console.log(`  Placeholder row added (${daysRemaining} more needed)`);
+        console.log(`  [Row ${rowsCreated + i + 1}] Placeholder row added`);
       }
     }
 
-    console.log(`✅ Final selectedDays: ${selectedDays.length} rows (${selectedDays.filter(s => s.isPlaceholder).length} placeholders)`, selectedDays);
+    console.log(`✅ Final selectedDays: ${selectedDays.length} rows (${selectedDays.filter(s => s.isPlaceholder).length} placeholders), need ${requestedRowsNeeded} rows for ${daysRequested} days`, selectedDays);
     return selectedDays;
   }
 
