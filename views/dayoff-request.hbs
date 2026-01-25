@@ -2158,6 +2158,26 @@ document.addEventListener('DOMContentLoaded', function() {
         if (isPlaceholder) {
           // Placeholder rows: Leave compensation day empty and editable
           compDaySelect.value = '';
+          
+          // Add auto-populate remarks on compensation date/day change
+          const remarksInput = row.querySelector('.remarks');
+          if (compDateInput && compDaySelect && remarksInput) {
+            const updateRemarks = () => {
+              const compDate = compDateInput.value;
+              const compDay = compDaySelect.value;
+              
+              if (compDate && compDay) {
+                // Auto-fill remarks with date and day
+                remarksInput.value = `${compDay}, ${compDate}`;
+                console.log(`Auto-populated remarks: "${remarksInput.value}"`);
+              }
+            };
+            
+            // Listen for changes
+            compDateInput.addEventListener('change', updateRemarks);
+            compDaySelect.addEventListener('change', updateRemarks);
+            console.log(`Row ${index}: Added auto-populate listeners for remarks`);
+          }
           compDaySelect.disabled = false;
           console.log(`Row ${index}: Placeholder - Compensation day is EDITABLE (empty)`);
         } else if (isEditableRow) {
