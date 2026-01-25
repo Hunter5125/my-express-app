@@ -783,7 +783,7 @@ router.post('/dayoff-request', requireLogin, async (req, res) => {
     }
 
     // Old format handling
-    const { workingDays, remainingBalance } = req.body;
+    const { workingDays } = req.body;
 
     console.log('\n========== POST /requests/dayoff-request ==========');
     console.log('User:', req.session.user.name);
