@@ -430,7 +430,12 @@ router.get('/dayoff-request', async (req, res) => {
       console.log('Using request data from table row');
       try {
         const requestData = JSON.parse(decodeURIComponent(req.query.requestData));
-        console.log('Parsed request data:', requestData);
+        console.log('Parsed request data:', JSON.stringify(requestData, null, 2));
+        console.log('Specific validation:');
+        console.log('  dayToBeTaken:', requestData.dayToBeTaken, typeof requestData.dayToBeTaken);
+        console.log('  workingDay:', requestData.workingDay, typeof requestData.workingDay);
+        console.log('  remark:', requestData.remark, typeof requestData.remark);
+        console.log('  remainingBalance:', requestData.remainingBalance, typeof requestData.remainingBalance);
 
         // Helper function to format date to YYYY-MM-DD
         const formatDateString = (dateStr) => {
@@ -471,10 +476,27 @@ router.get('/dayoff-request', async (req, res) => {
           }
         }
         
+        // Ensure dayToBeTaken is properly set - log for debugging
+        const validDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+        let dayToBeTaken = requestData.dayToBeTaken || requestData.workingDay || '';
+        
+        // If dayToBeTaken is not a valid day name, use workingDay instead
+        if (dayToBeTaken && !validDays.includes(dayToBeTaken)) {
+          console.warn(`Invalid dayToBeTaken value: "${dayToBeTaken}" (not a valid day name), using workingDay instead`);
+          dayToBeTaken = requestData.workingDay || '';
+        }
+        
+        console.log('Loading requestData - dayToBeTaken mapping:', {
+          provided: requestData.dayToBeTaken,
+          fallback: requestData.workingDay,
+          final: dayToBeTaken,
+          isValid: validDays.includes(dayToBeTaken)
+        });
+        
         existingRequest = {
           _id: requestData._id,
           employee: actualRequest && actualRequest.employee ? actualRequest.employee : req.session.user,
-          day_to_be_taken: requestData.dayToBeTaken || requestData.workingDay, // Default to working day if empty
+          day_to_be_taken: dayToBeTaken, // Default to working day if empty
           date_to_be_taken: new Date(compensationDate),
           formattedDate_to_be_taken: formattedCompensationDate,
           working_day: requestData.workingDay,
