@@ -2012,8 +2012,8 @@ document.addEventListener('DOMContentLoaded', function() {
           console.log(`  Row ${i} is READ-ONLY (part of fractional remainder)`);
         }
         
-        if (accumulatedDays >= totalDaysRequested) {
-          break;  // Have shown enough rows
+        if (accumulatedDays > totalDaysRequested) {
+          break;  // Have shown enough rows - only break if we exceed what's needed
         }
       }
       console.log(`Showing ${rowsToShow} rows, making ${rowsToMakeEditable} editable (need ${totalDaysRequested} days)\n`);
