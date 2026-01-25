@@ -2111,9 +2111,13 @@ document.addEventListener('DOMContentLoaded', function() {
           console.log(`Row ${index}: Compensation date is EDITABLE`);
         } else {
           // In view mode, use the compensation date from existingRequest (same for all rows)
+          console.log(`Row ${index}: Before populating - compDate value:`, window.existingRequestData.compDate);
           if (window.existingRequestData && window.existingRequestData.compDate) {
             // compDate is already formatted as YYYY-MM-DD from Handlebars
             compDateInput.value = window.existingRequestData.compDate;
+            console.log(`Row ${index}: Set compensation date to:`, window.existingRequestData.compDate);
+          } else {
+            console.warn(`Row ${index}: compDate is empty! window.existingRequestData:`, window.existingRequestData);
           }
           compDateInput.readOnly = true;
           compDateInput.style.backgroundColor = '#f0f0f0';

@@ -577,9 +577,28 @@ router.get('/dayoff-request', async (req, res) => {
           if (!existingRequest.date_to_be_taken && existingRequest.date) {
             existingRequest.date_to_be_taken = existingRequest.date;
           }
+          
+          // ALWAYS ensure formattedDate_to_be_taken is set with proper format (YYYY-MM-DD)
           if (!existingRequest.formattedDate_to_be_taken) {
-            existingRequest.formattedDate_to_be_taken = existingRequest.date_to_be_taken ? existingRequest.date_to_be_taken.toISOString().split('T')[0] : '';
+            if (existingRequest.date_to_be_taken) {
+              try {
+                const dateObj = new Date(existingRequest.date_to_be_taken);
+                if (!isNaN(dateObj.getTime())) {
+                  existingRequest.formattedDate_to_be_taken = dateObj.toISOString().split('T')[0];
+                } else {
+                  existingRequest.formattedDate_to_be_taken = '';
+                }
+              } catch (e) {
+                console.error('Error formatting date_to_be_taken:', e);
+                existingRequest.formattedDate_to_be_taken = '';
+              }
+            } else {
+              existingRequest.formattedDate_to_be_taken = '';
+            }
           }
+          
+          // Log what we have
+          console.log('✅ formattedDate_to_be_taken set to:', existingRequest.formattedDate_to_be_taken);
 
           // Add team leader and manager approval status
           if (existingRequest.status === 'pending') {
