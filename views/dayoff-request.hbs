@@ -2110,7 +2110,11 @@ document.addEventListener('DOMContentLoaded', function() {
           compDateInput.readOnly = false;
           console.log(`Row ${index}: Compensation date is EDITABLE`);
         } else {
-          // Don't clear in view mode - preserve server-provided value
+          // In view mode, use the compensation date from existingRequest (same for all rows)
+          if (window.existingRequestData && window.existingRequestData.compDate) {
+            // compDate is already formatted as YYYY-MM-DD from Handlebars
+            compDateInput.value = window.existingRequestData.compDate;
+          }
           compDateInput.readOnly = true;
           compDateInput.style.backgroundColor = '#f0f0f0';
           compDateInput.style.cursor = 'not-allowed';
@@ -2126,7 +2130,11 @@ document.addEventListener('DOMContentLoaded', function() {
           compDaySelect.disabled = false;
           console.log(`Row ${index}: Compensation day is EDITABLE`);
         } else {
-          // Don't clear in view mode - preserve server-provided selection
+          // In view mode, set compensation day from existingRequest (all rows use the same day)
+          if (window.existingRequestData && window.existingRequestData.compDay) {
+            compDaySelect.value = window.existingRequestData.compDay;
+            console.log(`Row ${index}: Set compensation day to: ${window.existingRequestData.compDay}`);
+          }
           compDaySelect.disabled = true;
           compDaySelect.style.backgroundColor = '#f0f0f0';
           compDaySelect.style.cursor = 'not-allowed';
