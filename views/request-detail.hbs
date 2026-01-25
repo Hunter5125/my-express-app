@@ -6,13 +6,29 @@
       <strong>Employee:</strong> {{request.employee.name}} ({{request.employee.email}})
     </div>
     <div class="detail-row">
-      <strong>Day:</strong> {{#if request.day_to_be_taken}}{{request.day_to_be_taken}}{{else if request.day}}{{request.day}}{{/if}}
+      <strong>Day to be Taken:</strong> {{#if request.day_to_be_taken}}{{request.day_to_be_taken}}{{else if request.day}}{{request.day}}{{/if}}
     </div>
     <div class="detail-row">
-      <strong>Date:</strong> {{#if request.date_to_be_taken}}{{formatDate request.date_to_be_taken}}{{else if request.date}}{{formatDate request.date}}{{/if}}
+      <strong>Date to be Taken:</strong> {{#if request.date_to_be_taken}}{{formatDate request.date_to_be_taken}}{{else if request.date}}{{formatDate request.date}}{{/if}}
+    </div>
+    {{#if request.workingDayIds}}
+    <div class="detail-row">
+      <strong>Working Days Used:</strong> {{request.workingDayIds.length}}
     </div>
     <div class="detail-row">
-      <strong>Balance:</strong> {{request.balance}}
+      <strong>Working Days Details:</strong>
+      <ul style="margin: 5px 0; padding-left: 20px;">
+      {{#each request.workingDayIds}}
+        <li>{{this.day}} ({{formatDate this.date}}) - {{this.remark}}</li>
+      {{/each}}
+      </ul>
+    </div>
+    {{/if}}
+    <div class="detail-row">
+      <strong>Balance Used:</strong> {{request.usedBalance}}
+    </div>
+    <div class="detail-row">
+      <strong>Remaining Balance:</strong> {{request.balance}}
     </div>
     <div class="detail-row">
       <strong>Remark:</strong> {{request.remark}}

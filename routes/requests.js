@@ -953,7 +953,13 @@ router.post('/dayoff-request', requireLogin, async (req, res) => {
 // GET /requests/:id - View request details
 router.get('/:id', requireLogin, async (req, res) => {
   try {
-    const request = await DayOffRequest.findById(req.params.id).populate('employee', 'name email').populate('teamLeader', 'name').populate('manager', 'name').populate('teamLeaderApprovedBy', 'name signature').populate('approvedBy', 'name signature');
+    const request = await DayOffRequest.findById(req.params.id)
+      .populate('employee', 'name email')
+      .populate('teamLeader', 'name')
+      .populate('manager', 'name')
+      .populate('teamLeaderApprovedBy', 'name signature')
+      .populate('approvedBy', 'name signature')
+      .populate('workingDayIds', 'day balance date remark');
     if (!request) {
       return res.status(404).send('Request not found');
     }
