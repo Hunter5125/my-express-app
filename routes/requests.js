@@ -465,18 +465,28 @@ router.get('/dayoff-request', async (req, res) => {
 
         // Helper function to parse and format date properly
         const parseAndFormatDate = (dateStr) => {
-          if (!dateStr) return '';
+          if (!dateStr) {
+            console.log('  ❌ parseAndFormatDate: No date string provided');
+            return '';
+          }
+          
+          console.log(`  📅 Parsing date: "${dateStr}" (type: ${typeof dateStr})`);
+          
           try {
             // Try to parse the date string
-            const dateObj = new Date(dateStr);
+            let dateObj = new Date(dateStr);
+            
             // Check if valid date
             if (isNaN(dateObj.getTime())) {
-              console.warn('Invalid date:', dateStr);
+              console.warn('  ❌ Invalid date after parsing:', dateStr);
               return '';
             }
-            return dateObj.toISOString().split('T')[0]; // Returns YYYY-MM-DD
+            
+            const result = dateObj.toISOString().split('T')[0]; // Returns YYYY-MM-DD
+            console.log(`  ✅ Successfully parsed to: ${result}`);
+            return result;
           } catch (e) {
-            console.warn('Error parsing date:', dateStr, e.message);
+            console.warn('  ❌ Error parsing date:', dateStr, e.message);
             return '';
           }
         };
@@ -524,6 +534,12 @@ router.get('/dayoff-request', async (req, res) => {
           approvedBy: actualRequest ? actualRequest.approvedBy : null,
           approvedAt: actualRequest ? actualRequest.approvedAt : null
         };
+        
+        console.log('✅ Created existingRequest from requestData:', {
+          formattedDate_to_be_taken: existingRequest.formattedDate_to_be_taken,
+          compensationDate: compensationDate,
+          dayToBeTaken: dayToBeTaken
+        });
 
         // Create selected data from the table data (working day info)
         // First, try to use actual working days from database if available
