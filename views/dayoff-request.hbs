@@ -2179,14 +2179,46 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Fill Remarks
       const remarksInput = row.querySelector('.remarks');
-      if (remarksInput && item.remark) {
-        remarksInput.value = item.remark;
-        if (!isEditableRow) {
-          remarksInput.readOnly = true;
-          remarksInput.style.backgroundColor = '#f0f0f0';
-          remarksInput.style.cursor = 'not-allowed';
+      if (remarksInput) {
+        if (isPlaceholder) {
+          // Placeholder rows: Hide remarks, keep it empty
+          remarksInput.value = '';
+          remarksInput.style.display = 'none';
+          console.log(`Row ${index}: Placeholder - Remarks field is HIDDEN`);
+        } else if (item.remark) {
+          remarksInput.value = item.remark;
+          if (!isEditableRow) {
+            remarksInput.readOnly = true;
+            remarksInput.style.backgroundColor = '#f0f0f0';
+            remarksInput.style.cursor = 'not-allowed';
+          }
+          console.log(`Set remarks to: ${item.remark}`);
         }
-        console.log(`Set remarks to: ${item.remark}`);
+      }
+      
+      // Hide Working Date and Working Day for placeholder rows
+      if (isPlaceholder) {
+        const workingDateCell = row.querySelector('[data-label="Working Date"]');
+        const workingDayCell = row.querySelector('[data-label="Working Day"]');
+        const remarksCell = row.querySelector('[data-label="Remarks"]');
+        const daysUsedCell = row.querySelector('[data-label="Days Being Used"]');
+        
+        if (workingDateCell) {
+          workingDateCell.style.display = 'none';
+          console.log(`Row ${index}: Placeholder - Working Date cell is HIDDEN`);
+        }
+        if (workingDayCell) {
+          workingDayCell.style.display = 'none';
+          console.log(`Row ${index}: Placeholder - Working Day cell is HIDDEN`);
+        }
+        if (remarksCell) {
+          remarksCell.style.display = 'none';
+          console.log(`Row ${index}: Placeholder - Remarks cell is HIDDEN`);
+        }
+        if (daysUsedCell) {
+          daysUsedCell.style.display = 'none';
+          console.log(`Row ${index}: Placeholder - Days Being Used cell is HIDDEN`);
+        }
       }
     });
 
