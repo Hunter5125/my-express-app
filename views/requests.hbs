@@ -337,13 +337,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Build the request data - ENSURE ALL FIELDS ARE PRESENT
     const requestData = {
       selected: sortedSelectedDays.map((d, idx) => {
-        console.log(`  Item ${idx} building:`, {original: d, extracted: {day: d.day, date: d.date, remark: d.remark}});
+        console.log(`  Item ${idx} building:`, {original: d, extracted: {day: d.day, date: d.date, remark: d.remark, isPlaceholder: d.isPlaceholder}});
         return {
           day: d.day || '',
           date: d.date || '',
           remark: d.remark || '',
           id: d.id || '',
-          balance: d.daysUsed  
+          balance: d.balance || 1,
+          isPlaceholder: d.isPlaceholder === true  // Include placeholder flag
         };
       }),
       remainingBalance: currentAvailableBalance
@@ -351,8 +352,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     console.log('📤 Data to send:', JSON.stringify(requestData.selected));
     
-    // Validate
-    const hasAllFields = requestData.selected.every((item, idx) => {
+    // Validate - placeholder rows are allowed to have empty day/date, but non-placeholder rows must have them
+    const hasAllRequiredFields = requestData.selected.every((item, idx) => {
+      const isPlaceholder = item.isPlaceholder === true;
+      
+      if (isPlaceholder) {
+        // Placeholder rows don't need day/date yet - user will fill them in
+        console.log(`  ✅ Item ${idx} is placeholder (day and date can be empty)`);
+        return true;
+      }
+      
+      // Non-placeholder rows MUST have day and date
       const hasDay = item.day && item.day.trim().length > 0;
       const hasDate = item.date && item.date.trim().length > 0;
       if (!hasDay) console.error(`❌ Item ${idx} missing day:`, item);
@@ -360,8 +370,8 @@ document.addEventListener('DOMContentLoaded', function() {
       return hasDay && hasDate;
     });
     
-    if (!hasAllFields) {
-      console.warn('⚠️  Some items missing day or date - form may not populate correctly');
+    if (!hasAllRequiredFields) {
+      console.warn('⚠️  Some non-placeholder items missing day or date - form may not populate correctly');
     }
 
     const encodedData = encodeURIComponent(JSON.stringify(requestData.selected));
