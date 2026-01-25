@@ -701,7 +701,7 @@ router.get('/dayoff-request', async (req, res) => {
 // POST /requests/dayoff-request (new) - Create day off request with smart allocation
 router.post('/dayoff-request', requireLogin, async (req, res) => {
   try {
-    const { workingDayIds, totalDaysRequested } = req.body;
+    const { workingDayIds, totalDaysRequested, remainingBalance } = req.body;
 
     // Check if this is the new format (smart allocation)
     if (Array.isArray(workingDayIds) && workingDayIds.length > 0 && typeof workingDayIds[0] === 'object' && workingDayIds[0]._id) {
@@ -760,7 +760,7 @@ router.post('/dayoff-request', requireLogin, async (req, res) => {
           day_to_be_taken: 'Multiple Days',
           date_to_be_taken: new Date(),
           formattedDate_to_be_taken: new Date().toISOString().split('T')[0],
-          balance: totalDaysRequested,
+          balance: (remainingBalance || 0) - totalDaysRequested,
           usedBalance: totalDaysRequested,
           remark: `Requested ${totalDaysRequested} days off`,
           workingDayIds: updatedWorkingDayIds,
@@ -921,6 +921,11 @@ router.post('/dayoff-request', requireLogin, async (req, res) => {
     // Use the first working day's compensation details for the main request fields
     const firstWd = workingDays[0];
 
+    // Calculate the actual remaining balance: initial balance - days used
+    // remainingBalance from frontend is the INITIAL balance, we need to subtract days used
+    const actualRemainingBalance = remainingBalance - totalUsedBalance;
+    console.log(`Calculating remaining balance: ${remainingBalance} (initial) - ${totalUsedBalance} (days used) = ${actualRemainingBalance}`);
+
     // Create the day off request
     const request = new DayOffRequest({
       employee: req.session.user._id,
@@ -932,7 +937,7 @@ router.post('/dayoff-request', requireLogin, async (req, res) => {
       formattedDate_to_be_taken: new Date(firstWd.compensationDate).toISOString().split('T')[0],
       working_day: '', // Will be populated if needed
       working_day_date: '', // Will be populated if needed
-      balance: remainingBalance,
+      balance: actualRemainingBalance,
       remark: firstWd.remarks,
       workingDayIds: workingDayIds,
       status: 'pending',
