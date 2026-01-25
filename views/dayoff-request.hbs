@@ -1562,7 +1562,7 @@
         </td>
           <td data-label="Compensation Date">
             {{#if (eq mode "view")}}
-              <input type="date" class="compensation-date" required readonly value="{{#if selected.[0]}}{{selected.[0].date}}{{else}}{{existingRequest.formattedDate_to_be_taken}}{{/if}}">
+              <input type="date" class="compensation-date" required readonly value="{{existingRequest.formattedDate_to_be_taken}}">
             {{else}}
               <input type="date" class="compensation-date" required value="">
             {{/if}}
