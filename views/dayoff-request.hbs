@@ -2158,26 +2158,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (isPlaceholder) {
           // Placeholder rows: Leave compensation day empty and editable
           compDaySelect.value = '';
-          
-          // Add auto-populate remarks on compensation date/day change
-          const remarksInput = row.querySelector('.remarks');
-          if (compDateInput && compDaySelect && remarksInput) {
-            const updateRemarks = () => {
-              const compDate = compDateInput.value;
-              const compDay = compDaySelect.value;
-              
-              if (compDate && compDay) {
-                // Auto-fill remarks with date and day
-                remarksInput.value = `${compDay}, ${compDate}`;
-                console.log(`Auto-populated remarks: "${remarksInput.value}"`);
-              }
-            };
-            
-            // Listen for changes
-            compDateInput.addEventListener('change', updateRemarks);
-            compDaySelect.addEventListener('change', updateRemarks);
-            console.log(`Row ${index}: Added auto-populate listeners for remarks`);
-          }
           compDaySelect.disabled = false;
           console.log(`Row ${index}: Placeholder - Compensation day is EDITABLE (empty)`);
         } else if (isEditableRow) {
@@ -2201,11 +2181,10 @@ document.addEventListener('DOMContentLoaded', function() {
       const remarksInput = row.querySelector('.remarks');
       if (remarksInput) {
         if (isPlaceholder) {
-          // Placeholder rows: Keep remarks visible and empty for user to fill
+          // Placeholder rows: Hide remarks, keep it empty
           remarksInput.value = '';
-          remarksInput.readOnly = false;
-          remarksInput.style.backgroundColor = '#ffffff';
-          console.log(`Row ${index}: Placeholder - Remarks field is VISIBLE and EDITABLE`);
+          remarksInput.style.visibility = 'hidden';
+          console.log(`Row ${index}: Placeholder - Remarks field is HIDDEN`);
         } else if (item.remark) {
           remarksInput.value = item.remark;
           if (!isEditableRow) {
@@ -2221,6 +2200,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (isPlaceholder) {
         const workingDateCell = row.querySelector('[data-label="Working Date"]');
         const workingDayCell = row.querySelector('[data-label="Working Day"]');
+        const remarksCell = row.querySelector('[data-label="Remarks"]');
         const daysUsedCell = row.querySelector('[data-label="Days Being Used"]');
         
         if (workingDateCell) {
@@ -2230,6 +2210,10 @@ document.addEventListener('DOMContentLoaded', function() {
         if (workingDayCell) {
           workingDayCell.style.visibility = 'hidden';
           console.log(`Row ${index}: Placeholder - Working Day cell is HIDDEN`);
+        }
+        if (remarksCell) {
+          remarksCell.style.visibility = 'hidden';
+          console.log(`Row ${index}: Placeholder - Remarks cell is HIDDEN`);
         }
         if (daysUsedCell) {
           daysUsedCell.style.visibility = 'hidden';
