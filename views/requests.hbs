@@ -263,25 +263,17 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const selectedDays = [];
     let daysRemaining = daysRequested;
-    let currentRoundIndex = 0;
 
-    // Strategy: Keep cycling through working days until we have enough rows to match requested days
-    // This ensures we create as many rows as requested, potentially reusing working days
-    console.log(`\n📋 Strategy: Create ${daysRequested} rows to match requested days...`);
+    // Step 1: Allocate from existing working days
+    console.log(`\n📋 Strategy: Allocate from existing working days first...`);
     const daysToTakePerDay = Math.ceil(daysRequested / workingDaysData.length);
     
-    // Keep looping until we've created enough rows or run out of balance
-    let iterations = 0;
-    const maxIterations = daysRequested * 2; // Prevent infinite loops
-    
-    while (daysRemaining > 0 && iterations < maxIterations) {
-      iterations++;
-      const wd = workingDaysData[currentRoundIndex % workingDaysData.length];
+    for (let i = 0; i < workingDaysData.length && daysRemaining > 0; i++) {
+      const wd = workingDaysData[i];
       const dayBalance = parseFloat(wd.balance);
 
       if (!wd.day || !wd.date) {
-        console.warn(`  ⚠️  Row at index ${currentRoundIndex}: Missing day or date!`, wd);
-        currentRoundIndex++;
+        console.warn(`  ⚠️  Row ${i}: Missing day or date!`, wd);
         continue;
       }
 
@@ -289,7 +281,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Calculate how much to take from this day
         const daysToUse = Math.min(daysToTakePerDay, daysRemaining, dayBalance);
         
-        console.log(`  [${currentRoundIndex}] Taking ${daysToUse} days from "${wd.day}" (balance=${dayBalance}, remaining=${daysRemaining})`);
+        console.log(`  [${i}] Taking ${daysToUse} days from "${wd.day}" (balance=${dayBalance}, remaining=${daysRemaining})`);
         
         selectedDays.push({
           id: wd._id,
@@ -302,17 +294,30 @@ document.addEventListener('DOMContentLoaded', function() {
         
         daysRemaining -= daysToUse;
       } else {
-        console.log(`  [${currentRoundIndex}] Skipped (balance = 0)`);
+        console.log(`  [${i}] Skipped (balance = 0)`);
       }
-      
-      currentRoundIndex++;
     }
 
+    // Step 2: Add placeholder rows for remaining requested days
     if (daysRemaining > 0) {
-      console.log(`\n⚠️  Still need ${daysRemaining} more days - allocated ${daysRequested - daysRemaining} days`);
+      console.log(`\n📝 Adding ${daysRemaining} placeholder row(s) for user to fill...`);
+      
+      while (daysRemaining > 0) {
+        selectedDays.push({
+          id: null,  // No ID - this is a new entry
+          day: '',    // User must fill this in
+          date: '',   // User must fill this in
+          remark: '', 
+          balance: daysRemaining >= 1 ? 1 : daysRemaining, // 1 day per row or whatever remains
+          isPlaceholder: true  // Flag to mark this as empty
+        });
+        
+        daysRemaining -= 1;
+        console.log(`  Placeholder row added (${daysRemaining} more needed)`);
+      }
     }
 
-    console.log(`✅ Final selectedDays: ${selectedDays.length} rows`, selectedDays);
+    console.log(`✅ Final selectedDays: ${selectedDays.length} rows (${selectedDays.filter(s => s.isPlaceholder).length} placeholders)`, selectedDays);
     return selectedDays;
   }
 

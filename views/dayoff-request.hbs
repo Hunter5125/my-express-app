@@ -2035,12 +2035,19 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Determine if this row should be editable or read-only
       const isEditableRow = (index < rowsToMakeEditable);
-      console.log(`Row ${index}: editable=${isEditableRow}`);
+      const isPlaceholder = item.isPlaceholder === true;  // Check if this is a placeholder row
+      console.log(`Row ${index}: editable=${isEditableRow}, placeholder=${isPlaceholder}`);
 
       // Clear previous data
       row.setAttribute('data-id', item.id || '');
-      row.setAttribute('data-days-used', item.balance || 1);  // item.balance contains daysUsed from smart allocation
-      if (!isEditableRow) {
+      row.setAttribute('data-days-used', item.balance || 1);
+      
+      // Handle row editability based on type
+      if (isPlaceholder) {
+        // Placeholder rows are ALWAYS editable for Date and Day
+        row.setAttribute('data-placeholder', 'true');
+        console.log(`Row ${index}: This is a PLACEHOLDER row - all fields editable`);
+      } else if (!isEditableRow) {
         row.setAttribute('data-readonly', 'true');  // Mark as read-only
       }
       
@@ -2054,39 +2061,46 @@ document.addEventListener('DOMContentLoaded', function() {
       // Fill Working Date (using class selector)
       const workingDateInput = row.querySelector('.working-date');
       if (workingDateInput) {
-        let dateValue = item.date;
-        console.log(`Processing date: "${dateValue}"`);
-        
-        if (!dateValue) {
-          console.warn(`Missing date for item ${index}:`, item);
+        if (isPlaceholder) {
+          // Placeholder row: Leave empty and editable
+          workingDateInput.value = '';
+          workingDateInput.readOnly = false;
+          console.log(`Row ${index}: Placeholder - Date field is EDITABLE (empty)`);
         } else {
-          // Handle multiple date formats:
-          // 1. ISO format: "2025-12-20T00:00:00.000Z"
-          // 2. JavaScript toString: "Sat Dec 20 2025 03:00:00 GMT+0300 (GMT+03:00)"
-          // 3. Already formatted: "2025-12-20"
+          let dateValue = item.date;
+          console.log(`Processing date: "${dateValue}"`);
           
-          let finalDate = dateValue;
-          
-          // Parse JavaScript Date toString format: "Sat Dec 20 2025 03:00:00..."
-          if (dateValue.includes('GMT') || dateValue.includes('000Z')) {
-            const dateObj = new Date(dateValue);
-            if (!isNaN(dateObj.getTime())) {
-              // Valid date - format as YYYY-MM-DD
-              const year = dateObj.getFullYear();
-              const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-              const day = String(dateObj.getDate()).padStart(2, '0');
-              finalDate = `${year}-${month}-${day}`;
+          if (!dateValue) {
+            console.warn(`Missing date for item ${index}:`, item);
+          } else {
+            // Handle multiple date formats:
+            // 1. ISO format: "2025-12-20T00:00:00.000Z"
+            // 2. JavaScript toString: "Sat Dec 20 2025 03:00:00 GMT+0300 (GMT+03:00)"
+            // 3. Already formatted: "2025-12-20"
+            
+            let finalDate = dateValue;
+            
+            // Parse JavaScript Date toString format: "Sat Dec 20 2025 03:00:00..."
+            if (dateValue.includes('GMT') || dateValue.includes('000Z')) {
+              const dateObj = new Date(dateValue);
+              if (!isNaN(dateObj.getTime())) {
+                // Valid date - format as YYYY-MM-DD
+                const year = dateObj.getFullYear();
+                const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+                const day = String(dateObj.getDate()).padStart(2, '0');
+                finalDate = `${year}-${month}-${day}`;
+              }
             }
+            // Parse ISO format with T separator
+            else if (dateValue.includes('T')) {
+              finalDate = dateValue.split('T')[0];
+            }
+            // Assume it's already in YYYY-MM-DD format
+            
+            workingDateInput.value = finalDate;
+            workingDateInput.readOnly = true;
+            console.log(`Set working date to: ${workingDateInput.value} (from: ${dateValue})`);
           }
-          // Parse ISO format with T separator
-          else if (dateValue.includes('T')) {
-            finalDate = dateValue.split('T')[0];
-          }
-          // Assume it's already in YYYY-MM-DD format
-          
-          workingDateInput.value = finalDate;
-          workingDateInput.readOnly = true;
-          console.log(`Set working date to: ${workingDateInput.value} (from: ${dateValue})`);
         }
       } else {
         console.warn(`Working date input not found in row`);
@@ -2094,10 +2108,17 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Fill Working Day (using class selector)
       const workingDaySelect = row.querySelector('.working-day');
-      if (workingDaySelect && item.day) {
-        workingDaySelect.value = item.day;
-        workingDaySelect.disabled = true;
-        console.log(`Set working day to: ${item.day}`);
+      if (workingDaySelect) {
+        if (isPlaceholder) {
+          // Placeholder row: Leave empty and editable
+          workingDaySelect.value = '';
+          workingDaySelect.disabled = false;
+          console.log(`Row ${index}: Placeholder - Day field is EDITABLE (empty)`);
+        } else if (item.day) {
+          workingDaySelect.value = item.day;
+          workingDaySelect.disabled = true;
+          console.log(`Set working day to: ${item.day}`);
+        }
       } else {
         console.warn(`Working day select not found or no day value`);
       }
@@ -2105,7 +2126,12 @@ document.addEventListener('DOMContentLoaded', function() {
       // Handle Compensation Date (only clear if editable, preserve if view mode)
       const compDateInput = row.querySelector('.compensation-date');
       if (compDateInput) {
-        if (isEditableRow) {
+        if (isPlaceholder) {
+          // Placeholder rows: Leave compensation date empty and editable
+          compDateInput.value = '';
+          compDateInput.readOnly = false;
+          console.log(`Row ${index}: Placeholder - Compensation date is EDITABLE (empty)`);
+        } else if (isEditableRow) {
           compDateInput.value = '';
           compDateInput.readOnly = false;
           console.log(`Row ${index}: Compensation date is EDITABLE`);
@@ -2129,7 +2155,12 @@ document.addEventListener('DOMContentLoaded', function() {
       // Handle Compensation Day (only clear if editable, preserve if view mode)
       const compDaySelect = row.querySelector('.compensation-day');
       if (compDaySelect) {
-        if (isEditableRow) {
+        if (isPlaceholder) {
+          // Placeholder rows: Leave compensation day empty and editable
+          compDaySelect.value = '';
+          compDaySelect.disabled = false;
+          console.log(`Row ${index}: Placeholder - Compensation day is EDITABLE (empty)`);
+        } else if (isEditableRow) {
           compDaySelect.value = '';
           compDaySelect.disabled = false;
           console.log(`Row ${index}: Compensation day is EDITABLE`);
