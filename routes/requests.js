@@ -564,7 +564,13 @@ router.get('/dayoff-request', async (req, res) => {
         return res.status(400).send('Invalid request ID');
       }
       try {
-        existingRequest = await DayOffRequest.findById(req.query.requestId).populate('employee', 'name email employeeNo signature').populate('teamLeader', 'name').populate('manager', 'name').populate('teamLeaderApprovedBy', 'name signature').populate('approvedBy', 'name signature');
+        existingRequest = await DayOffRequest.findById(req.query.requestId)
+          .populate('employee', 'name email employeeNo signature')
+          .populate('teamLeader', 'name')
+          .populate('manager', 'name')
+          .populate('teamLeaderApprovedBy', 'name signature')
+          .populate('approvedBy', 'name signature')
+          .populate('workingDayIds', 'day balance date remark');
         console.log('Found existing request:', existingRequest ? 'YES' : 'NO');
         if (!existingRequest) {
           console.log('Request not found for ID:', req.query.requestId);
@@ -637,8 +643,21 @@ router.get('/dayoff-request', async (req, res) => {
         // Fetch workingDayIds separately with fallback
         if (existingRequest.workingDayIds && Array.isArray(existingRequest.workingDayIds) && existingRequest.workingDayIds.length > 0) {
           try {
-            const workingDays = await WorkingDay.find({ _id: { $in: existingRequest.workingDayIds } });
-            console.log('Fetched working days:', workingDays.length);
+            // Check if workingDayIds are already populated (objects) or just IDs
+            const isPopulated = existingRequest.workingDayIds[0] && typeof existingRequest.workingDayIds[0] === 'object' && existingRequest.workingDayIds[0]._id;
+            
+            let workingDays;
+            if (isPopulated) {
+              // Already populated from the query, use as-is
+              console.log('Working days already populated from query:', existingRequest.workingDayIds.length);
+              workingDays = existingRequest.workingDayIds;
+            } else {
+              // Not populated, fetch them from database
+              console.log('Fetching working days from database...');
+              workingDays = await WorkingDay.find({ _id: { $in: existingRequest.workingDayIds } });
+              console.log('Fetched working days:', workingDays.length);
+            }
+            
             selected = workingDays.map(wd => ({
               id: wd._id.toString(),
               day: wd.day,
