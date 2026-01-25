@@ -2195,9 +2195,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const urlBalance = urlParams.get('balance');
     const remainingBalanceInput = document.getElementById('remaining-balance');
     if (remainingBalanceInput && urlBalance !== null) {
-      // Only update if balance parameter is explicitly provided in URL
-      remainingBalanceInput.value = parseFloat(urlBalance).toFixed(2);
-      console.log(`Set remaining balance to: ${parseFloat(urlBalance)}`);
+      // Calculate remaining balance: initial balance - days requested
+      const initialBalance = parseFloat(urlBalance);
+      const daysRequested = totalDaysRequested || 0;
+      const calculatedRemainingBalance = initialBalance - daysRequested;
+      
+      remainingBalanceInput.value = calculatedRemainingBalance.toFixed(2);
+      console.log(`Remaining balance calculation: ${initialBalance} (initial) - ${daysRequested} (requested) = ${calculatedRemainingBalance.toFixed(2)}`);
     } else if (remainingBalanceInput && pageMode === 'view') {
       // In view mode, keep the server-provided value (already set at line 884)
       console.log(`View mode: keeping server balance value: ${remainingBalanceInput.value}`);
