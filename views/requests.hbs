@@ -264,43 +264,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const selectedDays = [];
     let daysRemaining = daysRequested;
 
-    // Strategy 1: Try to find a SINGLE day that can fulfill the entire request
-    console.log(`\n📋 Strategy 1: Looking for a single day with >= ${daysRequested} days...`);
-    for (let i = 0; i < workingDaysData.length; i++) {
-      const wd = workingDaysData[i];
-      const dayBalance = parseFloat(wd.balance);
-      
-      if (!wd.day || !wd.date) {
-        console.warn(`  ⚠️  Row ${i}: Missing day or date!`, wd);
-        continue;
-      }
-      
-      console.log(`  [${i}] day="${wd.day}" date="${wd.date}" remark="${wd.remark}" balance=${dayBalance}`);
-      
-      // Skip days with no balance
-      if (dayBalance <= 0) {
-        console.log(`      → Skipped (balance <= 0)`);
-        continue;
-      }
-      
-      // If this day has enough to cover the entire request, use only this day
-      if (dayBalance >= daysRequested) {
-        console.log(`  ✅ Found! Using day ${i} with ${daysRequested} days`);
-        selectedDays.push({
-          id: wd._id,
-          day: wd.day,
-          date: wd.date,
-          remark: wd.remark,
-          daysUsed: daysRequested,
-          balanceRemaining: dayBalance - daysRequested
-        });
-        return selectedDays;  // Return immediately
-      }
-    }
-
-    // Strategy 2: If no single day can cover it, use FIFO
-    console.log(`\n📋 Strategy 2: No single day found, using FIFO...`);
-    daysRemaining = daysRequested;
+    // Strategy 1: Prefer to use 1 day per working day (balanced distribution)
+    console.log(`\n📋 Strategy 1: Using balanced approach - take 1 day per working day...`);
+    const daysToTakePerDay = Math.ceil(daysRequested / workingDaysData.length); // e.g., 2 days / 3 days = 0.67 → 1 day each
     
     for (let i = 0; i < workingDaysData.length && daysRemaining > 0; i++) {
       const wd = workingDaysData[i];
@@ -311,36 +277,34 @@ document.addEventListener('DOMContentLoaded', function() {
         continue;
       }
 
-      console.log(`  [${i}] day="${wd.day}" balance=${dayBalance} need=${daysRemaining}`);
-
       if (dayBalance <= 0) {
-        console.log(`      → Skipped (balance <= 0)`);
+        console.log(`  [${i}] Skipped (balance = 0)`);
         continue;
       }
 
-      if (dayBalance >= daysRemaining) {
-        console.log(`      ✅ Using ${daysRemaining} from this day`);
-        selectedDays.push({
-          id: wd._id,
-          day: wd.day,
-          date: wd.date,
-          remark: wd.remark,
-          daysUsed: daysRemaining,
-          balanceRemaining: dayBalance - daysRemaining
-        });
-        daysRemaining = 0;
-      } else {
-        console.log(`      ✅ Using all ${dayBalance} from this day`);
-        selectedDays.push({
-          id: wd._id,
-          day: wd.day,
-          date: wd.date,
-          remark: wd.remark,
-          daysUsed: dayBalance,
-          balanceRemaining: 0
-        });
-        daysRemaining -= dayBalance;
+      // Calculate how much to take from this day
+      const daysToUse = Math.min(daysToTakePerDay, daysRemaining, dayBalance);
+      
+      console.log(`  [${i}] Taking ${daysToUse} days (balance=${dayBalance}, remaining=${daysRemaining})`);
+      
+      selectedDays.push({
+        id: wd._id,
+        day: wd.day,
+        date: wd.date,
+        remark: wd.remark,
+        daysUsed: daysToUse,
+        balanceRemaining: dayBalance - daysToUse
+      });
+      
+      daysRemaining -= daysToUse;
+      
+      if (daysRemaining <= 0) {
+        break;
       }
+    }
+
+    if (daysRemaining > 0) {
+      console.log(`\n⚠️  Still need ${daysRemaining} more days - allocated ${daysRequested - daysRemaining} days`);
     }
 
     console.log('✅ Final selectedDays:', selectedDays);
