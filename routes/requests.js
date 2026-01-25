@@ -463,19 +463,32 @@ router.get('/dayoff-request', async (req, res) => {
           console.error('Error fetching request:', err);
         }
 
+        // Helper function to parse and format date properly
+        const parseAndFormatDate = (dateStr) => {
+          if (!dateStr) return '';
+          try {
+            // Try to parse the date string
+            const dateObj = new Date(dateStr);
+            // Check if valid date
+            if (isNaN(dateObj.getTime())) {
+              console.warn('Invalid date:', dateStr);
+              return '';
+            }
+            return dateObj.toISOString().split('T')[0]; // Returns YYYY-MM-DD
+          } catch (e) {
+            console.warn('Error parsing date:', dateStr, e.message);
+            return '';
+          }
+        };
+
         // Create a mock existing request object from the table data
         const compensationDate = requestData.dateToBeTaken || requestData.workingDayDate; // Default to working date if empty
+        let formattedCompensationDate = parseAndFormatDate(compensationDate);
         
-        // Ensure date is formatted as YYYY-MM-DD string
-        let formattedCompensationDate = '';
-        if (compensationDate) {
-          try {
-            const dateObj = new Date(compensationDate);
-            formattedCompensationDate = dateObj.toISOString().split('T')[0];
-          } catch (e) {
-            formattedCompensationDate = compensationDate;
-          }
-        }
+        console.log('Date parsing for compensation:', {
+          input: compensationDate,
+          formatted: formattedCompensationDate
+        });
         
         // Ensure dayToBeTaken is properly set - log for debugging
         const validDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
